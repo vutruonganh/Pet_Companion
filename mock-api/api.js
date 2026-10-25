@@ -153,7 +153,11 @@
   const TRAINER_ROLES = ['trainer'];          // chỉ huấn luyện viên được vào các trang HLV
   const PAGE = (location.pathname.split('/').pop() || '').toLowerCase();
   const LOGIN_PAGE = '../login%20register/login.html';
-  const HOME = { trainer: '../Trainer/training-plans.html' };
+  const HOME = {
+    trainer: '../Trainer/training-plans.html',
+    admin: '../admin/dashboard.html',
+    provider: '../provider/provider-appointment-list.html'
+  };
   const NAV = { 'kế hoạch huấn luyện': 'training-plans.html', 'thư viện bài tập': 'exercise-library.html', 'tiến độ & nhật ký ai': 'progress.html' };
 
   PC.session = {

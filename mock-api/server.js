@@ -143,10 +143,12 @@ async function handleApi(req, res, url) {
   return sendJson(res, 405, { error: 'Method not allowed' });
 }
 
+const MOCK_PUBLIC = /^\/mock-api\/(api|seed)\.js$|^\/mock-api\/(users|pets|exercises|trainingPlans|trainingLogs)\.json$/;
+
 function serveStatic(req, res, url) {
   let pathname = decodeURIComponent(url.pathname);
   if (pathname === '/') pathname = '/admin/dashboard.html';
-  if (pathname.startsWith('/mock-api/')) {
+  if (pathname.startsWith('/mock-api/') && !MOCK_PUBLIC.test(pathname)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Forbidden');
   }

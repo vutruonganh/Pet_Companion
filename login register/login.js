@@ -149,7 +149,9 @@
       showStatus('success', 'Đăng nhập thành công với vai trò ' + title + '! Đang chuyển hướng...');
       showToast('Chào mừng trở lại! Đăng nhập thành công (' + title + ')');
       const next = new URLSearchParams(location.search).get('next');
-      const target = next && /^[a-z0-9-]+\.html$/i.test(next) ? '../Trainer/' + next : dest;
+      const target = next && u.role === 'trainer' && /^[a-z0-9-]+\.html$/i.test(next)
+        ? '../Trainer/' + next
+        : dest;
       redirecting = true;
       setTimeout(() => { location.href = target; }, 1200);
     } catch (err) {
