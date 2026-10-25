@@ -1,98 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PetCompanion — Cổng truy cập hệ thống</title>
-<link rel="stylesheet" href="core/base.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-<style>
-  .intro{max-width:760px;margin-bottom:34px}
-  .intro h1{font-size:36px;letter-spacing:-.02em;margin:0 0 12px}
-  .intro p{color:var(--muted);font-size:15.5px;line-height:1.65}
-  .role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-  .role-card{display:flex;flex-direction:column;gap:16px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh);padding:26px;text-decoration:none;color:var(--ink);transition:.2s}
-  .role-card:hover{transform:translateY(-3px);box-shadow:var(--shm);border-color:var(--mint)}
-  .role-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:var(--mint-soft);color:var(--teal-ink)}
-  .role-icon .material-symbols-outlined{font-size:26px}
-  .role-card h2{font-size:19px;margin:0}
-  .role-card p{color:var(--muted);font-size:13.5px;line-height:1.6;margin:0;flex:1}
-  .role-tags{display:flex;flex-wrap:wrap;gap:6px}
-  .role-go{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--teal-dark);font-size:13.5px}
-  .role-go .material-symbols-outlined{font-size:18px}
-  @media(max-width:900px){
-    .role-grid{grid-template-columns:1fr}
-    .topnav{flex-wrap:wrap;padding:10px 16px;gap:10px 14px}
-    .nav-links{order:5;flex:1 0 100%}
-    .nav-user{display:none}
-    .admin-pill{display:none}
-    .wrap{padding:20px 16px 0}
-    .intro h1{font-size:28px}
-  }
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PetCompanion — Đang chuyển đến trang đăng nhập…</title>
+<!-- Chuyển hướng dự phòng khi trình duyệt tắt JavaScript -->
+<meta http-equiv="refresh" content="0; url=login%20register/login.html">
+<script>
+  // replace() để nút Back không quay lại trang index trống này
+  location.replace('login%20register/login.html' + location.search + location.hash);
+</script>
 </head>
 <body>
-<header class="topnav">
-  <a class="brand" href="index.html" style="text-decoration:none;color:inherit"><img class="brand-logo" src="assets/logoPet-trim.png" alt="PetCompanion"></a>
-  <span class="admin-pill">Hệ thống<br>(Portal)</span>
-  <nav class="nav-links"><a class="nav-link active" href="index.html">Chọn vai trò</a></nav>
-  <div class="nav-user"><b>PetCompanion Vietnam</b><span>Nền tảng y khoa thú cưng</span></div>
-</header>
-
-<div class="wrap">
-  <section class="intro">
-    <span class="head-badge"><span class="material-symbols-outlined">verified</span>Bản hợp nhất • Mock API</span>
-    <h1>Một hệ thống, ba vai trò liên kết</h1>
-    <p>Toàn bộ giao diện dùng chung hệ thống thiết kế trong <b>core/base.css</b> và đọc dữ liệu từ mock API tại <b>/api/v1</b>. Chọn vai trò để bắt đầu — menu trên mỗi trang cho phép chuyển qua lại giữa các màn hình.</p>
-  </section>
-
-  <section class="role-grid">
-    <a class="role-card" href="owner/owner-pets.html">
-      <span class="role-icon"><span class="material-symbols-outlined">pets</span></span>
-      <div>
-        <h2>Cổng chủ nuôi</h2>
-        <p>Hồ sơ thú cưng, lịch chăm sóc thông minh và toàn bộ lịch sử dịch vụ, bệnh án điện tử của các bé.</p>
-      </div>
-      <div class="role-tags">
-        <span class="chip chip-mint">Hồ sơ thú cưng</span>
-        <span class="chip chip-blue">Lịch chăm sóc</span>
-        <span class="chip chip-lav">Bệnh án</span>
-      </div>
-      <span class="role-go">Mở cổng chủ nuôi <span class="material-symbols-outlined">arrow_forward</span></span>
-    </a>
-
-    <a class="role-card" href="admin/dashboard.html">
-      <span class="role-icon"><span class="material-symbols-outlined">monitoring</span></span>
-      <div>
-        <h2>Quản trị viên</h2>
-        <p>Bảng điều khiển vận hành, quản lý người dùng theo RBAC và danh mục dịch vụ toàn hệ thống.</p>
-      </div>
-      <div class="role-tags">
-        <span class="chip chip-mint">Dashboard</span>
-        <span class="chip chip-blue">RBAC</span>
-        <span class="chip chip-amber">Services</span>
-      </div>
-      <span class="role-go">Mở trang quản trị <span class="material-symbols-outlined">arrow_forward</span></span>
-    </a>
-
-    <a class="role-card" href="provider/provider-appointment-list.html">
-      <span class="role-icon"><span class="material-symbols-outlined">local_hospital</span></span>
-      <div>
-        <h2>Đối tác dịch vụ</h2>
-        <p>Điều phối lịch khám, tiếp nhận ca hẹn và lập biên bản dịch vụ kèm checklist AI cho bác sĩ.</p>
-      </div>
-      <div class="role-tags">
-        <span class="chip chip-mint">Lịch khám</span>
-        <span class="chip chip-blue">Ca hẹn</span>
-        <span class="chip chip-pink">Biên bản</span>
-      </div>
-      <span class="role-go">Mở cổng đối tác <span class="material-symbols-outlined">arrow_forward</span></span>
-    </a>
-  </section>
-</div>
-
-<footer class="sys-footer">
-  <div class="live"><i></i>Mock API &amp; giao diện đang hoạt động</div>
-  <div>© 2026 PetCompanion Vietnam · Chạy: <b>start.bat</b> hoặc <b>node mock-api/server.js</b> / <b>python mock-api/server.py</b></div>
-</footer>
+  <p>Đang chuyển đến trang đăng nhập… Nếu không tự chuyển, hãy bấm
+     <a href="login%20register/login.html">vào đây</a>.</p>
 </body>
 </html>
