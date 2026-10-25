@@ -1,0 +1,37 @@
+/* Stats có viền màu trái */
+.astat{border-left:4px solid var(--ac);border-radius:14px}
+.astat-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.astat-row{display:flex;align-items:center;gap:12px}
+.astat-row b{font-family:var(--fh);font-size:30px;font-weight:700;letter-spacing:-.02em}
+.tpill{display:inline-flex;align-items:center;font-size:12px;font-weight:800;padding:5px 12px;border-radius:var(--pill)}
+.tpill-mint{background:var(--mint-soft);color:var(--teal-dark)}
+.tpill-amber{background:var(--amber-tint);color:var(--amber-ink)}
+.tpill-rose{background:var(--rose-tint);color:var(--rose-ink)}
+/* Filter bar */
+.fbar{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh);padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+.f-search{display:flex;align-items:center;gap:9px;background:var(--line-soft);border:1px solid transparent;border-radius:var(--pill);padding:11px 18px;flex:1;min-width:240px;color:var(--soft)}
+.f-search:focus-within{background:#fff;border-color:var(--teal);box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.f-search input{border:0;outline:0;background:transparent;font-family:var(--fb);font-size:13px;flex:1;color:var(--ink)}
+.f-select{background:var(--line-soft);border:1px solid transparent;border-radius:var(--pill);padding:11px 40px 11px 18px;font-family:var(--fb);font-size:13px;font-weight:600;color:#334155;outline:0;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.f-select:focus{border-color:var(--teal);background-color:#fff}
+.fbar .btn{margin-left:auto}
+.fbar .btn-primary{margin-left:0}
+/* Table */
+.u-cell{display:flex;align-items:center;gap:13px;min-width:210px}
+.avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--line)}
+.avatar-fb{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#006b5f);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.acts{text-align:right;white-space:nowrap}
+/* Pager tròn kiểu RBAC */
+.pager .pg{border-radius:50%}
+.pager .pg.on{background:var(--teal);border-color:var(--teal)}
+/* Policy banner */
+.policy{background:linear-gradient(120deg,#0e6b5e 0%,#07443c 100%);border-radius:20px;padding:26px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:26px;box-shadow:0 16px 34px -18px rgba(7,68,60,.55)}
+.policy-left{display:flex;align-items:center;gap:18px}
+.policy-ic{width:52px;height:52px;border-radius:50%;background:rgba(134,242,228,.18);color:var(--mint);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.policy h4{color:#fff;font-size:17px;font-weight:700;margin-bottom:5px}
+.policy p{color:rgba(238,240,255,.78);font-size:13px;max-width:820px}
+/* Policy modal */
+.pol-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:#475569}
+.pol-item .material-symbols-outlined{color:var(--teal-dark);flex-shrink:0;font-size:20px}
+.pol-item b{display:block;color:var(--ink);margin-bottom:3px}
+@media(max-width:900px){.policy{flex-direction:column;align-items:flex-start}.fbar .btn{margin-left:0}}

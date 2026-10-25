@@ -1,0 +1,347 @@
+/* ============================================
+   PROVIDER CALENDAR - Page-specific styles
+   Lịch phòng khám & Điều phối ca hẹn
+   Dùng token từ core/base.css
+   ============================================ */
+
+/* ── KPI stats ── */
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon .material-symbols-outlined { font-size: 22px; }
+.ic-blue { background: var(--blue-tint); color: var(--blue-ink); }
+.ic-pink { background: var(--pink-tint); color: var(--pink-ink); }
+.ic-amber { background: var(--amber-tint); color: var(--amber-ink); }
+.ic-mint { background: var(--mint-soft); color: var(--teal-ink); }
+
+.stat-val {
+  font-family: var(--fh);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── Layout ── */
+.side-pad { padding: 22px 24px; }
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+/* ── Mini calendar ── */
+.mini-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mini-cal-title {
+  font-family: var(--fh);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.mini-cal-nav { display: flex; gap: 6px; }
+
+.cal-nav-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--lav-ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: .2s;
+}
+
+.cal-nav-btn .material-symbols-outlined { font-size: 18px; }
+.cal-nav-btn:hover { border-color: var(--teal); color: var(--teal-deep); }
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 12.5px;
+}
+
+.day-name {
+  color: var(--soft);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  padding: 6px 0;
+}
+
+.day-cell {
+  padding: 8px 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .15s;
+}
+
+.day-cell:hover { background: var(--mint-tint); color: var(--teal-deep); }
+
+.day-cell.active {
+  background: var(--teal);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 6px 16px -6px rgba(20, 184, 166, .55);
+}
+
+.day-cell.has-events::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+  margin: 2px auto 0;
+}
+
+.day-cell.active::after { background: #fff; }
+
+.filter-section {
+  margin-top: 22px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 18px;
+}
+
+.filter-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.room-filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+}
+
+.room-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.room-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.room-count {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.staff-list {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #334155;
+}
+
+/* ── Toolbar ── */
+.schedule-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.schedule-date {
+  font-family: var(--fh);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.view-mode-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--line-soft);
+  padding: 4px;
+  border-radius: var(--pill);
+}
+
+.view-tab {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: var(--pill);
+  background: transparent;
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: .2s;
+}
+
+.view-tab.active {
+  background: #fff;
+  color: var(--teal-deep);
+  box-shadow: 0 4px 10px -4px rgba(15, 23, 42, .2);
+}
+
+/* ── Timeline matrix ── */
+.timeline-table {
+  display: grid;
+  grid-template-columns: 88px repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.timeline-col-header {
+  background: var(--line-soft);
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+.timeline-col-header:nth-child(4) { border-right: 0; }
+
+.time-slot-label {
+  padding: 16px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: var(--line-soft);
+}
+
+.slot-cell {
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  min-height: 74px;
+  background: #fff;
+}
+
+.timeline-table > .slot-cell:nth-child(4n) { border-right: 0; }
+
+.slot-empty {
+  font-size: 12px;
+  color: var(--soft);
+  font-style: italic;
+}
+
+/* ── Appointment card ── */
+.apt-card {
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  border-left: 4px solid var(--teal);
+  background: var(--mint-tint);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.apt-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sh);
+}
+
+.apt-card.medical { border-left-color: #0284c7; background: #f0f9ff; }
+.apt-card.vaccine { border-left-color: var(--success); background: #ecfdf5; }
+.apt-card.ultrasound { border-left-color: var(--warning); background: #fffbeb; }
+.apt-card.spa { border-left-color: #ec4899; background: #fdf2f8; }
+.apt-card.emergency { border-left-color: var(--danger); background: #fef2f2; }
+
+.apt-time {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.apt-code-urgent { color: var(--danger); font-weight: 800; }
+
+.apt-pet {
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.apt-owner {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* ── Modal chi tiết ca hẹn ── */
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13.5px;
+}
+
+.detail-row:last-child { border-bottom: 0; }
+.detail-label { color: var(--muted); font-weight: 600; }
+.detail-val { font-weight: 700; text-align: right; }
+
+@media (max-width: 1100px) {
+  .calendar-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .cal-nav-btn { width: 28px; height: 28px; }
+  .timeline-table { grid-template-columns: 70px repeat(3, minmax(0, 1fr)); }
+}

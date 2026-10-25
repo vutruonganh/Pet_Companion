@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý dịch vụ (Services) — PetCompanion</title>
+<link rel="stylesheet" href="../core/base.css"><link rel="stylesheet" href="services.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+<header class="topnav">
+  <div class="brand"><span class="brand-logo">P</span>PetCompanion</div>
+  <span class="admin-pill">Quản trị viên<br>(Admin)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="dashboard.html">Tổng quan (Dashboard)</a>
+    <a class="nav-link" href="rbac.html">Quản lý người dùng (RBAC)</a>
+    <a class="nav-link active" href="services.html">Quản lý dịch vụ (Services)</a>
+    <a class="nav-link" href="#">Cài đặt hệ thống</a>
+  </nav>
+  <label class="nav-search"><span class="material-symbols-outlined">search</span><input placeholder="Tìm kiếm hệ thống..."></label>
+  <button class="nav-bell"><span class="material-symbols-outlined">notifications</span><span class="dot"></span></button>
+  <div class="nav-user"><b>SuperAdmin Hoàng Nam</b><span>Hệ thống máy chủ</span></div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <span class="head-badge">Hệ thống tiêu chuẩn BTL-35 CSE122</span>
+      <h1>Quản lý Danh mục Dịch vụ &amp; Bảng giá</h1>
+      <p class="page-sub">Cấu hình danh mục dịch vụ thú y, spa grooming và các khóa huấn luyện tiêu chuẩn trong hệ thống PetCompanion.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-outline" id="btnExport"><span class="material-symbols-outlined">download</span>Xuất biểu phí</button>
+      <button class="btn btn-primary" data-open="modalCreate"><span class="material-symbols-outlined">add_circle</span>+ Tạo dịch vụ mới</button>
+    </div>
+  </div>
+
+  <section class="stats">
+    <div class="scard hstat"><span class="sq sq-mint"><span class="material-symbols-outlined">medical_services</span></span><div><div class="hstat-label">Tổng dịch vụ hoạt động</div><div class="hstat-value">24 <small>dịch vụ</small></div><div class="hstat-sub">3 nhóm ngành cốt lõi</div></div></div>
+    <div class="scard hstat"><span class="sq sq-blue"><span class="material-symbols-outlined">domain</span></span><div><div class="hstat-label">Cơ sở đối tác cung cấp</div><div class="hstat-value">48 <small>chi nhánh</small></div><div class="hstat-sub">Phòng khám &amp; Spa đối tác</div></div></div>
+    <div class="scard hstat"><span class="sq sq-amber"><span class="material-symbols-outlined">payments</span></span><div><div class="hstat-label">Giá trung bình phiên</div><div class="hstat-value">380.000 <small>đ</small></div><div class="hstat-sub ok">+4.2% so với quý trước</div></div></div>
+    <div class="scard hstat"><span class="sq sq-rose"><span class="material-symbols-outlined">reviews</span></span><div><div class="hstat-label">Đánh giá hài lòng dịch vụ</div><div class="hstat-value">4.88 <small>/ 5.0</small></div><div class="hstat-sub">Từ 12.450 lượt đánh giá</div></div></div>
+  </section>
+
+  <!-- AI Banner -->
+  <section class="ai-banner">
+    <div>
+      <span class="ai-badge"><span class="material-symbols-outlined">auto_awesome</span>BTL-35 CSE122 • AI Protocol Config</span>
+      <h3>Hệ thống Checklist Triệu chứng &amp; Hướng dẫn chẩn đoán tự động</h3>
+      <p>Mỗi dịch vụ được ánh xạ tự động với mô hình phân loại rủi ro thú cưng dựa trên bảng triệu chứng BTL-35. Bác sĩ &amp; Kỹ thuật viên đối tác tiếp nhận quy trình kiểm tra theo checklist định chuẩn số hóa.</p>
+    </div>
+    <button class="btn btn-mint" data-open="modalChecklist"><span class="material-symbols-outlined">tune</span>Cấu hình Template AI Checklist</button>
+  </section>
+
+  <!-- Tabs + search -->
+  <div class="filter-row">
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-cat="all">Tất cả <span class="tc">24</span></button>
+      <button class="tab" data-cat="y-te">Y tế &amp; Khám thú y <span class="tc">8</span></button>
+      <button class="tab" data-cat="spa">Spa &amp; Tắm cắt tỉa <span class="tc">10</span></button>
+      <button class="tab" data-cat="hl">Huấn luyện hành vi <span class="tc">6</span></button>
+    </div>
+    <label class="s-search"><span class="material-symbols-outlined">search</span><input id="sSearch" placeholder="Tìm tên dịch vụ, mã SKU, phân loại..."></label>
+  </div>
+
+  <!-- Table -->
+  <section class="card" style="border-radius:20px">
+    <div class="tscroll">
+    <table>
+      <thead><tr><th>Tên dịch vụ &amp; Mã dịch vụ</th><th>Phân loại</th><th>Thời lượng</th><th>Giá niêm yết</th><th>Đối tác áp dụng</th><th>Trạng thái</th><th style="text-align:right">Thao tác</th></tr></thead>
+      <tbody id="sBody">
+        <tr data-cat="y-te" data-key="khám tổng quát xét nghiệm máu med-gen-01">
+          <td><div class="s-cell"><span class="sq sq-mint"><span class="material-symbols-outlined">clinical_notes</span></span><div><div class="cell-main">Khám tổng quát &amp; Xét nghiệm máu</div><div class="cell-sub">SKU: MED-GEN-01 • Checklist BTL-35 Tiêu chuẩn</div></div></div></td>
+          <td><span class="chip chip-mint">Y tế Thú y</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>45 phút</span></td>
+          <td class="price">450.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">local_hospital</span>18 đối tác</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="MED-GEN-01"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="MED-GEN-01" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="MED-GEN-01" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+        <tr data-cat="y-te" data-key="tiêm phòng vắc xin 7 bệnh dại med-vac-07">
+          <td><div class="s-cell"><span class="sq sq-mint"><span class="material-symbols-outlined">vaccines</span></span><div><div class="cell-main">Tiêm phòng vắc-xin 7 bệnh &amp; Dại</div><div class="cell-sub">SKU: MED-VAC-07 • Kèm sổ tiêm số hóa QR</div></div></div></td>
+          <td><span class="chip chip-mint">Y tế Thú y</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>30 phút</span></td>
+          <td class="price">250.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">local_hospital</span>24 đối tác</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="MED-VAC-07"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="MED-VAC-07" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="MED-VAC-07" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+        <tr data-cat="spa" data-key="combo spa tắm dưỡng cắt tỉa tạo hình spa-full-02">
+          <td><div class="s-cell"><span class="sq sq-pink"><span class="material-symbols-outlined">content_cut</span></span><div><div class="cell-main">Combo Spa Tắm dưỡng &amp; Cắt tỉa tạo hình</div><div class="cell-sub">SKU: SPA-FULL-02 • Liệu trình sấy bồng Nano</div></div></div></td>
+          <td><span class="chip chip-pink">Spa Grooming</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>90 phút</span></td>
+          <td class="price">320.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">storefront</span>15 đối tác</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="SPA-FULL-02"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="SPA-FULL-02" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="SPA-FULL-02" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+        <tr data-cat="spa" data-key="vệ sinh tai mài móng vắt tuyến hôi spa-basic-04">
+          <td><div class="s-cell"><span class="sq sq-pink"><span class="material-symbols-outlined">shower</span></span><div><div class="cell-main">Vệ sinh tai, mài móng &amp; Vắt tuyến hôi</div><div class="cell-sub">SKU: SPA-BASIC-04 • Khử khuẩn tia cực tím</div></div></div></td>
+          <td><span class="chip chip-pink">Spa Grooming</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>30 phút</span></td>
+          <td class="price">120.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">storefront</span>20 đối tác</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="SPA-BASIC-04"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="SPA-BASIC-04" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="SPA-BASIC-04" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+        <tr data-cat="hl" data-key="huấn luyện vâng lời thói quen vệ sinh trn-obed-01">
+          <td><div class="s-cell"><span class="sq sq-amber"><span class="material-symbols-outlined">sports_score</span></span><div><div class="cell-main">Huấn luyện vâng lời &amp; Thói quen vệ sinh</div><div class="cell-sub">SKU: TRN-OBED-01 • Chương trình phản xạ tích cực</div></div></div></td>
+          <td><span class="chip chip-amber">Huấn luyện</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">event_repeat</span>Khóa 8 buổi</span></td>
+          <td class="price">2.500.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">military_tech</span>8 HLV</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="TRN-OBED-01"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="TRN-OBED-01" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="TRN-OBED-01" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+        <tr data-cat="hl" data-key="sửa tật sủa đêm hung dữ quá mức trn-behav-03">
+          <td><div class="s-cell"><span class="sq sq-amber"><span class="material-symbols-outlined">psychology</span></span><div><div class="cell-main">Sửa tật sủa đêm &amp; Hung dữ quá mức</div><div class="cell-sub">SKU: TRN-BEHAV-03 • Đánh giá tâm lý thú cưng AI</div></div></div></td>
+          <td><span class="chip chip-amber">Huấn luyện</span></td>
+          <td><span class="dur"><span class="material-symbols-outlined">event_repeat</span>Khóa 10 buổi</span></td>
+          <td class="price">3.200.000 đ</td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">military_tech</span>5 HLV</span></td>
+          <td><span class="st-cell"><label class="switch"><input type="checkbox" data-sku="TRN-BEHAV-03"><i></i></label><b class="st-off">Tạm dừng nhận</b></span></td>
+          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="TRN-BEHAV-03" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="TRN-BEHAV-03" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="table-foot"><span id="sCount">Hiển thị 6 / 24 dịch vụ khả dụng</span>
+      <div class="pager"><button class="pg" disabled><span class="material-symbols-outlined" style="font-size:18px">chevron_left</span></button><button class="pg on">1</button><button class="pg">2</button><button class="pg">3</button><button class="pg"><span class="material-symbols-outlined" style="font-size:18px">chevron_right</span></button></div>
+    </div>
+  </section>
+</div>
+
+<footer class="sys-footer"><span class="live"><i></i>Hệ thống vận hành bình thường (99.98% Uptime)</span><span>© 2025 PetCompanion Admin Portal. Tất cả các quyền được bảo lưu.</span></footer>
+
+<!-- Modal AI Checklist -->
+<div class="modal-ov" id="modalChecklist">
+  <div class="modal" style="width:760px">
+    <div class="modal-head">
+      <div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--teal-deep);margin-bottom:4px">BTL-35 PROTOCOL</div>
+        <div class="modal-title">Cấu hình AI Checklist Tiêu chuẩn</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:4px">Áp dụng cho: <b id="ckName" style="color:var(--ink)">Khám tổng quát &amp; Xét nghiệm máu (MED-GEN-01)</b></div>
+      </div>
+      <button class="modal-x" data-close="modalChecklist"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="note-box"><span class="material-symbols-outlined">lightbulb</span><div><b>Quy chuẩn hệ thống BTL-35:</b> Mỗi điểm kiểm định sẽ được số hóa thành form checklist cho bác sĩ/kỹ thuật viên khi check-in thú cưng, đồng thời đồng bộ kết quả realtime vào hồ sơ bệnh án điện tử PetRecord.</div></div>
+      <h4 class="ck-h">1. Các bước kiểm tra bắt buộc (Triage Pre-check)</h4>
+      <label class="ck-item"><input type="checkbox" checked data-step="temp"><span class="ck-box"><span class="material-symbols-outlined">check</span></span><span class="ck-txt"><b>Kiểm tra thân nhiệt &amp; nhịp tim / nhịp thở</b><em>Chỉ số cảnh báo sốt &gt; 39.5°C hoặc nhịp tim bất thường</em></span><span class="chip chip-rose">Bắt buộc</span></label>
+      <label class="ck-item"><input type="checkbox" checked data-step="eyes"><span class="ck-box"><span class="material-symbols-outlined">check</span></span><span class="ck-txt"><b>Soi kết mạc mắt, niêm mạc miệng &amp; nướu</b><em>Đánh giá dấu hiệu thiếu máu, vàng da, nhiễm độc</em></span><span class="chip chip-rose">Bắt buộc</span></label>
+      <label class="ck-item"><input type="checkbox" checked data-step="cbc"><span class="ck-box"><span class="material-symbols-outlined">check</span></span><span class="ck-txt"><b>Lấy mẫu máu phân tích 18 chỉ số sinh hóa (CBC)</b><em>Tự động scan chỉ số bằng OCR PetCompanion</em></span><span class="chip chip-mint">Tiêu chuẩn</span></label>
+      <label class="ck-item"><input type="checkbox" data-step="test"><span class="ck-box"><span class="material-symbols-outlined">check</span></span><span class="ck-txt"><b>Test nhanh 3 bệnh truyền nhiễm (Care, Parvo, Giardia)</b><em>Chỉ kích hoạt nếu AI Triage cảnh báo sốc tiêu hóa</em></span><span class="chip chip-gray">Tùy chọn</span></label>
+      <h4 class="ck-h">2. Ngưỡng cảnh báo rủi ro AI (AI Alert Threshold)</h4>
+      <div class="risk-grid">
+        <label class="risk"><input type="radio" name="risk" value="low" checked><span class="r-dot"></span><b><span class="material-symbols-outlined" style="color:#10b981;font-size:17px">shield</span>Rủi ro Thấp</b><em>Tiến hành phiên dịch vụ chuẩn, không yêu cầu ký cam kết đặc biệt.</em></label>
+        <label class="risk"><input type="radio" name="risk" value="med"><span class="r-dot"></span><b><span class="material-symbols-outlined" style="color:var(--amber);font-size:17px">warning</span>Rủi ro Trung bình</b><em>Gửi thông báo đẩy đến chủ nuôi kèm ảnh chụp xác nhận trước khi tiếp tục.</em></label>
+        <label class="risk"><input type="radio" name="risk" value="high"><span class="r-dot"></span><b><span class="material-symbols-outlined" style="color:var(--rose);font-size:17px">emergency</span>Rủi ro Nghiêm trọng</b><em>Dừng phiên lập tức, chuyển tiếp sang chuyên khoa cấp cứu khẩn cấp.</em></label>
+      </div>
+      <h4 class="ck-h">3. Ghi chú quản trị &amp; Phê duyệt</h4>
+      <textarea class="f-input" id="ckNote" placeholder="Nhập ghi chú nội bộ..."></textarea>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-close="modalChecklist">Hủy bỏ</button><button class="btn btn-primary" id="btnSaveCk"><span class="material-symbols-outlined">save</span>Lưu cấu hình checklist</button></div>
+  </div>
+</div>
+<!-- Modal Tạo dịch vụ -->
+<div class="modal-ov" id="modalCreate">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title"><span class="material-symbols-outlined">add_circle</span>Tạo dịch vụ mới</div><button class="modal-x" data-close="modalCreate"><span class="material-symbols-outlined">close</span></button></div>
+    <div class="modal-body">
+      <div class="f-group"><label class="f-label">Tên dịch vụ</label><input class="f-input" id="nName" placeholder="VD: Siêu âm ổ bụng thú cưng"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="f-group"><label class="f-label">Phân loại</label><select class="f-input" id="nCat"><option value="y-te">Y tế Thú y</option><option value="spa">Spa Grooming</option><option value="hl">Huấn luyện</option></select></div>
+        <div class="f-group"><label class="f-label">Thời lượng</label><input class="f-input" id="nDur" placeholder="VD: 45 phút"></div>
+      </div>
+      <div class="f-group" style="margin:0"><label class="f-label">Giá niêm yết (VNĐ)</label><input type="number" class="f-input" id="nPrice" placeholder="VD: 450000"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-close="modalCreate">Hủy bỏ</button><button class="btn btn-primary" id="btnSaveNew"><span class="material-symbols-outlined">save</span>Tạo dịch vụ</button></div>
+  </div>
+</div>
+
+<script src="../core/base.js"></script><script src="services.js"></script>
+</body>
+</html>

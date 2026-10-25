@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch phòng khám &amp; Điều phối ca hẹn - PetCompanion (Pure CSS)</title>
+<link rel="stylesheet" href="../core/base.css"><link rel="stylesheet" href="provider-calendar.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+<header class="topnav">
+  <div class="brand"><span class="brand-logo">P</span>PetCompanion</div>
+  <span class="admin-pill">Đối tác dịch vụ<br>(Provider)</span>
+  <nav class="nav-links">
+    <a class="nav-link active" href="provider-calendar.html">Lịch khám &amp; Điều phối</a>
+    <a class="nav-link" href="provider-appointment-list.html">Danh sách ca hẹn</a>
+    <a class="nav-link" href="provider-service-note.html">Biên bản dịch vụ &amp; Checklist AI</a>
+  </nav>
+  <label class="nav-search"><span class="material-symbols-outlined">search</span><input placeholder="Tìm kiếm thú cưng, mã ca..."></label>
+  <div class="nav-user"><b>BS. Hoàng Mai</b><span>PetCare Clinic Q.1</span></div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>Lịch phòng khám &amp; Điều phối ca hẹn 🗓️</h1>
+      <p class="page-sub">Điều phối lịch khám bệnh, chăm sóc spa và phân bổ phòng chuyên khoa thời gian thực.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-outline" id="btnExportSchedule"><span class="material-symbols-outlined">download</span>Xuất lịch làm việc</button>
+      <button class="btn btn-primary" id="btnNewAppointment"><span class="material-symbols-outlined">add</span>Đặt lịch tiếp nhận mới</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="scard stat-card">
+      <div class="stat-icon ic-blue"><span class="material-symbols-outlined">stethoscope</span></div>
+      <div>
+        <div class="stat-val">12 ca</div>
+        <div class="stat-label">Ca khám trong ngày</div>
+      </div>
+    </div>
+    <div class="scard stat-card">
+      <div class="stat-icon ic-pink"><span class="material-symbols-outlined">content_cut</span></div>
+      <div>
+        <div class="stat-val">8 ca</div>
+        <div class="stat-label">Spa Grooming &amp; Tắm</div>
+      </div>
+    </div>
+    <div class="scard stat-card">
+      <div class="stat-icon ic-amber"><span class="material-symbols-outlined">hourglass_empty</span></div>
+      <div>
+        <div class="stat-val">3 ca</div>
+        <div class="stat-label">Chờ check-in phòng chờ</div>
+      </div>
+    </div>
+    <div class="scard stat-card">
+      <div class="stat-icon ic-mint"><span class="material-symbols-outlined">verified</span></div>
+      <div>
+        <div class="stat-val">95%</div>
+        <div class="stat-label">Tỷ lệ đúng giờ chuẩn y khoa</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="calendar-container">
+    <!-- LEFT ASIDE -->
+    <aside class="card">
+      <div class="side-pad">
+        <div class="mini-cal-header">
+          <div class="mini-cal-title">Tháng 11, 2025</div>
+          <div class="mini-cal-nav">
+            <button class="cal-nav-btn" type="button"><span class="material-symbols-outlined">chevron_left</span></button>
+            <button class="cal-nav-btn" type="button"><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+        </div>
+        <div class="mini-grid">
+          <div class="day-name">T2</div>
+          <div class="day-name">T3</div>
+          <div class="day-name">T4</div>
+          <div class="day-name">T5</div>
+          <div class="day-name">T6</div>
+          <div class="day-name">T7</div>
+          <div class="day-name">CN</div>
+          <div class="day-cell">10</div>
+          <div class="day-cell">11</div>
+          <div class="day-cell">12</div>
+          <div class="day-cell">13</div>
+          <div class="day-cell">14</div>
+          <div class="day-cell active has-events">15</div>
+          <div class="day-cell">16</div>
+          <div class="day-cell">17</div>
+          <div class="day-cell has-events">18</div>
+          <div class="day-cell">19</div>
+          <div class="day-cell">20</div>
+          <div class="day-cell">21</div>
+          <div class="day-cell">22</div>
+          <div class="day-cell">23</div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-title">Phân bổ phòng dịch vụ</div>
+          <div class="room-filter-item">
+            <span class="room-tag"><span class="room-dot" style="background:#0284c7"></span>Phòng Khám Tổng quát 01</span>
+            <span class="room-count">5 ca</span>
+          </div>
+          <div class="room-filter-item">
+            <span class="room-tag"><span class="room-dot" style="background:#10b981"></span>Phòng Tiêm chủng &amp; Siêu âm</span>
+            <span class="room-count">4 ca</span>
+          </div>
+          <div class="room-filter-item">
+            <span class="room-tag"><span class="room-dot" style="background:#ec4899"></span>Khu Spa Thảo mộc &amp; Grooming</span>
+            <span class="room-count">8 ca</span>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-title">Bác sĩ &amp; Kỹ thuật viên trực</div>
+          <div class="staff-list">
+            <div>🩺 <strong>BS. Hoàng Mai</strong> (Chuyên khoa Nội)</div>
+            <div>🩺 <strong>BS. Trần Văn Minh</strong> (Phẫu thuật &amp; Cấp cứu)</div>
+            <div>✂️ <strong>KTV. Linh Đan</strong> (Spa Master)</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT TIMELINE -->
+    <div class="card">
+      <div class="side-pad">
+        <div class="schedule-toolbar">
+          <div class="schedule-date">Hôm nay: Thứ Bảy, Ngày 15 Tháng 11, 2025</div>
+          <div class="view-mode-tabs">
+            <button class="view-tab active" type="button">Theo phòng</button>
+            <button class="view-tab" type="button">Theo Bác sĩ</button>
+            <button class="view-tab" type="button">Theo Giờ</button>
+          </div>
+        </div>
+        <div class="timeline-table">
+          <div class="timeline-col-header">Khung giờ</div>
+          <div class="timeline-col-header">Phòng Khám 01 (BS. Mai)</div>
+          <div class="timeline-col-header">Phòng Tiêm Chủng (BS. Minh)</div>
+          <div class="timeline-col-header">Khu Spa Grooming (KTV. Đan)</div>
+          <!-- 08:30 -->
+          <div class="time-slot-label">08:30</div>
+          <div class="slot-cell">
+            <div class="apt-card medical">
+              <div class="apt-time"><span>08:30 - 09:15</span><span>#MED-101</span></div>
+              <div class="apt-pet">🐶 Milo (Golden Retriever)</div>
+              <div class="apt-owner">Khách: Nguyễn Văn An • Khám tổng quát</div>
+            </div>
+          </div>
+          <div class="slot-cell">
+            <div class="apt-card vaccine">
+              <div class="apt-time"><span>08:30 - 09:00</span><span>#VAC-402</span></div>
+              <div class="apt-pet">🐱 Bông (Mèo Ba Tư)</div>
+              <div class="apt-owner">Khách: Đỗ Thùy Trang • Tiêm vắc-xin 4 bệnh</div>
+            </div>
+          </div>
+          <div class="slot-cell">
+            <span class="slot-empty">Phòng trống</span>
+          </div>
+          <!-- 09:30 -->
+          <div class="time-slot-label">09:30</div>
+          <div class="slot-cell">
+            <span class="slot-empty">Khử trùng &amp; Chuẩn bị</span>
+          </div>
+          <div class="slot-cell">
+            <div class="apt-card ultrasound">
+              <div class="apt-time"><span>09:30 - 10:15</span><span>#MED-105</span></div>
+              <div class="apt-pet">🐶 Rocky (Corgi)</div>
+              <div class="apt-owner">Khách: Lê Hoàng Yến • Siêu âm ổ bụng</div>
+            </div>
+          </div>
+          <div class="slot-cell">
+            <div class="apt-card spa">
+              <div class="apt-time"><span>09:30 - 11:00</span><span>#SPA-208</span></div>
+              <div class="apt-pet">🐱 Luna (Mèo Anh lông ngắn)</div>
+              <div class="apt-owner">Khách: Trần Bảo Minh • Combo Spa dưỡng lông</div>
+            </div>
+          </div>
+          <!-- 10:30 -->
+          <div class="time-slot-label">10:30</div>
+          <div class="slot-cell">
+            <div class="apt-card emergency">
+              <div class="apt-time"><span>10:30 - 11:30</span><span class="apt-code-urgent">CẤP CỨU</span></div>
+              <div class="apt-pet">🐱 Miu Miu (Mèo Anh)</div>
+              <div class="apt-owner">Khách: Trần Minh Anh • Dị ứng hô hấp khẩn</div>
+            </div>
+          </div>
+          <div class="slot-cell">
+            <span class="slot-empty">Phòng trống</span>
+          </div>
+          <div class="slot-cell">
+            <span class="slot-empty">Đang thực hiện ca Luna...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="sys-footer"><span>Hệ thống quản lý đối tác y tế PetCompanion • Chuẩn hóa BTL-35 CSE122</span><span>Phiên bản Pure CSS Module SV2 • Bản quyền 2025</span></footer>
+
+<script src="../core/base.js"></script><script src="provider-common.js"></script><script src="provider-calendar.js"></script>
+</body>
+</html>

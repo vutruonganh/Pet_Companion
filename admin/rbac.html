@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý người dùng (RBAC) — PetCompanion</title>
+<link rel="stylesheet" href="../core/base.css"><link rel="stylesheet" href="rbac.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+<header class="topnav">
+  <div class="brand"><span class="brand-logo">P</span>PetCompanion</div>
+  <span class="admin-pill">Quản trị viên<br>(Admin)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="dashboard.html">Tổng quan (Dashboard)</a>
+    <a class="nav-link active" href="rbac.html">Quản lý người dùng (RBAC)</a>
+    <a class="nav-link" href="services.html">Quản lý dịch vụ (Services)</a>
+    <a class="nav-link" href="#">Cài đặt hệ thống</a>
+  </nav>
+  <label class="nav-search"><span class="material-symbols-outlined">search</span><input placeholder="Tìm kiếm hệ thống..."></label>
+  <button class="nav-bell"><span class="material-symbols-outlined">notifications</span><span class="dot"></span></button>
+  <div class="nav-user"><b>SuperAdmin Hoàng Nam</b><span>Hệ thống máy chủ</span></div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <span class="head-badge"><span class="material-symbols-outlined">shield</span>Trung tâm quản trị RBAC</span>
+      <h1>Quản lý Người dùng &amp; Phân quyền RBAC</h1>
+      <p class="page-sub">Quản trị danh sách tài khoản Chủ nuôi, Bác sĩ thú y, Đối tác cơ sở và Huấn luyện viên trên toàn hệ sinh thái CSE122.</p>
+    </div>
+  </div>
+
+  <section class="stats">
+    <div class="scard astat" style="--ac:#0d9488"><div class="astat-label">Tổng tài khoản</div><div class="astat-row"><b>1,420</b><span class="tpill tpill-mint">+14.2%</span></div></div>
+    <div class="scard astat" style="--ac:#14b8a6"><div class="astat-label">Bác sĩ &amp; Cơ sở Spa</div><div class="astat-row"><b>184</b><span class="tpill tpill-mint">+8 đối tác</span></div></div>
+    <div class="scard astat" style="--ac:#f59e0b"><div class="astat-label">Chờ xác thực 2FA</div><div class="astat-row"><b>29</b><span class="tpill tpill-amber">Cần duyệt</span></div></div>
+    <div class="scard astat" style="--ac:#f43f5e"><div class="astat-label">Tạm khóa / Cảnh báo</div><div class="astat-row"><b>12</b><span class="tpill tpill-rose">-3 vi phạm</span></div></div>
+  </section>
+
+  <!-- Filter bar -->
+  <section class="fbar">
+    <label class="f-search"><span class="material-symbols-outlined">search</span><input id="uSearch" placeholder="Tìm kiếm theo họ tên, email, số điện thoại..."></label>
+    <select class="f-select" id="uRole"><option value="all">Tất cả vai trò</option><option value="chu-nuoi">Chủ nuôi (Pet Owner)</option><option value="bac-si">Bác sĩ / Đối tác Y tế</option><option value="hlv">Huấn luyện viên (K9 Trainer)</option><option value="spa">Đối tác Spa / Groomer</option></select>
+    <select class="f-select" id="uStatus"><option value="all">Tất cả trạng thái</option><option value="active">Đang hoạt động</option><option value="pending">Chờ kích hoạt</option><option value="locked">Đang khóa</option></select>
+    <button class="btn btn-outline" id="btnCsv"><span class="material-symbols-outlined">ios_share</span>Xuất danh sách (CSV/JSON)</button>
+    <button class="btn btn-primary" data-open="modalAdd"><span class="material-symbols-outlined">person_add</span>+ Thêm người dùng mới</button>
+  </section>
+
+  <!-- Table -->
+  <section class="card" style="border-radius:20px">
+    <div class="tscroll">
+    <table>
+      <thead><tr><th>Người dùng</th><th>Vai trò</th><th>Thông tin liên hệ</th><th>Số thú cưng / Chi nhánh</th><th>Ngày tham gia &amp; Lần cuối</th><th>Trạng thái tài khoản</th><th style="text-align:right">Thao tác CRUD</th></tr></thead>
+      <tbody id="uBody">
+        <tr data-role="chu-nuoi" data-status="active" data-key="nguyễn văn an uid-vn9201 an.nguyen@petcompanion.vn 0912 345 678">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCacxLMr5I8KT5j4fXpPfNYe33vtRljWvFxwXRrTaJiFwuDpyERcTPSrcDry_FYX3yKXRFKrrHTjOdjLX-5WaFV0Zp2TXjoB9p7Ctzh8WtTykmcIZLXMJ6ismo0qR6iMww_MPvAIT3qp6-ieSU5txzm6wuPi-gb16gF6_YNCj7ISviTNPyvfXVdrFYWF2KgpM0JYZrurC_quppGrJCxa0whVqqWElfFOOqR4SqcQpqfKw8X42tRn_qM" data-fallback="NA" alt=""><div><div class="cell-main">Nguyễn Văn An</div><div class="mono">UID-VN9201</div></div></div></td>
+          <td><span class="chip chip-blue"><span class="material-symbols-outlined">pets</span>Chủ nuôi</span></td>
+          <td><div class="cell-main" style="font-weight:600">an.nguyen@petcompanion.vn</div><div class="cell-sub">0912 345 678</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">cruelty_free</span>2 bé cưng</span></td>
+          <td><div class="cell-main">12/01/2024</div><div class="cell-sub">10 phút trước</div></td>
+          <td><span class="badge badge-mint"><i></i>Đang hoạt động</span></td>
+          <td class="acts"><button class="icon-act" data-view title="Xem"><span class="material-symbols-outlined">visibility</span></button><button class="icon-act" data-mg title="Quản lý"><span class="material-symbols-outlined">manage_accounts</span></button><button class="icon-act" data-rs title="Đặt lại khóa"><span class="material-symbols-outlined">lock_reset</span></button><button class="icon-act no" data-lock title="Khóa"><span class="material-symbols-outlined">block</span></button></td>
+        </tr>
+        <tr data-role="bac-si" data-status="active" data-key="bs. hoàng mai vet-clinic-04 mai.hoang@petcareclinic.vn 0903 112 233">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWAogSlotT6-r4VjCZ6N9B6EpyctV--NqnwaMV7sF62er_X6VPLhta3OsCTY0KST5xrXnsCb7Hk5mOjIwwioEYMIhyKmLlRx7XRC2BRc0UsmAFucwzUM7VUKHVcBrMm4E8ydlo5spN7JO1mz_zbsoNICIj_jar_ZbufY5Kpe7LOPUl3LkkBa6LVssdRfh6qGJW6odtObiw15SIWLTR4EHBb9QzlnxFgjlGCh-UhdnsxnHH8kynjnbG" data-fallback="HM" alt=""><div><div class="cell-main">BS. Hoàng Mai</div><div class="mono">VET-CLINIC-04</div></div></div></td>
+          <td><span class="chip chip-mint"><span class="material-symbols-outlined">medical_services</span>Bác sĩ thú y / Đối tác</span></td>
+          <td><div class="cell-main" style="font-weight:600">mai.hoang@petcareclinic.vn</div><div class="cell-sub">0903 112 233</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">storefront</span>Chi nhánh Q1</span></td>
+          <td><div class="cell-main">05/11/2023</div><div class="cell-sub">Hôm nay 08:45</div></td>
+          <td><span class="badge badge-mint"><i></i>Đang hoạt động</span></td>
+          <td class="acts"><button class="icon-act" data-view title="Xem"><span class="material-symbols-outlined">visibility</span></button><button class="icon-act" data-mg title="Quản lý"><span class="material-symbols-outlined">manage_accounts</span></button><button class="icon-act" data-rs title="Đặt lại khóa"><span class="material-symbols-outlined">lock_reset</span></button><button class="icon-act no" data-lock title="Khóa"><span class="material-symbols-outlined">block</span></button></td>
+        </tr>
+        <tr data-role="hlv" data-status="active" data-key="hlv quốc huy trn-k9-881 huy.hlv@k9companion.vn 0938 445 566">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Ov-7EbG4TzaUrAgIKG4U_tkLa3FuQ1pOLLwSa4OtjB6t3KmR3m4ArGhLBVpKvpxGc1h-wHuJBWR36q6vTIug23cQI57rx_XbjLs3BCxQofGbUyI5JT4xGIHhp1ICAP1G_KWzvFzUXrfeXC-VeO08PcIoAhkbhKhrNrI-KH1jrX-UIF-NJXHgOBkfzYojOyrQnnJ2JDq1oJ41FSvn3TPkwJBGEW14u1VI1I_xAhTg6PA7uRPYnDEG" data-fallback="QH" alt=""><div><div class="cell-main">HLV Quốc Huy</div><div class="mono">TRN-K9-881</div></div></div></td>
+          <td><span class="chip chip-amber"><span class="material-symbols-outlined">sports_score</span>Huấn luyện viên</span></td>
+          <td><div class="cell-main" style="font-weight:600">huy.hlv@k9companion.vn</div><div class="cell-sub">0938 445 566</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">school</span>K9 Academy</span></td>
+          <td><div class="cell-main">18/02/2024</div><div class="cell-sub">Hôm qua 16:20</div></td>
+          <td><span class="badge badge-mint"><i></i>Đang hoạt động</span></td>
+          <td class="acts"><button class="icon-act" data-view title="Xem"><span class="material-symbols-outlined">visibility</span></button><button class="icon-act" data-mg title="Quản lý"><span class="material-symbols-outlined">manage_accounts</span></button><button class="icon-act" data-rs title="Đặt lại khóa"><span class="material-symbols-outlined">lock_reset</span></button><button class="icon-act no" data-lock title="Khóa"><span class="material-symbols-outlined">block</span></button></td>
+        </tr>
+        <tr data-role="spa" data-status="active" data-key="groomer linh đan spa-bou-190 linhdan@petspaboutique.vn 0977 889 900">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOHtDym5BKxWM003aDZJkAi6xhTwIGcUvqeJkbZlvHrBPtuMa-CZqyfTqW-45cGYKaRrg-2nRM8XCvoV0Gjs-uK7VujVVX6lAhItl1dN52iWkk_J6ra7tkJySqnbHLCmcyPzHS2sevOdkXTSMyfk58mW0QRnTYH9zcZFXyXkt9fj2Sh20cz2HkEwCoQjHKDcaPyugvSddrR_Zi6LaT5xMEp2XwEp0ar5zo0cvTEl_5eVeuaF_62kiX" data-fallback="LĐ" alt=""><div><div class="cell-main">Groomer Linh Đan</div><div class="mono">SPA-BOU-190</div></div></div></td>
+          <td><span class="chip chip-pink"><span class="material-symbols-outlined">content_cut</span>Đối tác Spa</span></td>
+          <td><div class="cell-main" style="font-weight:600">linhdan@petspaboutique.vn</div><div class="cell-sub">0977 889 900</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">spa</span>PetSpa Q3</span></td>
+          <td><div class="cell-main">30/03/2024</div><div class="cell-sub">3 giờ trước</div></td>
+          <td><span class="badge badge-mint"><i></i>Đang hoạt động</span></td>
+          <td class="acts"><button class="icon-act" data-view title="Xem"><span class="material-symbols-outlined">visibility</span></button><button class="icon-act" data-mg title="Quản lý"><span class="material-symbols-outlined">manage_accounts</span></button><button class="icon-act" data-rs title="Đặt lại khóa"><span class="material-symbols-outlined">lock_reset</span></button><button class="icon-act no" data-lock title="Khóa"><span class="material-symbols-outlined">block</span></button></td>
+        </tr>
+        <tr data-role="chu-nuoi" data-status="pending" data-key="trần bảo minh uid-vn9841 minh.tran@gmail.com 0988 223 344">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqec_A0v6yEwINUWZN9YuZBCAyvcg7isiKV0JFc16R4LOmfwnn9Sowxb7a6-x6I36OCODWfd9GNz8ZtZ4InhsPQtnAJvmMreOZ17ePoDYDb8L3TCI0M9CwJ-8SLCjAmyfK1qR1yUhRO0ubZiTIOeTCjyhxxGgUFDRTBpAEPyYvszn2TFDxqGVSUSEvQhkeDF3afHKjbxirWFVgpjuDByV0MaD-KtfuiEpXd2eGA9XxBTRDIXm2TWfi" data-fallback="TM" alt=""><div><div class="cell-main">Trần Bảo Minh</div><div class="mono">UID-VN9841</div></div></div></td>
+          <td><span class="chip chip-blue"><span class="material-symbols-outlined">pets</span>Chủ nuôi mới</span></td>
+          <td><div class="cell-main" style="font-weight:600">minh.tran@gmail.com</div><div class="cell-sub">0988 223 344</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">cruelty_free</span>1 bé cưng</span></td>
+          <td><div class="cell-main">Hôm nay 10:15</div><div class="cell-sub">Chưa kích hoạt</div></td>
+          <td><span class="badge badge-amber"><i></i>Chờ kích hoạt</span></td>
+          <td class="acts"><button class="icon-act" data-mail title="Gửi mail kích hoạt" style="color:var(--amber)"><span class="material-symbols-outlined">forward_to_inbox</span></button><button class="icon-act" data-mg title="Quản lý"><span class="material-symbols-outlined">manage_accounts</span></button><button class="icon-act" data-rs title="Đặt lại khóa"><span class="material-symbols-outlined">lock_reset</span></button><button class="icon-act no" data-del title="Xóa"><span class="material-symbols-outlined">delete_outline</span></button></td>
+        </tr>
+        <tr data-role="chu-nuoi" data-status="locked" data-key="lê thị hạnh uid-vn4412 hanh.le@outlook.com 0945 667 788">
+          <td><div class="u-cell"><img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIacU8RBOMHQ0iIP91bq_GVp9luRbZUGQcaqzf9Vd6-ecF8Z65Sw5ks1FcZbt4YfCBnTIiCS0LnwabzK7hfWHesHK5YwUhjxj6X-ltzcdhvmrCCRpqXCAbQXlV2Cf0DLsjEl6jZrawM6JZPt1fiJdS8FEixJw4pzS00GkdoJ1O0TP3INAUDBPQM0LvgaSIRq4jc1zhdafDlrSu24Bo9Yra9RIpnVZ__P9eyr6B_arJqw6S3aMeczQE" data-fallback="LH" alt=""><div><div class="cell-main">Lê Thị Hạnh</div><div class="mono">UID-VN4412</div></div></div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">pets</span>Chủ nuôi</span></td>
+          <td><div class="cell-main" style="font-weight:600">hanh.le@outlook.com</div><div class="cell-sub">0945 667 788</div></td>
+          <td><span class="chip chip-gray"><span class="material-symbols-outlined">cruelty_free</span>3 bé cưng</span></td>
+          <td><div class="cell-main">14/08/2023</div><div class="cell-sub">Khóa lúc 02/05/2024</div></td>
+          <td><span class="badge badge-rose"><i></i>Đang khóa</span></td>
+          <td class="acts"><button class="icon-act" data-view title="Thông tin"><span class="material-symbols-outlined">info</span></button><button class="icon-act ok" data-unlock title="Mở khóa"><span class="material-symbols-outlined">lock_open</span></button><button class="icon-act no" data-del title="Xóa vĩnh viễn"><span class="material-symbols-outlined">delete_forever</span></button></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="table-foot"><span id="uCount">Hiển thị 1 - 6 của 1,420 tài khoản hệ thống</span>
+      <div class="pager"><button class="pg" disabled><span class="material-symbols-outlined" style="font-size:18px">chevron_left</span></button><button class="pg on">1</button><button class="pg">2</button><button class="pg">3</button><span class="pg-dots">...</span><button class="pg">120</button><button class="pg"><span class="material-symbols-outlined" style="font-size:18px">chevron_right</span></button></div>
+    </div>
+  </section>
+
+  <!-- Policy banner -->
+  <section class="policy">
+    <div class="policy-left">
+      <span class="policy-ic"><span class="material-symbols-outlined">verified_user</span></span>
+      <div><h4>Chính sách bảo mật quyền hạn &amp; Kiểm toán 2FA</h4><p>Mọi thao tác cấp quyền Administrator hoặc Bác sĩ thú y đều được lưu vết trong Nhật ký kiểm toán (Audit Trail) và yêu cầu chữ ký số phê duyệt.</p></div>
+    </div>
+    <button class="btn btn-white" data-open="modalPolicy"><span class="material-symbols-outlined">policy</span>Xem Chính sách RBAC</button>
+  </section>
+</div>
+
+<footer class="sys-footer"><span class="live"><i></i>Hệ thống vận hành bình thường (99.98% Uptime)</span><span>© 2025 PetCompanion Admin Portal. Tất cả các quyền được bảo lưu.</span></footer>
+
+<!-- Modal Thêm người dùng -->
+<div class="modal-ov" id="modalAdd">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title"><span class="material-symbols-outlined">person_add</span>Thêm người dùng mới</div><button class="modal-x" data-close="modalAdd"><span class="material-symbols-outlined">close</span></button></div>
+    <div class="modal-body">
+      <div class="f-group"><label class="f-label">Họ và tên</label><input class="f-input" id="aName" placeholder="VD: Phạm Thu Trang"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="f-group"><label class="f-label">Email</label><input class="f-input" id="aEmail" placeholder="email@domain.vn"></div>
+        <div class="f-group"><label class="f-label">SĐT</label><input class="f-input" id="aPhone" placeholder="0912 345 678"></div>
+      </div>
+      <div class="f-group" style="margin:0"><label class="f-label">Vai trò</label><select class="f-input" id="aRole"><option value="chu-nuoi">Chủ nuôi (Pet Owner)</option><option value="bac-si">Bác sĩ / Đối tác Y tế</option><option value="hlv">Huấn luyện viên (K9 Trainer)</option><option value="spa">Đối tác Spa / Groomer</option></select></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-close="modalAdd">Hủy bỏ</button><button class="btn btn-primary" id="btnSaveUser"><span class="material-symbols-outlined">person_add</span>Tạo tài khoản</button></div>
+  </div>
+</div>
+<!-- Modal Chi tiết -->
+<div class="modal-ov" id="modalView">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title"><span class="material-symbols-outlined">badge</span>Chi tiết tài khoản</div><button class="modal-x" data-close="modalView"><span class="material-symbols-outlined">close</span></button></div>
+    <div class="modal-body" id="viewBody"></div>
+    <div class="modal-foot"><button class="btn btn-outline" data-close="modalView">Đóng cửa sổ</button></div>
+  </div>
+</div>
+<!-- Modal Chính sách -->
+<div class="modal-ov" id="modalPolicy">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title"><span class="material-symbols-outlined">policy</span>Chính sách RBAC &amp; Kiểm toán 2FA</div><button class="modal-x" data-close="modalPolicy"><span class="material-symbols-outlined">close</span></button></div>
+    <div class="modal-body">
+      <div class="pol-item"><span class="material-symbols-outlined">security</span><div><b>Phân quyền theo vai trò (RBAC):</b> Mỗi tài khoản được gán một vai trò duy nhất với tập quyền hạn định nghĩa sẵn, không cấp quyền chéo giữa các module.</div></div>
+      <div class="pol-item"><span class="material-symbols-outlined">gpp_good</span><div><b>Xác thực 2 lớp (2FA):</b> Bắt buộc với tài khoản Bác sĩ thú y và Quản trị viên. Mã OTP hiệu lực 60 giây.</div></div>
+      <div class="pol-item"><span class="material-symbols-outlined">history</span><div><b>Nhật ký kiểm toán (Audit Trail):</b> Mọi thao tác cấp quyền, khóa, xóa được lưu vết 5 năm và yêu cầu chữ ký số phê duyệt.</div></div>
+      <div class="pol-item" style="border:0"><span class="material-symbols-outlined">lock</span><div><b>Khóa tự động:</b> Tài khoản không hoạt động 90 ngày sẽ bị khóa tạm thời và yêu cầu xác minh lại danh tính.</div></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-primary" data-close="modalPolicy">Đã hiểu</button></div>
+  </div>
+</div>
+
+<script src="../core/base.js"></script><script src="rbac.js"></script>
+</body>
+</html>

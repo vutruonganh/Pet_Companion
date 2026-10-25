@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách ca hẹn &amp; Tiếp nhận - PetCompanion (Pure CSS)</title>
+<link rel="stylesheet" href="../core/base.css"><link rel="stylesheet" href="provider-appointment-list.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+<header class="topnav">
+  <div class="brand"><span class="brand-logo">P</span>PetCompanion</div>
+  <span class="admin-pill">Đối tác dịch vụ<br>(Provider)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="provider-calendar.html">Lịch khám &amp; Điều phối</a>
+    <a class="nav-link active" href="provider-appointment-list.html">Danh sách ca hẹn</a>
+    <a class="nav-link" href="provider-service-note.html">Biên bản dịch vụ &amp; Checklist AI</a>
+  </nav>
+  <div class="nav-user"><b>BS. Hoàng Mai</b><span>PetCare Clinic Q.1</span></div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>Danh sách ca hẹn &amp; Tiếp nhận bệnh nhân 📋</h1>
+      <p class="page-sub">Quản lý quy trình tiếp nhận check-in, cập nhật trạng thái xử lý và khởi tạo biên bản y khoa.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-outline" id="btnPrint"><span class="material-symbols-outlined">print</span>In danh sách ngày</button>
+      <button class="btn btn-primary" id="btnWalkIn"><span class="material-symbols-outlined">person_add</span>Tiếp nhận trực tiếp (Walk-in)</button>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="card filter-card">
+    <div class="filter-group">
+      <input class="f-input search-input" placeholder="Tìm theo tên bé, chủ nuôi hoặc mã hẹn (#APT-...)" type="text">
+      <select class="f-input filter-select">
+        <option>Tất cả trạng thái</option>
+        <option>Chờ tiếp nhận</option>
+        <option>Đang thực hiện</option>
+        <option>Đã hoàn thành</option>
+        <option>Khẩn cấp</option>
+      </select>
+      <select class="f-input filter-select">
+        <option>Tất cả dịch vụ</option>
+        <option>Khám bệnh thú y</option>
+        <option>Tiêm phòng định kỳ</option>
+        <option>Spa &amp; Tắm cắt tỉa</option>
+      </select>
+    </div>
+    <div class="filter-total"><span id="totalCount">Tổng cộng: 28 ca trong ngày</span></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card">
+    <div class="tscroll">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Mã ca hẹn</th>
+            <th>Thú cưng &amp; chủ nuôi</th>
+            <th>Dịch vụ đăng ký</th>
+            <th>Thời gian hẹn</th>
+            <th>Phòng / Phụ trách</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="apt-code">#APT-1049</td>
+            <td>
+              <div class="pet-cell">
+                <img alt="Miu Miu" class="pet-thumb" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+                <div>
+                  <div class="cell-strong">Miu Miu (Mèo Anh)</div>
+                  <div class="cell-meta">Trần Minh Anh • 0912.443.xxx</div>
+                </div>
+              </div>
+            </td>
+            <td><strong>Cấp cứu hô hấp khẩn</strong></td>
+            <td><strong class="time-urgent">10:30 Hôm nay</strong></td>
+            <td>Phòng Khám 01 (BS. Mai)</td>
+            <td><span class="badge badge-urgent">⚠️ CẤP CỨU</span></td>
+            <td>
+              <div class="action-btns">
+                <button class="btn btn-primary btn-sm">Tiếp nhận ngay</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="apt-code">#APT-1048</td>
+            <td>
+              <div class="pet-cell">
+                <img alt="Milo" class="pet-thumb" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+                <div>
+                  <div class="cell-strong">Milo (Golden Retriever)</div>
+                  <div class="cell-meta">Nguyễn Văn An • 0912.345.xxx</div>
+                </div>
+              </div>
+            </td>
+            <td>Khám tổng quát &amp; Tẩy giun</td>
+            <td>08:30 (Đã check-in)</td>
+            <td>Phòng Khám 01 (BS. Mai)</td>
+            <td><span class="badge badge-in-progress">Đang khám lâm sàng</span></td>
+            <td>
+              <div class="action-btns">
+                <a class="btn btn-outline btn-sm" href="provider-service-note.html">Mở biên bản AI</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="apt-code">#APT-1047</td>
+            <td>
+              <div class="pet-cell">
+                <img alt="Luna" class="pet-thumb" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+                <div>
+                  <div class="cell-strong">Luna (Mèo Anh lông ngắn)</div>
+                  <div class="cell-meta">Trần Bảo Minh • 0988.223.xxx</div>
+                </div>
+              </div>
+            </td>
+            <td>Spa tắm dưỡng thảo mộc</td>
+            <td>09:30</td>
+            <td>Khu Spa (KTV. Linh Đan)</td>
+            <td><span class="badge badge-in-progress">Đang sấy &amp; chải lông</span></td>
+            <td>
+              <div class="action-btns">
+                <button class="btn btn-outline btn-sm">Cập nhật ảnh</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="apt-code">#APT-1046</td>
+            <td>
+              <div class="pet-cell">
+                <img alt="Bông" class="pet-thumb" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+                <div>
+                  <div class="cell-strong">Bông (Poodle trắng)</div>
+                  <div class="cell-meta">Đỗ Thùy Trang • 0934.771.xxx</div>
+                </div>
+              </div>
+            </td>
+            <td>Tiêm phòng dại &amp; 7 bệnh</td>
+            <td>14:00 Chiều nay</td>
+            <td>Phòng Tiêm chủng (BS. Minh)</td>
+            <td><span class="badge badge-pending">Chờ khách tới</span></td>
+            <td>
+              <div class="action-btns">
+                <button class="btn btn-outline btn-sm">Gửi SMS nhắc</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="sys-footer"><span>Hệ thống quản lý đối tác y tế PetCompanion • Chuẩn hóa BTL-35 CSE122</span><span>Phiên bản Pure CSS Module SV2 • Bản quyền 2025</span></footer>
+
+<script src="../core/base.js"></script><script src="provider-common.js"></script><script src="provider-appointment-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+/* ============================================
+   PROVIDER APPOINTMENT LIST - Page-specific styles
+   Danh sách ca hẹn & Tiếp nhận
+   Dùng token từ core/base.css
+   ============================================ */
+
+/* ── Filters ── */
+.filter-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  width: 340px;
+  max-width: 100%;
+}
+
+.filter-select {
+  min-width: 190px;
+  width: auto;
+}
+
+.filter-total {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ── Table ── */
+.custom-table .apt-code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-ink);
+  white-space: nowrap;
+}
+
+.pet-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pet-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--line-soft);
+  flex-shrink: 0;
+}
+
+.cell-strong {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.cell-meta {
+  font-size: 12px;
+  color: var(--soft);
+  margin-top: 2px;
+}
+
+.time-urgent {
+  color: var(--rose-ink);
+  font-weight: 700;
+}
+
+.empty-row {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.confirm-text {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── Badges trạng thái ── */
+.badge-pending { background: var(--amber-tint); color: var(--amber-ink); }
+.badge-in-progress { background: var(--blue-tint); color: var(--blue-ink); }
+.badge-completed { background: var(--mint-soft); color: var(--teal-ink); }
+.badge-urgent { background: var(--rose-tint); color: var(--rose-ink); font-weight: 800; }
+
+/* ── Actions ── */
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  padding: 8px 15px;
+  font-size: 12.5px;
+}
+
+@media (max-width: 760px) {
+  .search-input { width: 100%; }
+  .filter-select { flex: 1 1 160px; min-width: 0; }
+}
+
+@media print {
+  .topnav, .sys-footer, .filter-card, .action-btns, .head-actions { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; border: 1px solid #ccc; }
+}

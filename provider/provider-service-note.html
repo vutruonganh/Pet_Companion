@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biên bản dịch vụ &amp; Checklist AI - PetCompanion (Pure CSS)</title>
+<link rel="stylesheet" href="../core/base.css"><link rel="stylesheet" href="provider-service-note.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+<header class="topnav">
+  <div class="brand"><span class="brand-logo">P</span>PetCompanion</div>
+  <span class="admin-pill">Đối tác dịch vụ<br>(Provider)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="provider-calendar.html">Lịch khám &amp; Điều phối</a>
+    <a class="nav-link" href="provider-appointment-list.html">Danh sách ca hẹn</a>
+    <a class="nav-link active" href="provider-service-note.html">Biên bản dịch vụ &amp; Checklist AI</a>
+  </nav>
+  <div class="nav-user"><b>BS. Hoàng Mai</b><span>PetCare Clinic Q.1</span></div>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>Biên bản dịch vụ &amp; Khám lâm sàng điện tử 📝</h1>
+      <p class="page-sub">Ghi nhận hồ sơ chẩn đoán, toa thuốc y khoa và danh mục Checklist kiểm tra an toàn trước buổi.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-outline" id="btnSaveDraft"><span class="material-symbols-outlined">save</span>Lưu bản nháp</button>
+      <button class="btn btn-primary" id="btnSign"><span class="material-symbols-outlined">draw</span>Hoàn tất &amp; Ký số điện tử</button>
+    </div>
+  </div>
+
+  <div class="note-grid">
+    <!-- LEFT MAIN FORM -->
+    <div class="note-col">
+      <!-- AI-2 CHECKLIST SECTION -->
+      <div class="ai-banner">
+        <div class="ai-banner-head">
+          <div class="ai-banner-title"><span class="material-symbols-outlined">auto_awesome</span>AI Service Checklist • Chuẩn an toàn BTL-35</div>
+          <span class="ai-tag">Tự động sinh theo triệu chứng</span>
+        </div>
+        <p class="ai-desc">
+          AI đã phân tích tiền sử dị ứng và dịch vụ khám tổng quát của bé <strong>Milo</strong> để đề xuất 4 hạng mục kiểm tra bắt buộc:
+        </p>
+        <div class="checklist-item">
+          <input checked id="chk1" type="checkbox">
+          <label for="chk1">Kiểm tra vùng kẽ chân và niêm mạc tai (Bé có tiền sử ngứa mẩn đỏ đợt trước).</label>
+        </div>
+        <div class="checklist-item">
+          <input checked id="chk2" type="checkbox">
+          <label for="chk2">Đo thân nhiệt &amp; Nghe nhịp tim trước khi chỉ định lấy mẫu máu sinh hóa.</label>
+        </div>
+        <div class="checklist-item">
+          <input id="chk3" type="checkbox">
+          <label for="chk3">Kiểm tra dị ứng thuốc kháng sinh dòng Penicillin/Amoxicillin trong hồ sơ cũ.</label>
+        </div>
+        <div class="checklist-item">
+          <input id="chk4" type="checkbox">
+          <label for="chk4">Cân trọng lượng chính xác để kê liều lượng thuốc tẩy giun NexGard Spectra.</label>
+        </div>
+      </div>
+
+      <!-- CLINICAL FORM -->
+      <div class="card" id="clinicalCard">
+        <div class="card-head">
+          <div class="card-title"><span class="material-symbols-outlined">stethoscope</span>Kết quả chẩn đoán y khoa</div>
+        </div>
+        <div class="card-body">
+          <div class="f-group">
+            <label class="f-label" for="clinicalExam">Tình trạng thể chất chung</label>
+            <textarea class="f-input" id="clinicalExam">Thể trạng tốt, niêm mạc hồng hào, nhịp tim đều 88 bpm. Chỉ số bạch cầu bình thường. Phát hiện nhẹ dấu hiệu ngứa kẽ chân do dị ứng phấn hoa theo mùa, không có dấu hiệu nhiễm nấm kẽ sâu.</textarea>
+          </div>
+          <div class="f-group">
+            <label class="f-label" for="prescription">Đơn thuốc &amp; Phác đồ điều trị</label>
+            <textarea class="f-input" id="prescription">1. NexGard Spectra 15-30kg: 1 viên duy nhất sau ăn sáng.
+2. Dung dịch xịt sát khuẩn kẽ ngón Dermavet Spray: Xịt 2 lần/ngày sau khi dạo bộ.
+3. Bổ sung viên nhai Omega-3 Derma Care: 2 viên/ngày trộn thức ăn hạt.</textarea>
+          </div>
+          <div class="f-group" style="margin-bottom:0">
+            <label class="f-label" for="ownerNote">Lời dặn dò chủ nuôi (Hiển thị trực tiếp vào App Chủ nuôi)</label>
+            <input class="f-input" id="ownerNote" type="text" value="Sau khi Milo đi dạo trong công viên về, lau khô kẽ chân, tránh ẩm ướt. Lịch tiêm nhắc lại vào 11/2025.">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT INFO SIDEBAR -->
+    <div class="note-col">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="material-symbols-outlined">pets</span>Thông tin bệnh nhân</div>
+        </div>
+        <div class="card-body">
+          <div class="patient-hero">
+            <img alt="Milo" class="patient-avatar" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg">
+            <div class="patient-name">Milo</div>
+            <div class="patient-meta">Golden Retriever • 3 tuổi • Đực (28 kg)</div>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Mã hồ sơ</span>
+            <span class="summary-val">#VN-88219</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Chủ nuôi</span>
+            <span class="summary-val">Nguyễn Văn An</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Số điện thoại</span>
+            <span class="summary-val">0912.345.678</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Tiêm phòng dại</span>
+            <span class="summary-val ok">Đạt chuẩn</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="costCard">
+        <div class="card-head">
+          <div class="card-title"><span class="material-symbols-outlined">payments</span>Chi phí dịch vụ</div>
+        </div>
+        <div class="card-body">
+          <div class="summary-item">
+            <span class="summary-label">Khám tổng quát</span>
+            <span class="summary-val">250.000 đ</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Xét nghiệm máu sinh hóa</span>
+            <span class="summary-val">200.000 đ</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">NexGard Spectra (1 viên)</span>
+            <span class="summary-val">180.000 đ</span>
+          </div>
+          <div class="summary-item summary-total">
+            <span class="summary-label">Tổng cộng</span>
+            <span class="summary-val">630.000 đ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="sys-footer"><span>Hệ thống quản lý đối tác y tế PetCompanion • Chuẩn hóa BTL-35 CSE122</span><span>Phiên bản Pure CSS Module SV2 • Bản quyền 2025</span></footer>
+
+<script src="../core/base.js"></script><script src="provider-common.js"></script><script src="provider-service-note.js"></script>
+</body>
+</html>
