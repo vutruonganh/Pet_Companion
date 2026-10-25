@@ -10,6 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let services = null;
   let cat = 'all';
 
+  function stateRow(kind, msg) {
+    const isError = kind === 'error';
+    return `<tr><td colspan="7"><div style="padding:28px;text-align:center;color:${isError ? 'var(--rose)' : 'var(--text-gray)'}">
+      <span class="material-symbols-outlined" style="font-size:30px">${isError ? 'error' : kind === 'empty' ? 'inbox' : 'progress_activity'}</span>
+      <div style="margin:6px 0 10px">${esc(msg)}</div>
+      ${isError ? '<button class="btn btn-outline" data-retry>Thử lại</button>' : ''}
+    </div></td></tr>`;
+  }
+
   function switchInner(sku, active) {
     return `<label class="switch"><input type="checkbox" ${active ? 'checked' : ''} data-sku="${esc(sku)}"><i></i></label><b class="${active ? 'st-on' : 'st-off'}">${active ? 'Đang cung ứng' : 'Tạm dừng nhận'}</b>`;
   }
@@ -29,20 +38,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function render() {
+    if (!services || !services.length) {
+      tbody.innerHTML = stateRow('empty', 'Chưa có dịch vụ nào trong hệ thống. Hãy tạo dịch vụ mới.');
+      apply();
+      return;
+    }
     tbody.innerHTML = services.map(renderRow).join('');
+    updateStats();
     apply();
+  }
+
+  function updateStats() {
+    if (!services) return;
+    const active = services.filter(s => s.active).length;
+    const avg = services.length
+      ? Math.round(services.reduce((sum, s) => sum + (Number(s.price) || 0), 0) / services.length)
+      : 0;
+    document.querySelectorAll('#tabs .tab').forEach(t => {
+      const badge = t.querySelector('.tc');
+      if (!badge) return;
+      badge.textContent = t.dataset.cat === 'all'
+        ? services.length
+        : services.filter(s => s.cat === t.dataset.cat).length;
+    });
+    const activeEl = document.getElementById('statActive');
+    if (activeEl) activeEl.innerHTML = `${active} <small>dịch vụ</small>`;
+    const avgEl = document.getElementById('statAvg');
+    if (avgEl) avgEl.innerHTML = `${avg.toLocaleString('vi-VN')} <small>đ</small>`;
   }
 
   /* Lọc tab + search */
   function apply() {
     const q = document.getElementById('sSearch').value.trim().toLowerCase();
     let n = 0;
-    [...tbody.querySelectorAll('tr')].forEach(r => {
+    [...tbody.querySelectorAll('tr[data-cat]')].forEach(r => {
       const ok = (cat === 'all' || r.dataset.cat === cat) && (!q || r.dataset.key.includes(q));
       r.style.display = ok ? '' : 'none';
       if (ok) n++;
     });
-    document.getElementById('sCount').textContent = `Hiển thị ${n} / 24 dịch vụ khả dụng`;
+    document.getElementById('sCount').textContent = `Hiển thị ${n} / ${services ? services.length : 0} dịch vụ khả dụng`;
   }
 
   document.querySelectorAll('#tabs .tab').forEach(t => t.addEventListener('click', () => {
@@ -79,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Sửa / ẩn */
   tbody.addEventListener('click', async e => {
+    if (e.target.closest('[data-retry]')) { load(); return; }
     const editBtn = e.target.closest('[data-edit]');
     if (editBtn) {
       UI.toast(`Mở trình chỉnh sửa ${editBtn.dataset.edit}...`, 'info', 'edit');
@@ -167,15 +202,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* INIT - tải danh mục dịch vụ từ mock API */
   async function load() {
-    if (window.MockAPI) {
-      try {
-        const data = await MockAPI.list('services');
-        if (Array.isArray(data)) { services = data; render(); return; }
-      } catch (err) {
-        console.warn('[MockAPI] services:', err.message);
-      }
+    services = null;
+    tbody.innerHTML = stateRow('loading', 'Đang tải danh mục dịch vụ...');
+    document.getElementById('sCount').textContent = 'Đang tải dịch vụ...';
+    if (!window.MockAPI) {
+      tbody.innerHTML = stateRow('error', 'Không tìm thấy lớp kết nối mock API. Hãy chạy start.bat rồi tải lại trang.');
+      UI.toast('Không tìm thấy mock API client.', 'err', 'error');
+      return;
     }
-    apply();
+    try {
+      const data = await MockAPI.list('services');
+      if (!Array.isArray(data)) throw new Error('Dữ liệu dịch vụ không hợp lệ.');
+      services = data;
+      render();
+    } catch (err) {
+      console.warn('[MockAPI] services:', err.message);
+      services = null;
+      tbody.innerHTML = stateRow('error', err.message || 'Không tải được danh mục dịch vụ.');
+      document.getElementById('sCount').textContent = 'Không tải được dữ liệu dịch vụ';
+      UI.toast('Không tải được danh mục dịch vụ. Kiểm tra mock API rồi thử lại.', 'err', 'error');
+    }
   }
 
   load();

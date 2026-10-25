@@ -1,5 +1,5 @@
 /* login.js – hành vi giao diện lấy từ bản Stitch (toast, validate, spinner, ghi nhớ đăng nhập, mô tả theo vai trò)
- * + xác thực thật bằng users.json qua PC.api, lưu phiên bằng PC.session và chuyển trang theo vai trò. */
+ * + xác thực thật bằng bảng accounts qua PC.api, lưu phiên bằng PC.session và chuyển trang theo vai trò. */
 (function () {
   const $ = (id) => document.getElementById(id);
   const emailInput = $('login-email'), passwordInput = $('login-password');
@@ -133,7 +133,7 @@
     setLoading(true);
     let redirecting = false;
     try {
-      const list = await PC.api.list('users', (u) => String(u.email).toLowerCase() === email.toLowerCase());
+      const list = await PC.api.list('accounts', (u) => String(u.email).toLowerCase() === email.toLowerCase());
       const u = list[0];
       if (!u || u.password !== pw) { passwordInput.classList.add('input-error'); return displayError('Email hoặc mật khẩu không đúng.'); }
       if (u.status === 'locked') return displayError('Tài khoản này đã bị khóa. Vui lòng liên hệ quản trị viên.');

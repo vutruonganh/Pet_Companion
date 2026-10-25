@@ -14,25 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
   const DAY_NAMES = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
-  // Dữ liệu ca hẹn mẫu theo ngày (key = 'YYYY-MM-DD') - fallback khi không có API
-  const FALLBACK_EVENTS = {
-    '2025-11-15': [
-      { time: '08:30 - 09:15', code: '#MED-101', pet: '🐶 Milo (Golden Retriever)', owner: 'Nguyễn Văn An', service: 'Khám tổng quát', room: 0, type: 'medical' },
-      { time: '08:30 - 09:00', code: '#VAC-402', pet: '🐱 Bông (Mèo Ba Tư)', owner: 'Đỗ Thùy Trang', service: 'Tiêm vắc-xin 4 bệnh', room: 1, type: 'vaccine' },
-      { time: '09:30 - 10:15', code: '#MED-105', pet: '🐶 Rocky (Corgi)', owner: 'Lê Hoàng Yến', service: 'Siêu âm ổ bụng', room: 1, type: 'ultrasound' },
-      { time: '09:30 - 11:00', code: '#SPA-208', pet: '🐱 Luna (Mèo Anh lông ngắn)', owner: 'Trần Bảo Minh', service: 'Combo Spa dưỡng lông', room: 2, type: 'spa' },
-      { time: '10:30 - 11:30', code: 'CẤP CỨU', pet: '🐱 Miu Miu (Mèo Anh)', owner: 'Trần Minh Anh', service: 'Dị ứng hô hấp khẩn', room: 0, type: 'emergency' }
-    ],
-    '2025-11-18': [
-      { time: '09:00 - 10:00', code: '#MED-112', pet: '🐶 Max (Husky)', owner: 'Phạm Thị Hoa', service: 'Tái khám da liễu', room: 0, type: 'medical' },
-      { time: '10:00 - 10:30', code: '#VAC-410', pet: '🐱 Kitty (Mèo Mướp)', owner: 'Lê Văn Hùng', service: 'Tiêm phòng dại', room: 1, type: 'vaccine' }
-    ],
-    '2025-11-20': [
-      { time: '08:00 - 09:00', code: '#SPA-215', pet: '🐶 Coco (Poodle)', owner: 'Ngô Thanh Hà', service: 'Spa tắm thảo mộc', room: 2, type: 'spa' }
-    ]
-  };
+  // Dữ liệu ca hẹn theo ngày (key = 'YYYY-MM-DD') - nạp từ mock API
+  let eventsData = {};
 
-  let eventsData = FALLBACK_EVENTS;
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   function groupEventsByDate(list) {
     const grouped = {};
@@ -193,9 +178,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const codeClass = event.type === 'emergency' ? ' class="apt-code-urgent"' : '';
             card.innerHTML = `
-              <div class="apt-time"><span>${event.time}</span><span${codeClass}>${event.code}</span></div>
-              <div class="apt-pet">${event.pet}</div>
-              <div class="apt-owner">Khách: ${event.owner} • ${event.service}</div>
+              <div class="apt-time"><span>${esc(event.time)}</span><span${codeClass}>${esc(event.code)}</span></div>
+              <div class="apt-pet">${esc(event.pet)}</div>
+              <div class="apt-owner">Khách: ${esc(event.owner)} • ${esc(event.service)}</div>
             `;
 
             card.addEventListener('click', function () {
@@ -225,11 +210,11 @@ document.addEventListener('DOMContentLoaded', function () {
       title: `Chi tiết ca hẹn ${event.code}`,
       width: '520px',
       body: `
-        <div class="detail-row"><span class="detail-label">Thú cưng:</span><span class="detail-val">${event.pet}</span></div>
-        <div class="detail-row"><span class="detail-label">Chủ nuôi:</span><span class="detail-val">${event.owner}</span></div>
-        <div class="detail-row"><span class="detail-label">Dịch vụ:</span><span class="detail-val">${event.service}</span></div>
-        <div class="detail-row"><span class="detail-label">Thời gian:</span><span class="detail-val">${event.time}</span></div>
-        <div class="detail-row"><span class="detail-label">Phòng:</span><span class="detail-val">${ROOMS[event.room]}</span></div>
+        <div class="detail-row"><span class="detail-label">Thú cưng:</span><span class="detail-val">${esc(event.pet)}</span></div>
+        <div class="detail-row"><span class="detail-label">Chủ nuôi:</span><span class="detail-val">${esc(event.owner)}</span></div>
+        <div class="detail-row"><span class="detail-label">Dịch vụ:</span><span class="detail-val">${esc(event.service)}</span></div>
+        <div class="detail-row"><span class="detail-label">Thời gian:</span><span class="detail-val">${esc(event.time)}</span></div>
+        <div class="detail-row"><span class="detail-label">Phòng:</span><span class="detail-val">${esc(ROOMS[event.room] || 'Chưa phân phòng')}</span></div>
         <div class="detail-row"><span class="detail-label">Loại:</span><span class="detail-val"><span class="chip ${chip.cls}">${chip.text}</span></span></div>
       `,
       footer: `
@@ -480,16 +465,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // INIT - Tải ca hẹn từ mock API (fallback dữ liệu tĩnh)
+  // INIT - Tải ca hẹn dùng chung từ mock API
   // ==========================================
   async function loadEvents() {
     if (window.MockAPI) {
       try {
         const data = await MockAPI.list('calendar-events');
-        if (Array.isArray(data)) eventsData = groupEventsByDate(data);
+        if (!Array.isArray(data)) throw new Error('Dữ liệu lịch hẹn không hợp lệ.');
+        eventsData = groupEventsByDate(data);
       } catch (err) {
         console.warn('[MockAPI] calendar-events:', err.message);
+        eventsData = {};
+        ProviderUI.toast('Không tải được lịch hẹn từ mock API. Hãy kiểm tra server rồi tải lại trang.', 'warning');
       }
+    } else {
+      eventsData = {};
+      ProviderUI.toast('Thiếu core/api.js nên chưa kết nối được mock API.', 'warning');
     }
     renderMiniCalendar();
     renderTimeline();

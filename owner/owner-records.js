@@ -12,6 +12,7 @@
   let records = [];
   let pets = [];
   let currentId = null;
+  let loadFailed = false;
 
   function visibleRecords() {
     const query = (search.value || '').trim().toLowerCase();
@@ -119,6 +120,7 @@
   }
 
   function renderTable() {
+    if (loadFailed) return;
     const rows = visibleRecords();
     tbody.innerHTML = rows.length
       ? rows.map(row).join('')
@@ -135,9 +137,27 @@
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
-    const data = await Promise.all([O.list('medical-records'), O.list('pets')]);
-    records = data[0].slice().sort(function (a, b) { return b.date.localeCompare(a.date); });
-    pets = data[1];
+    const owner = O.currentOwner();
+    let loadError = null;
+    try {
+      const data = await Promise.all([
+        O.list('medical-records', null, { throwOnError: true }),
+        O.list('pets', null, { throwOnError: true })
+      ]);
+      pets = (Array.isArray(data[1]) ? data[1] : []).filter(function (pet) {
+        return O.belongsToOwner(pet, owner);
+      });
+      const petIds = pets.map(function (pet) { return String(pet.id); });
+      records = (Array.isArray(data[0]) ? data[0] : [])
+        .filter(function (record) { return petIds.indexOf(String(record.petId)) !== -1; })
+        .sort(function (a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
+    } catch (error) {
+      console.error('[Owner] records', error);
+      loadError = error;
+      loadFailed = true;
+      records = [];
+      pets = [];
+    }
 
     petSelect.innerHTML = '<option value="all">Tất cả thú cưng</option>' + pets.map(function (pet) {
       return '<option value="' + O.esc(pet.id) + '">Bé ' + O.esc(pet.name) + ' (' + O.esc(pet.breed || pet.speciesLabel) + ')</option>';
@@ -149,7 +169,17 @@
     }
 
     renderStats();
-    renderTable();
+    if (loadError) {
+      tbody.innerHTML = '<tr><td colspan="8"><div class="empty">' +
+        '<span class="material-symbols-outlined">cloud_off</span>' +
+        O.esc(loadError.message || 'Không tải được hồ sơ dịch vụ.') +
+        '<button class="btn btn-outline" type="button" data-retry-records style="margin-top:12px">Thử lại</button>' +
+        '</div></td></tr>';
+      detail.innerHTML = '<div class="empty"><span class="material-symbols-outlined">cloud_off</span>Không tải được hồ sơ dịch vụ từ mock API.</div>';
+      window.UI.toast(loadError.message || 'Không tải được hồ sơ dịch vụ từ mock API.', 'err', 'cloud_off');
+    } else {
+      renderTable();
+    }
 
     search.addEventListener('input', renderTable);
     petSelect.addEventListener('change', renderTable);
@@ -157,6 +187,7 @@
     periodSelect.addEventListener('change', renderTable);
 
     tbody.addEventListener('click', function (event) {
+      if (event.target.closest('[data-retry-records]')) { window.location.reload(); return; }
       const button = event.target.closest('[data-action]');
       if (!button) return;
       const record = records.find(function (item) { return String(item.id) === String(button.dataset.id); });

@@ -14,6 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   let users = null;
+  const AUTH_TO_DIR = { owner: 'chu-nuoi', provider: 'bac-si', trainer: 'hlv' };
+  const DIR_TO_AUTH = { 'chu-nuoi': 'owner', 'bac-si': 'provider', hlv: 'trainer', spa: 'provider' };
+  const initials = (name) => String(name || '?').trim().split(/\s+/).filter(Boolean).map((w) => w[0]).slice(-2).join('').toUpperCase();
+  const dirRoleOf = (u) => u.dirRole || AUTH_TO_DIR[u.role] || 'chu-nuoi';
+
+  function stateRow(kind, msg) {
+    const isError = kind === 'error';
+    return `<tr><td colspan="7"><div style="padding:28px;text-align:center;color:${isError ? 'var(--rose)' : 'var(--text-gray)'}">
+      <span class="material-symbols-outlined" style="font-size:30px">${isError ? 'error' : 'progress_activity'}</span>
+      <div style="margin:6px 0 10px">${esc(msg)}</div>
+      ${isError ? '<button class="btn btn-outline" data-retry>Thử lại</button>' : ''}
+    </div></td></tr>`;
+  }
 
   function actionButtons(u) {
     const view = `<button class="icon-act" data-view title="${u.status === 'locked' ? 'Thông tin' : 'Xem'}"><span class="material-symbols-outlined">${u.status === 'locked' ? 'info' : 'visibility'}</span></button>`;
@@ -32,15 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderRow(u) {
     const [badgeCls, badgeText] = STATUS_BADGE[u.status] || STATUS_BADGE.pending;
+    const dirRole = dirRoleOf(u);
+    const [chip, roleIcon, roleLabel] = ROLE_MAP[dirRole] || ROLE_MAP['chu-nuoi'];
+    const avatarFallback = u.avatarFallback || initials(u.name);
+    const uid = u.uid || u.id;
     const avatar = u.avatar
-      ? `<img class="avatar" src="${esc(u.avatar)}" data-fallback="${esc(u.avatarFallback)}" alt="">`
-      : `<div class="avatar-fb">${esc(u.avatarFallback)}</div>`;
-    return `<tr data-role="${esc(u.role)}" data-status="${esc(u.status)}" data-key="${esc(`${u.name} ${u.uid} ${u.email} ${u.phone}`.toLowerCase())}">
-      <td><div class="u-cell">${avatar}<div><div class="cell-main">${esc(u.name)}</div><div class="mono">${esc(u.uid)}</div></div></div></td>
-      <td><span class="chip ${esc(u.chip)}"><span class="material-symbols-outlined">${esc(u.roleIcon)}</span>${esc(u.roleLabel)}</span></td>
+      ? `<img class="avatar" src="${esc(u.avatar)}" data-fallback="${esc(avatarFallback)}" alt="">`
+      : `<div class="avatar-fb">${esc(avatarFallback)}</div>`;
+    return `<tr data-role="${esc(dirRole)}" data-status="${esc(u.status)}" data-key="${esc(`${u.name} ${uid} ${u.email} ${u.phone}`.toLowerCase())}">
+      <td><div class="u-cell">${avatar}<div><div class="cell-main">${esc(u.name)}</div><div class="mono">${esc(uid)}</div></div></div></td>
+      <td><span class="chip ${esc(u.chip || chip)}"><span class="material-symbols-outlined">${esc(u.roleIcon || roleIcon)}</span>${esc(u.roleLabel || roleLabel)}</span></td>
       <td><div class="cell-main" style="font-weight:600">${esc(u.email)}</div><div class="cell-sub">${esc(u.phone)}</div></td>
-      <td><span class="chip chip-gray"><span class="material-symbols-outlined">${esc(u.petsIcon)}</span>${esc(u.petsLabel)}</span></td>
-      <td><div class="cell-main">${esc(u.joined)}</div><div class="cell-sub">${esc(u.lastActive)}</div></td>
+      <td><span class="chip chip-gray"><span class="material-symbols-outlined">${esc(u.petsIcon || 'cruelty_free')}</span>${esc(u.petsLabel || '0 bé cưng')}</span></td>
+      <td><div class="cell-main">${esc(u.joined || 'Hôm nay')}</div><div class="cell-sub">${esc(u.lastActive || 'Chưa kích hoạt')}</div></td>
       <td><span class="badge ${badgeCls}"><i></i>${badgeText}</span></td>
       <td class="acts">${actionButtons(u)}</td>
     </tr>`;
@@ -60,13 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const ok = (r === 'all' || row.dataset.role === r) && (s === 'all' || row.dataset.status === s) && (!q || row.dataset.key.includes(q));
       row.style.display = ok ? '' : 'none'; if (ok) n++;
     });
-    document.getElementById('uCount').textContent = `Hiển thị 1 - ${n} của 1,420 tài khoản hệ thống`;
+    document.getElementById('uCount').textContent = `Hiển thị ${n} trên ${users ? users.length : 0} tài khoản hệ thống`;
   }
   ['uRole', 'uStatus'].forEach(id => document.getElementById(id).addEventListener('change', apply));
   document.getElementById('uSearch').addEventListener('input', apply);
 
   /* ── Hành động CRUD trên bảng ── */
   tbody.addEventListener('click', async e => {
+    if (e.target.closest('[data-retry]')) { load(); return; }
     const row = e.target.closest('tr');
     if (!row) return;
     const uid = row.querySelector('.mono').textContent;
@@ -98,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.outerHTML = renderRow(user);
         apply();
         if (window.MockAPI) {
-          try { await MockAPI.patch('users', user.id, { status: 'locked' }); }
+          try { await MockAPI.patch('accounts', user.id, { status: 'locked' }); }
           catch (err) { console.warn('[MockAPI]', err.message); UI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'err', 'error'); }
         }
       }
@@ -112,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.outerHTML = renderRow(user);
         apply();
         if (window.MockAPI) {
-          try { await MockAPI.patch('users', user.id, { status: 'active' }); }
+          try { await MockAPI.patch('accounts', user.id, { status: 'active' }); }
           catch (err) { console.warn('[MockAPI]', err.message); UI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'err', 'error'); }
         }
       }
@@ -123,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!confirm(`XÓA VĨNH VIỄN tài khoản ${uid}? Không thể hoàn tác!`)) return;
       if (user) {
         if (window.MockAPI) {
-          try { await MockAPI.remove('users', user.id); }
+          try { await MockAPI.remove('accounts', user.id); }
           catch (err) { console.warn('[MockAPI]', err.message); UI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'err', 'error'); }
         }
         users = users.filter(u => u.uid !== uid);
@@ -152,7 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const payload = {
       name: name,
       uid: uid,
-      role: role.value,
+      role: DIR_TO_AUTH[role.value] || 'owner',
+      dirRole: role.value,
+      password: 'demo123',
       roleLabel: label,
       chip: chip,
       roleIcon: icon,
@@ -169,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let saved = null;
     if (window.MockAPI) {
-      try { saved = await MockAPI.create('users', payload); }
+      try { saved = await MockAPI.create('accounts', payload); }
       catch (err) {
         console.warn('[MockAPI]', err.message);
         UI.toast('Không kết nối được mock API — tài khoản chỉ lưu tạm trên giao diện.', 'err', 'error');
@@ -211,17 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.toast(`Chuyển sang trang ${p.textContent}...`, 'info', 'swap_horiz');
   }));
 
-  /* ── INIT - tải người dùng từ mock API ── */
+  /* ── INIT - tải danh bạ người dùng từ mock API ── */
   async function load() {
-    if (window.MockAPI) {
-      try {
-        const data = await MockAPI.list('users');
-        if (Array.isArray(data)) { users = data; render(); return; }
-      } catch (err) {
-        console.warn('[MockAPI] users:', err.message);
-      }
+    if (!window.MockAPI) {
+      tbody.innerHTML = stateRow('error', 'Thiếu core/api.js nên chưa kết nối được mock API.');
+      return;
     }
-    apply();
+    tbody.innerHTML = stateRow('loading', 'Đang tải danh bạ người dùng...');
+    try {
+      const data = await MockAPI.list('accounts');
+      users = (Array.isArray(data) ? data : []).filter(u => u.role !== 'admin');
+      render();
+    } catch (err) {
+      users = null;
+      tbody.innerHTML = stateRow('error', err.message || 'Không tải được danh bạ người dùng.');
+      UI.toast('Không tải được danh bạ người dùng từ mock API.', 'err', 'cloud_off');
+    }
   }
 
   load();
