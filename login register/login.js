@@ -14,7 +14,7 @@
   const submitBtn = $('submit-btn'), btnIcon = $('btn-icon'), btnText = $('btn-text');
   const toastContainer = $('toast-container');
 
-  /* Tài khoản mẫu khớp mock-api/users.json */
+  /* Tài khoản mẫu khớp mock-api/seed.json (resource accounts) */
   const roleData = {
     owner:    { title: 'Chủ nuôi (Pet Owner)', subtitle: 'Đăng nhập để điều phối lịch hẹn, theo dõi sức khỏe và quản lý thú cưng của bạn.', email: 'owner@demo.com', password: 'demo123' },
     provider: { title: 'Dịch vụ Thú y & Spa (Provider)', subtitle: 'Truy cập cổng phòng khám & Spa để tiếp nhận lịch hẹn và phác đồ điều trị.', email: 'provider@demo.com', password: 'demo123' },

@@ -1,81 +1,58 @@
 /* =====================================================================
- * api.js – MOCK API dùng chung cho mọi trang
+ * api.js – MockAPI dùng chung cho các trang Trainer / Đăng nhập
  * ---------------------------------------------------------------------
- * - Dữ liệu gốc (seed) nằm cùng thư mục mock-api/*.json
- * - Lần đầu: fetch JSON -> chép vào localStorage. Các lần sau đọc/ghi localStorage
- *   (nên thêm/sửa/xóa vẫn còn sau khi tải lại trang).
- * - Mọi hàm đều trả về Promise và có độ trễ giả lập (DELAY) như API thật.
- * - Mở bằng file:// thì fetch bị chặn -> tự dùng mock-api/seed.js (bản sao của JSON).
- * - Demo trạng thái đặc biệt:  ?fail=1  (API lỗi)   |   ?empty=1  (API trả danh sách rỗng)
- * - Xóa dữ liệu đã lưu: PC.api.reset()  (gõ trong Console rồi tải lại trang)
+ * - Dữ liệu nằm trong mock-api/seed.json và được phục vụ qua REST /api/v1
+ *   (cần nạp core/api.js trước file này để có window.MockAPI).
+ * - users → accounts, pets → training-pets: hai bảng này tách khỏi danh bạ
+ *   quản trị để giữ đúng schema đăng nhập và giáo án.
+ * - Demo trạng thái:  ?fail=1 (API lỗi)  |  ?empty=1 (danh sách rỗng)
+ * - Khôi phục dữ liệu gốc: await PC.api.reset()  rồi tải lại trang.
  * ===================================================================== */
 (function () {
   const NS = 'pc_mock_v1:';
-  const DELAY = 350;
-  const FILES = {
-    users: 'users.json', pets: 'pets.json', trainingPlans: 'trainingPlans.json',
-    exercises: 'exercises.json', trainingLogs: 'trainingLogs.json', summaries: '', petHealth: '', chats: ''  /* không có file JSON: bắt đầu rỗng, chỉ lưu trong localStorage */
-  };
-  const SELF = document.currentScript ? document.currentScript.src : '';
-  const BASE = SELF.replace(/api\.js.*$/, '');
   const FAIL = /[?&]fail=1/.test(location.search);
   const EMPTY = /[?&]empty=1/.test(location.search);
+  const ALIAS = { users: 'accounts', pets: 'training-pets' };
+  const clone = (v) => (v == null ? v : JSON.parse(JSON.stringify(v)));
+  const res = (c) => ALIAS[c] || c;
 
-  const wait = (v) => new Promise((r) => setTimeout(() => r(v), DELAY));
-  const clone = (v) => JSON.parse(JSON.stringify(v));
-
-  function store(c, d) { try { localStorage.setItem(NS + c, JSON.stringify(d)); } catch (e) { /* bỏ qua */ } }
-
-  async function readSeed(c) {
-    try {
-      if (!FILES[c]) throw new Error('Không có file seed cho "' + c + '"');
-      const r = await fetch(BASE + FILES[c]);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return await r.json();
-    } catch (e) {
-      if (window.PC_SEED && window.PC_SEED[c]) return clone(window.PC_SEED[c]);
-      if (!FILES[c]) return [];
-      throw new Error('Không tải được dữ liệu "' + c + '"');
-    }
+  function client() {
+    if (!window.MockAPI) throw new Error('Thiếu core/api.js – chưa nạp được client MockAPI.');
+    return window.MockAPI;
   }
-  async function load(c) {
-    let raw = null;
-    try { raw = localStorage.getItem(NS + c); } catch (e) { /* bỏ qua */ }
-    if (raw) return JSON.parse(raw);
-    const d = await readSeed(c);
-    store(c, d);
-    return d;
+
+  async function call(fn) {
+    try { return await fn(); }
+    catch (e) {
+      if (e && e.name === 'AbortError') throw new Error('MockAPI không phản hồi kịp. Kiểm tra server rồi thử lại.');
+      if (e instanceof TypeError) throw new Error('Không kết nối được MockAPI. Hãy chạy start.bat (cổng 4000).');
+      throw e;
+    }
   }
 
   const api = {
     /** Lấy danh sách. filter: hàm (item) => boolean (tuỳ chọn) */
     async list(c, filter) {
-      if (FAIL) { await wait(); throw new Error('Máy chủ giả lập đang lỗi (đang bật ?fail=1)'); }
-      let d = await load(c);
+      if (FAIL) throw new Error('Máy chủ giả lập đang lỗi (đang bật ?fail=1)');
+      let d = await call(() => client().list(res(c)));
       if (EMPTY) d = [];
       if (filter) d = d.filter(filter);
-      return wait(clone(d));
+      return clone(d);
     },
-    async get(c, id) { const d = await load(c); return wait(clone(d.find((x) => x.id === id) || null)); },
-    async create(c, item) {
-      const d = await load(c);
-      item = Object.assign({ id: PC.uid(c.slice(0, 2).toUpperCase()) }, item);
-      d.push(item); store(c, d);
-      return wait(clone(item));
+    async get(c, id) {
+      try { return clone(await call(() => client().get(res(c), id))); }
+      catch (e) { if (/HTTP 404/.test(e.message)) return null; throw e; }
     },
-    async update(c, id, patch) {
-      const d = await load(c);
-      const it = d.find((x) => x.id === id);
-      if (!it) throw new Error('Không tìm thấy bản ghi ' + id);
-      Object.assign(it, patch); store(c, d);
-      return wait(clone(it));
-    },
-    async remove(c, id) {
-      const d = await load(c);
-      store(c, d.filter((x) => x.id !== id));
-      return wait({ ok: true });
-    },
-    reset() { Object.keys(FILES).forEach((c) => { try { localStorage.removeItem(NS + c); } catch (e) { /* bỏ qua */ } }); }
+    create: (c, item) => call(() => client().create(res(c), item)).then(clone),
+    /** PATCH để giữ nguyên các trường không gửi lên, đúng như API cũ */
+    update: (c, id, patch) => call(() => client().patch(res(c), id, patch)).then(clone),
+    async remove(c, id) { await call(() => client().remove(res(c), id)); return { ok: true }; },
+    async reset() {
+      const root = client().base.replace(/\/api\/v1\/?$/, '');
+      const r = await fetch(root + '/api/reset', { method: 'POST' });
+      if (!r.ok) throw new Error('Không khôi phục được dữ liệu gốc (HTTP ' + r.status + ').');
+      return r.json();
+    }
   };
 
   const PC = {
