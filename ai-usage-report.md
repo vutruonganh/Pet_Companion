@@ -1,0 +1,13 @@
+deepseek 
+
+gemini
+
+claude 
+
+chatgpt
+
+mimo
+
+qwen4 
+
+stitch ai 
