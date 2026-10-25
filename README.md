@@ -4,7 +4,7 @@ Hệ thống quản lý chăm sóc thú cưng — các cổng giao diện dùng 
 
 ## Chạy nhanh
 
-Nhấn đúp **`start.bat`** (tự dùng Node.js nếu có, không thì dùng Python), rồi mở http://localhost:4000/
+Nhấn đúp **`Chay-PetCompanion.bat`** (tự dùng Node.js nếu có, không thì dùng Python), rồi mở http://localhost:4000/
 
 Hoặc chạy thủ công:
 
