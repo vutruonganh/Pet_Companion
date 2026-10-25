@@ -483,5 +483,250 @@
         "apt"
       ]
     }
+  ],
+  "pets": [
+    {
+      "id": "1",
+      "owner": "Nguyễn Văn An",
+      "name": "Milo",
+      "species": "dog",
+      "speciesLabel": "Chó",
+      "breed": "Golden Retriever",
+      "sex": "Đực",
+      "sexIcon": "male",
+      "age": "3 tuổi",
+      "birth": "15/04/2021",
+      "weight": "28 kg",
+      "chip": "#VN-88219",
+      "status": "healthy",
+      "statusLabel": "Sức khỏe tốt",
+      "statusIcon": "check_circle",
+      "vaccine": "Dại & 7 bệnh (cách 2 tháng)",
+      "note": "",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuAMrp5f_BH4AixuJ3GzeiQNUc-5cLJym2SF873bu4V8UyD6zAeCT9wToBAH_1YDlWEC8k0gwXGqLjN2VVUT5JallB6Y18eiJsZLSf_gOI7DQhhdgqoQORjzcOhhclhXZo7BP9GEY0n2_FPsajxiw-HZZ-J7dDDzGcTQBkU4yzAakHzlzNmOLtfxePh7659m4VOlml-PHMu0LVBb4Y6_xewFjgzvwHw8g3xl787xqXRNdi857qfImrLU",
+      "cover": "https://lh3.googleusercontent.com/aida-public/AB6AXuAOA-tRsTmkZMZASuZxQtbfPs_w2POtJvpacMUo4fJREV-m3Wu9p87njjKpM2gYJokdkzbj4ypDyo1aKGbn-F1CZ_sT7oVCOhudMx8p7z_-YrbiNhno_LePoJjK1iQVeO7ogtK_-By9r8F5yu48fqnl-fJuz3eV-450zJU5KMH_71TdEAg1GgpcSfmgW86C-kAmy2ajkU9-bCM-txBeoX-WfIFgxp0Kc8zLm494f1BDs_vQjqHk8LSl"
+    },
+    {
+      "id": "2",
+      "owner": "Nguyễn Văn An",
+      "name": "Luna",
+      "species": "cat",
+      "speciesLabel": "Mèo",
+      "breed": "Mèo Anh lông ngắn",
+      "sex": "Cái",
+      "sexIcon": "female",
+      "age": "1.5 tuổi",
+      "birth": "10/10/2022",
+      "weight": "4.2 kg",
+      "chip": "#VN-93821",
+      "status": "needs-care",
+      "statusLabel": "Sắp đến lịch tiêm",
+      "statusIcon": "schedule",
+      "vaccine": "Mũi 4 nhắc lại 15/11/2026",
+      "note": "Cần tiêm nhắc vắc-xin mũi 4 vào 15/11 tới.",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuDbUgg315EEGQHcV9DPfDqjz3YwlYf_gEegkaS_DCAI2QT2MPJvWB6J-F6BQ7AAQ15DXQo38yQkSljVItuQZ6yGHiSBYLR5BetrVr_zr4pnitcjUJvpISVi9_E547ODNmlSHhfI-kuMWNM3QfCZ0sQS18w-VrXXF-1mdVkdAtB2zZ2uPvRSCDkNvpyibxJqO4E_uUsvVqpuhPkV6IpDEbrpcBOhjrpFBhE1TJ2ktid9nFYDiYfeQBUr",
+      "cover": "https://lh3.googleusercontent.com/aida-public/AB6AXuBCeWLoNOiIYccDdZeH41hqeKo02Du6KyUVGO3CEcS0gzZcNr2l3Sza3XUhyZB5u70Kb6mzEIAilWmmIzlnvVhTjl-wh388S3ICt51nyCAhtkAZCeR0sJN38QS74JjuqTOLi9MHzlKoD7T6M_vphD_BXIkULAifjKbLFxqeeuzCD2qNfXtHvy6WujoT0_yArHO1zIbJG1bPVzeWRxMlQbIWXij4jZQdxOI-1YTaqjUtRLGsIX6WihAX"
+    }
+  ],
+  "care-plans": [
+    {
+      "id": "1",
+      "code": "#PC-20261115-08",
+      "petId": "1",
+      "petName": "Milo",
+      "service": "Khám tổng quát & Tiêm nhắc vắc-xin dại",
+      "type": "medical",
+      "typeLabel": "Khám & Tiêm chủng",
+      "icon": "vaccines",
+      "date": "2026-11-15",
+      "time": "10:00",
+      "duration": "45 phút",
+      "location": "PetCare Clinic Quận 1",
+      "provider": "BS. Trần Văn Minh",
+      "status": "confirmed",
+      "statusLabel": "Đã xác nhận",
+      "note": "Mang theo sổ tiêm chủng của Milo."
+    },
+    {
+      "id": "2",
+      "code": "#PC-20261118-14",
+      "petId": "2",
+      "petName": "Luna",
+      "service": "Combo Spa cắt tỉa lông tạo hình & Tắm sấy",
+      "type": "spa",
+      "typeLabel": "Spa & Cắt tỉa",
+      "icon": "content_cut",
+      "date": "2026-11-18",
+      "time": "14:00",
+      "duration": "90 phút",
+      "location": "PetSpa Boutique Quận 3",
+      "provider": "Groomer Linh Dan",
+      "status": "pending",
+      "statusLabel": "Chờ xác nhận",
+      "note": ""
+    },
+    {
+      "id": "3",
+      "code": "#PC-20261206-09",
+      "petId": "2",
+      "petName": "Luna",
+      "service": "Tiêm nhắc vắc-xin mũi 4",
+      "type": "medical",
+      "typeLabel": "Khám & Tiêm chủng",
+      "icon": "vaccines",
+      "date": "2026-12-06",
+      "time": "09:30",
+      "duration": "30 phút",
+      "location": "PetCare Clinic Quận 1",
+      "provider": "BS. Hoàng Mai",
+      "status": "confirmed",
+      "statusLabel": "Đã xác nhận",
+      "note": ""
+    }
+  ],
+  "medical-records": [
+    {
+      "id": "1",
+      "code": "SR-2025-089",
+      "petId": "1",
+      "petName": "Milo",
+      "type": "vet",
+      "typeLabel": "Thú y & Xét nghiệm",
+      "service": "Khám tổng quát & Xét nghiệm máu",
+      "serviceSub": "Sinh hóa 12 chỉ số, soi ký sinh trùng máu",
+      "provider": "PetCare Clinic Q.1",
+      "doctor": "BS. Hoàng Mai (Chuyên khoa Nội)",
+      "date": "2025-10-12",
+      "time": "14:30 - 15:45",
+      "cost": 450000,
+      "status": "completed",
+      "statusLabel": "Hoàn thành",
+      "summary": "Khám Tổng quát, Xét nghiệm máu & Tẩy giun định kỳ - Bé Milo",
+      "diagnosis": "Thể trạng tốt, niêm mạc hồng hào, nhịp tim đều 88 bpm. Chỉ số bạch cầu bình thường. Phát hiện nhẹ dấu hiệu ngứa kẽ chân do dị ứng phấn hoa theo mùa, không có dấu hiệu nhiễm nấm kẽ sâu.",
+      "prescriptions": [
+        {
+          "name": "NexGard Spectra 15-30kg (Tẩy giun & Ký sinh)",
+          "note": "Viên nhai vị thịt bò hấp dẫn",
+          "dosage": "1 viên / duy nhất sau ăn sáng"
+        },
+        {
+          "name": "Dung dịch xịt sát khuẩn kẽ ngón Dermavet Spray",
+          "note": "Chiết xuất keo ong & Nano bạc",
+          "dosage": "Xịt 2 lần/ngày sau khi dạo bộ"
+        },
+        {
+          "name": "Omega-3 Mega Pet Dermacare (60 viên)",
+          "note": "Hỗ trợ làm dịu da và dưỡng mượt lông",
+          "dosage": "2 viên/ngày trộn cùng thức ăn hạt"
+        }
+      ],
+      "advice": "Sau khi Milo đi dạo trong công viên về, gia đình chú ý dùng khăn ấm lau khô các kẽ chân, tránh để ẩm ướt làm tái phát dị ứng. Nhắc lịch tiêm nhắc lại dại & 7 bệnh vào tháng 11/2026 tới.",
+      "files": [
+        {
+          "name": "Ket-Qua-Xet-Nghiem-Mau-Milo.pdf",
+          "meta": "PDF • 1.8 MB • Ký số bác sĩ",
+          "icon": "picture_as_pdf"
+        },
+        {
+          "name": "Hoa-Don-Dien-Tu-VAT-SR089.pdf",
+          "meta": "PDF • 420 KB • Thuế điện tử",
+          "icon": "receipt"
+        }
+      ],
+      "recheck": "12/11/2026"
+    },
+    {
+      "id": "2",
+      "code": "SR-2025-072",
+      "petId": "2",
+      "petName": "Luna",
+      "type": "spa",
+      "typeLabel": "Spa & Cắt tỉa",
+      "service": "Combo Spa Cắt tỉa lông tạo hình & Tắm sấy",
+      "serviceSub": "Vệ sinh tai, mài móng, dưỡng ẩm thảo mộc",
+      "provider": "PetSpa Boutique Q.3",
+      "doctor": "Groomer Linh Dan (Top Stylist)",
+      "date": "2025-09-28",
+      "time": "10:00 - 11:30",
+      "cost": 320000,
+      "status": "completed",
+      "statusLabel": "Hoàn thành",
+      "summary": "Biên bản dịch vụ Spa & Tạo kiểu lông - Bé Luna",
+      "diagnosis": "Da và lông khỏe, không kích ứng sau khi dùng sản phẩm dưỡng ẩm thảo mộc. Tai sạch, móng được mài gọn, bé hợp tác tốt trong suốt buổi dịch vụ.",
+      "prescriptions": [],
+      "advice": "Duy trì chải lông 2 lần/tuần để hạn chế rối và búi lông. Đặt lịch spa định kỳ 6 tuần/lần.",
+      "files": [
+        {
+          "name": "Album-Truoc-Sau-Luna.pdf",
+          "meta": "PDF • 4.2 MB • 6 ảnh trước/sau",
+          "icon": "photo_library"
+        }
+      ],
+      "recheck": "09/11/2026"
+    },
+    {
+      "id": "3",
+      "code": "SR-2025-055",
+      "petId": "1",
+      "petName": "Milo",
+      "type": "train",
+      "typeLabel": "Huấn luyện hành vi",
+      "service": "Huấn luyện vâng lời cơ bản (Khóa 5 buổi)",
+      "serviceSub": "Kiểm soát kéo dây, phản xạ gọi tên, giao tiếp chủ",
+      "provider": "Học viện K9 Companion",
+      "doctor": "HLV Quốc Huy (Huấn luyện viên trưởng)",
+      "date": "2025-08-15",
+      "time": "08:00 - 09:30",
+      "cost": 2500000,
+      "status": "completed",
+      "statusLabel": "Hoàn thành",
+      "summary": "Nhật ký huấn luyện vâng lời cơ bản - Bé Milo",
+      "diagnosis": "Milo đạt 10/10 phản xạ phục tùng tiêu chuẩn sau 5 buổi: ngồi, nằm, gọi tên, đi cạnh chủ và dừng khi có hiệu lệnh.",
+      "prescriptions": [],
+      "advice": "Duy trì luyện tập 10 phút/ngày. Buổi tiếp theo có thể chuyển sang khóa nâng cao về kiểm soát bản năng săn đuổi.",
+      "files": [
+        {
+          "name": "Nhat-Ky-Huan-Luyen-Milo.pdf",
+          "meta": "PDF • 900 KB • 5 buổi",
+          "icon": "menu_book"
+        }
+      ],
+      "recheck": ""
+    },
+    {
+      "id": "4",
+      "code": "SR-2024-118",
+      "petId": "2",
+      "petName": "Luna",
+      "type": "vet",
+      "typeLabel": "Thú y & Xét nghiệm",
+      "service": "Tiêm phòng 3 bệnh & Khám da liễu",
+      "serviceSub": "Vắc-xin tứ hợp, kiểm tra nấm da",
+      "provider": "PetCare Clinic Q.1",
+      "doctor": "BS. Hoàng Mai (Chuyên khoa Nội)",
+      "date": "2024-12-20",
+      "time": "09:00 - 10:00",
+      "cost": 380000,
+      "status": "completed",
+      "statusLabel": "Hoàn thành",
+      "summary": "Khám da liễu & Tiêm phòng 3 bệnh - Bé Luna",
+      "diagnosis": "Da lông khỏe, không phát hiện nấm da. Thể trạng đạt chuẩn, cân nặng 4.0 kg. Đã tiêm vắc-xin tứ hợp mũi 3.",
+      "prescriptions": [
+        {
+          "name": "Vắc-xin tứ hợp mũi 3",
+          "note": "Tiêm dưới da",
+          "dosage": "1 liều duy nhất"
+        }
+      ],
+      "advice": "Theo dõi phản ứng sau tiêm 48 giờ. Nhắc lịch tiêm mũi 4 sau 12 tháng.",
+      "files": [
+        {
+          "name": "Phieu-Tiem-Chung-Luna-2024.pdf",
+          "meta": "PDF • 310 KB • Ký số bác sĩ",
+          "icon": "picture_as_pdf"
+        }
+      ],
+      "recheck": "20/12/2025"
+    }
   ]
 }

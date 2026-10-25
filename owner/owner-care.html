@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch chăm sóc — PetCompanion (Chủ nuôi)</title>
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="owner.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body data-page="care">
+<main class="wrap">
+  <div class="page-head">
+    <div>
+      <span class="head-badge"><span class="material-symbols-outlined">calendar_month</span>Cổng chủ nuôi</span>
+      <h1>Lịch chăm sóc &amp; Lịch hẹn Thú cưng</h1>
+      <p class="page-sub">Theo dõi các đợt tiêm phòng, tẩy giun, spa tắm cắt tỉa và khám định kỳ. AI đề xuất lịch dựa trên tiền sử chăm sóc.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-primary" type="button" data-open="modalNewPlan">
+        <span class="material-symbols-outlined">add_circle</span>Tạo lịch nhắc / Đặt hẹn
+      </button>
+    </div>
+  </div>
+
+  <section class="ai-card" id="ai">
+    <div class="ai-card-head">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span class="ai-chip"><span class="material-symbols-outlined">neurology</span>AI Care Assistant v2.4</span>
+        <span style="font-size:11.5px;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:6px">
+          <span class="material-symbols-outlined" style="font-size:16px;color:var(--teal)">verified</span>Tính năng AI chuẩn đồ án CSE122
+        </span>
+      </div>
+      <span class="ai-live"><i></i>Đang học máy từ tiền sử tiêm chủng</span>
+    </div>
+
+    <div class="ai-split">
+      <div>
+        <div class="ai-panel">
+          <div class="ai-label">Hồ sơ đang phân tích</div>
+          <div class="ai-pet-pills" id="aiPets"></div>
+        </div>
+        <div class="ai-panel" style="margin-top:12px">
+          <div class="ai-label">Dịch vụ chăm sóc định kỳ</div>
+          <div class="ai-pet-pills" id="aiServices">
+            <button class="ai-pill active" type="button" data-service="deworm">Tẩy giun định kỳ</button>
+            <button class="ai-pill" type="button" data-service="vaccine">Tiêm phòng dại</button>
+          </div>
+          <div class="ai-label" style="margin:14px 0 4px">Lần dùng gần nhất</div>
+          <div style="font-size:13px;font-weight:700" id="aiLastUsed">—</div>
+        </div>
+      </div>
+
+      <div class="ai-panel" style="display:flex;flex-direction:column;justify-content:center">
+        <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-ink);margin-bottom:8px">
+          <span class="material-symbols-outlined" style="font-size:16px">auto_awesome</span>Đề xuất nhắc lịch từ hệ thống AI
+        </div>
+        <div class="ai-rec-main" id="aiRecMain">Đang phân tích hồ sơ...</div>
+        <div class="ai-reason">
+          <span class="material-symbols-outlined">psychology</span>
+          <span id="aiReason">—</span>
+        </div>
+        <div class="ai-actions">
+          <button class="btn btn-primary" type="button" id="btnAiAccept">
+            <span class="material-symbols-outlined">event_available</span>Chấp nhận &amp; lưu lịch
+          </button>
+          <button class="btn btn-ghost" type="button" id="btnAiModify">Chỉnh sửa</button>
+          <button class="btn btn-ghost" type="button" id="btnAiDismiss">Bỏ qua</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="care-layout">
+    <div>
+      <div class="timeline-head">
+        <div>
+          <h2>Lịch chăm sóc theo tháng</h2>
+          <div class="timeline-count" id="careCount">Đang tải...</div>
+        </div>
+        <div class="pill-tabs" id="careTabs">
+          <button class="pill-tab active" type="button" data-tab="all">Tất cả lịch</button>
+          <button class="pill-tab" type="button" data-tab="upcoming">Sắp tới</button>
+        </div>
+      </div>
+      <div class="plan-list" id="planList" aria-live="polite"></div>
+    </div>
+
+    <aside class="owner-aside">
+      <section class="card cal-card">
+        <div class="cal-head">
+          <h3 id="calLabel">Tháng</h3>
+          <div class="cal-nav">
+            <button type="button" id="calPrev" aria-label="Tháng trước"><span class="material-symbols-outlined" style="font-size:18px">chevron_left</span></button>
+            <button type="button" id="calNext" aria-label="Tháng sau"><span class="material-symbols-outlined" style="font-size:18px">chevron_right</span></button>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <div class="legend-item"><span class="legend-swatch" style="background:#0e7a68"></span>Khám &amp; Tiêm chủng</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#a21caf"></span>Spa &amp; Cắt tỉa lông</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#f59e0b"></span>Uống thuốc định kỳ</div>
+        </div>
+      </section>
+
+      <section class="side-card card">
+        <div class="side-head">
+          <span class="side-icon doc"><span class="material-symbols-outlined">support_agent</span></span>
+          <div>
+            <div class="side-title">Cần đổi lịch gấp?</div>
+            <div class="side-sub">Tổng đài hỗ trợ 24/7</div>
+          </div>
+        </div>
+        <p class="doc-text">Gọi hotline để dời lịch trong vòng 2 giờ trước ca hẹn, hoặc dùng nút “Hủy / Dời hẹn” trên từng thẻ lịch.</p>
+        <a class="hotline" href="tel:19008899">
+          <span style="display:inline-flex;align-items:center;gap:8px"><span class="material-symbols-outlined">call</span>Hotline</span>
+          <span>1900 8899</span>
+        </a>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<div class="modal-ov" id="modalNewPlan">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalNewPlanTitle">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modalNewPlanTitle"><span class="material-symbols-outlined">event_available</span>Tạo lịch chăm sóc mới</div>
+        <div class="card-sub">Lịch sẽ được lưu vào mock API và hiển thị trên lịch tháng.</div>
+      </div>
+      <button class="modal-x" type="button" data-close="modalNewPlan" aria-label="Đóng"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form class="modal-body" id="formNewPlan">
+      <div class="form-grid">
+        <div class="f-group">
+          <label class="f-label" for="planPet">Thú cưng *</label>
+          <select class="f-input" id="planPet" name="petId" required></select>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="planType">Loại dịch vụ *</label>
+          <select class="f-input" id="planType" name="type">
+            <option value="medical">Khám &amp; Tiêm chủng</option>
+            <option value="spa">Spa &amp; Cắt tỉa</option>
+            <option value="medication">Uống thuốc định kỳ</option>
+          </select>
+        </div>
+        <div class="f-group" style="grid-column:1/-1">
+          <label class="f-label" for="planService">Nội dung dịch vụ *</label>
+          <input class="f-input" id="planService" name="service" required placeholder="Ví dụ: Tiêm nhắc vắc-xin dại">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="planDate">Ngày *</label>
+          <input class="f-input" id="planDate" name="date" type="date" required>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="planTime">Giờ *</label>
+          <input class="f-input" id="planTime" name="time" type="time" required>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="planLocation">Địa điểm</label>
+          <input class="f-input" id="planLocation" name="location" placeholder="PetCare Clinic Quận 1">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="planProvider">Người phụ trách</label>
+          <input class="f-input" id="planProvider" name="provider" placeholder="BS. Trần Văn Minh">
+        </div>
+        <div class="f-group" style="grid-column:1/-1">
+          <label class="f-label" for="planNote">Ghi chú</label>
+          <input class="f-input" id="planNote" name="note" placeholder="Mang theo sổ tiêm chủng...">
+        </div>
+      </div>
+      <div class="modal-foot" style="padding:16px 0 0;border:0">
+        <button class="btn btn-ghost" type="button" data-close="modalNewPlan">Hủy</button>
+        <button class="btn btn-primary" type="submit"><span class="material-symbols-outlined">save</span>Lưu lịch</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../core/base.js"></script>
+<script src="../core/api.js"></script>
+<script src="owner-common.js"></script>
+<script src="owner-care.js"></script>
+</body>
+</html>

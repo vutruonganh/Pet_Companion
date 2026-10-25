@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hồ sơ thú cưng — PetCompanion (Chủ nuôi)</title>
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="owner.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body data-page="pets">
+<main class="wrap">
+  <div class="page-head">
+    <div>
+      <span class="head-badge"><span class="material-symbols-outlined">pets</span>Cổng chủ nuôi</span>
+      <h1>Hồ sơ Thú cưng của tôi</h1>
+      <p class="page-sub">Theo dõi sức khỏe, tiêm phòng và lịch trình của các bé cưng chuẩn y khoa. Dữ liệu đồng bộ với mock API.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-primary" type="button" data-open="modalAddPet">
+        <span class="material-symbols-outlined">add_circle</span>Thêm thú cưng mới
+      </button>
+    </div>
+  </div>
+
+  <section class="stats" aria-label="Thống kê tổng quan">
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-mint"><span class="material-symbols-outlined">pets</span></span><span class="chip chip-mint">Đang lưu trú</span></div>
+      <div class="ostat-label">Tổng thú cưng</div>
+      <div class="ostat-value" id="statPets">—</div>
+      <div class="ostat-sub">Hồ sơ đã xác minh với bệnh viện</div>
+    </div>
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-amber"><span class="material-symbols-outlined">event_upcoming</span></span><span class="chip chip-amber">7 ngày tới</span></div>
+      <div class="ostat-label">Lịch chăm sóc sắp tới</div>
+      <div class="ostat-value" id="statUpcoming">—</div>
+      <div class="ostat-sub">Tiêm phòng, spa và nhắc uống thuốc</div>
+    </div>
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-blue"><span class="material-symbols-outlined">verified_user</span></span><span class="chip chip-blue">Đồng bộ</span></div>
+      <div class="ostat-label">Hồ sơ y tế cập nhật</div>
+      <div class="ostat-value">100<small>%</small></div>
+      <div class="ostat-sub">Kết nối bệnh án điện tử PetCare</div>
+    </div>
+  </section>
+
+  <div class="owner-split">
+    <div>
+      <section class="card filter-card">
+        <label class="search-box">
+          <span class="material-symbols-outlined" style="font-size:20px">search</span>
+          <input id="petSearch" data-global-search placeholder="Tìm theo tên bé, giống, mã chip microchip..." aria-label="Tìm kiếm thú cưng">
+        </label>
+        <div class="pill-tabs" id="petFilters" role="group" aria-label="Bộ lọc thú cưng">
+          <button class="pill-tab active" type="button" data-filter="all">Tất cả</button>
+          <button class="pill-tab" type="button" data-filter="dog">Chó</button>
+          <button class="pill-tab" type="button" data-filter="cat">Mèo</button>
+          <button class="pill-tab" type="button" data-filter="healthy">Khỏe mạnh</button>
+          <button class="pill-tab" type="button" data-filter="needs-care">Cần tái khám</button>
+        </div>
+      </section>
+
+      <section class="pets-grid" id="petsGrid" aria-live="polite"></section>
+    </div>
+
+    <aside class="owner-aside">
+      <section class="side-card card">
+        <div class="side-head">
+          <span class="side-icon ai"><span class="material-symbols-outlined">auto_awesome</span></span>
+          <div>
+            <div class="side-title">AI Trợ lý Sức khỏe</div>
+            <div class="side-sub">Phân tích dinh dưỡng theo hồ sơ</div>
+          </div>
+        </div>
+        <p class="ai-quote">“AI đang theo dõi <strong id="aiPetNames">các bé</strong>: cân nặng đạt chuẩn. Đề xuất bổ sung <strong>Omega 3</strong> vào khẩu phần tuần này để lông luôn bóng mượt.”</p>
+        <div class="ai-foot">
+          <span class="ai-tag"><span class="material-symbols-outlined">psychology</span>PetCare AI Model</span>
+          <span style="font-size:11px;color:var(--soft)">Cập nhật 2 giờ trước</span>
+        </div>
+      </section>
+
+      <section class="side-card card">
+        <div class="side-head">
+          <span class="side-icon doc"><span class="material-symbols-outlined">local_hospital</span></span>
+          <div>
+            <div class="side-title">Bác sĩ phụ trách</div>
+            <div class="side-sub">Hỗ trợ &amp; cấp cứu 24/7</div>
+          </div>
+        </div>
+        <div class="doc-profile">
+          <div class="avatar-fb doc-avatar">TM</div>
+          <div>
+            <h4>BS. Trần Văn Minh</h4>
+            <p>Phòng khám PetCare Center</p>
+          </div>
+        </div>
+        <p class="doc-text">Bác sĩ theo dõi hồ sơ của các bé, sẵn sàng nhận cuộc gọi khẩn cấp khi thú cưng sốt hoặc bỏ ăn.</p>
+        <a class="hotline" href="tel:19008899">
+          <span style="display:inline-flex;align-items:center;gap:8px"><span class="material-symbols-outlined">call</span>Hotline cấp cứu</span>
+          <span>1900 8899</span>
+        </a>
+      </section>
+
+      <section class="side-card card" style="background:linear-gradient(180deg,#fff 0%,#f6fdfc 100%)">
+        <div class="mini-title">Lịch tiêm phòng PetCompanion <span class="material-symbols-outlined" style="font-size:18px">medical_services</span></div>
+        <p class="mini-text">Vắc-xin nhập khẩu, bảo quản theo tiêu chuẩn GSP. Nhắc lịch tự động trước 7 ngày.</p>
+        <div class="vax-bar"><i></i><i></i><i></i><i class="off"></i></div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<div class="modal-ov" id="modalAddPet">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalAddPetTitle">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modalAddPetTitle"><span class="material-symbols-outlined">pets</span>Thêm thú cưng mới</div>
+        <div class="card-sub">Hồ sơ được lưu vào mock API và hiển thị ngay trong danh sách.</div>
+      </div>
+      <button class="modal-x" type="button" data-close="modalAddPet" aria-label="Đóng"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form class="modal-body" id="formAddPet">
+      <div class="form-grid">
+        <div class="f-group">
+          <label class="f-label" for="petName">Tên bé *</label>
+          <input class="f-input" id="petName" name="name" required placeholder="Ví dụ: Bông">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petSpecies">Loài *</label>
+          <select class="f-input" id="petSpecies" name="species">
+            <option value="dog">Chó</option>
+            <option value="cat">Mèo</option>
+            <option value="other">Khác</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petBreed">Giống</label>
+          <input class="f-input" id="petBreed" name="breed" placeholder="Ví dụ: Poodle">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petSex">Giới tính</label>
+          <select class="f-input" id="petSex" name="sex">
+            <option value="Đực">Đực</option>
+            <option value="Cái">Cái</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petBirth">Ngày sinh</label>
+          <input class="f-input" id="petBirth" name="birth" type="date">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petWeight">Cân nặng (kg)</label>
+          <input class="f-input" id="petWeight" name="weight" type="number" min="0.1" step="0.1" placeholder="4.5">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petChip">Mã microchip</label>
+          <input class="f-input" id="petChip" name="chip" placeholder="VN-12345">
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="petStatus">Tình trạng</label>
+          <select class="f-input" id="petStatus" name="status">
+            <option value="healthy">Khỏe mạnh</option>
+            <option value="needs-care">Cần tái khám</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-foot" style="padding:16px 0 0;border:0">
+        <button class="btn btn-ghost" type="button" data-close="modalAddPet">Hủy</button>
+        <button class="btn btn-primary" type="submit"><span class="material-symbols-outlined">save</span>Lưu hồ sơ</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../core/base.js"></script>
+<script src="../core/api.js"></script>
+<script src="owner-common.js"></script>
+<script src="owner-pets.js"></script>
+</body>
+</html>

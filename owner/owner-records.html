@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch sử dịch vụ &amp; Bệnh án — PetCompanion (Chủ nuôi)</title>
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="owner.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body data-page="records">
+<main class="wrap">
+  <div class="page-head">
+    <div>
+      <span class="head-badge"><span class="material-symbols-outlined">receipt_long</span>Cổng chủ nuôi</span>
+      <h1>Lịch sử Dịch vụ &amp; Hồ sơ Bệnh án</h1>
+      <p class="page-sub">Toàn bộ hồ sơ khám chữa bệnh, hóa đơn và biên bản chăm sóc được lưu trữ đồng bộ theo chuẩn bệnh án điện tử.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn btn-outline" type="button" id="btnExportJson">
+        <span class="material-symbols-outlined">code</span>Xuất JSON
+      </button>
+      <button class="btn btn-primary" type="button" id="btnExportPdf">
+        <span class="material-symbols-outlined">picture_as_pdf</span>Xuất hóa đơn &amp; bệnh án
+      </button>
+    </div>
+  </div>
+
+  <section class="stats" aria-label="Thống kê dịch vụ">
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-mint"><span class="material-symbols-outlined">event_available</span></span><span class="chip chip-mint">Hoàn thành 100%</span></div>
+      <div class="ostat-label">Tổng số buổi dịch vụ</div>
+      <div class="ostat-value" id="statRecords">—</div>
+      <div class="ostat-sub">Đúng phác đồ y khoa</div>
+    </div>
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-amber"><span class="material-symbols-outlined">account_balance_wallet</span></span><span class="chip chip-amber">PetCare</span></div>
+      <div class="ostat-label">Chi phí tích lũy</div>
+      <div class="ostat-value" id="statCost">—</div>
+      <div class="ostat-sub">Đã gồm hóa đơn điện tử VAT</div>
+    </div>
+    <div class="scard ostat">
+      <div class="ostat-top"><span class="sq sq-blue"><span class="material-symbols-outlined">hotel_class</span></span><span class="chip chip-blue">12 feedback</span></div>
+      <div class="ostat-label">Đánh giá dịch vụ trung bình</div>
+      <div class="ostat-value">4.9 <small>/ 5.0</small></div>
+      <div class="ostat-sub">Dựa trên phản hồi đã xác thực</div>
+    </div>
+  </section>
+
+  <section class="card rec-toolbar">
+    <label class="search-box">
+      <span class="material-symbols-outlined" style="font-size:20px">search</span>
+      <input id="recSearch" data-global-search placeholder="Tìm theo mã phiếu (#SR-...), tên dịch vụ, bác sĩ..." aria-label="Tìm kiếm hồ sơ">
+    </label>
+    <select class="f-input" id="recPet" aria-label="Lọc theo thú cưng"></select>
+    <select class="f-input" id="recType" aria-label="Lọc theo loại dịch vụ">
+      <option value="all">Tất cả phân loại dịch vụ</option>
+      <option value="vet">Thú y &amp; Xét nghiệm</option>
+      <option value="spa">Spa &amp; Cắt tỉa</option>
+      <option value="train">Huấn luyện hành vi</option>
+    </select>
+    <select class="f-input" id="recPeriod" aria-label="Lọc theo thời gian">
+      <option value="all">Toàn bộ thời gian</option>
+      <option value="2025">Năm 2025</option>
+      <option value="2024">Năm 2024</option>
+    </select>
+  </section>
+
+  <section class="card">
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã phiếu</th>
+            <th>Thú cưng</th>
+            <th>Loại dịch vụ</th>
+            <th>Nhà cung cấp / Bác sĩ</th>
+            <th>Ngày thực hiện</th>
+            <th>Tổng chi phí</th>
+            <th>Trạng thái</th>
+            <th style="text-align:right">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card rec-detail" id="recordDetail" aria-live="polite"></section>
+</main>
+
+<script src="../core/base.js"></script>
+<script src="../core/api.js"></script>
+<script src="owner-common.js"></script>
+<script src="owner-records.js"></script>
+</body>
+</html>
