@@ -154,6 +154,7 @@
   const PAGE = (location.pathname.split('/').pop() || '').toLowerCase();
   const LOGIN_PAGE = '../login%20register/login.html';
   const HOME = {
+    owner: '../owner/owner-pets.html',
     trainer: '../Trainer/training-plans.html',
     admin: '../admin/dashboard.html',
     provider: '../provider/provider-appointment-list.html'
