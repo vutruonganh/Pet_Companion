@@ -1,6 +1,6 @@
 /* register.js – toàn bộ hành vi trang đăng ký, lấy từ bản Stitch
  * (chọn vai trò, hiện/ẩn mật khẩu, đo độ mạnh 4 mức, kiểm tra từng trường, trạng thái đang xử lý)
- * + ghi tài khoản mới vào users qua PC.api và chuyển về trang đăng nhập. */
+ * + ghi tài khoản mới vào accounts qua PC.api và chuyển về trang đăng nhập. */
 document.addEventListener('DOMContentLoaded', function () {
   const $ = (id) => document.getElementById(id);
   const show = (el, on) => { if (el) el.classList.toggle('visible', !!on); };
@@ -159,14 +159,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const email = emailInput.value.trim().toLowerCase();
     try {
-      const exist = await PC.api.list('users', (u) => String(u.email).toLowerCase() === email);
+      const exist = await PC.api.list('accounts', (u) => String(u.email).toLowerCase() === email);
       if (exist.length) throw new Error('Email này đã được đăng ký. Hãy đăng nhập hoặc dùng email khác.');
-      await PC.api.create('users', {
+      const phone = cleanPhone(phoneInput.value);
+      const authRole = document.querySelector('input[name="accountRole"]:checked').value;
+      const DIR = { owner: 'chu-nuoi', provider: 'bac-si', trainer: 'hlv' };
+      const META = {
+        'chu-nuoi': ['chip-blue', 'pets', 'Chủ nuôi'],
+        'bac-si': ['chip-mint', 'medical_services', 'Bác sĩ thú y / Đối tác'],
+        hlv: ['chip-amber', 'sports_score', 'Huấn luyện viên']
+      };
+      const dirRole = DIR[authRole] || 'chu-nuoi';
+      const [chip, roleIcon, roleLabel] = META[dirRole];
+      await PC.api.create('accounts', {
         name: nameInput.value.trim(),
         email,
         password: pwdInput.value,
-        phone: cleanPhone(phoneInput.value),
-        role: document.querySelector('input[name="accountRole"]:checked').value,
+        phone,
+        role: authRole,
+        dirRole,
+        uid: 'UID-VN' + phone.slice(-4),
+        roleLabel,
+        chip,
+        roleIcon,
+        petsLabel: '0 bé cưng',
+        petsIcon: 'cruelty_free',
+        joined: 'Hôm nay',
+        lastActive: 'Vừa đăng ký',
+        avatar: '',
+        avatarFallback: nameInput.value.trim().split(/\s+/).filter(Boolean).map((w) => w[0]).slice(-2).join('').toUpperCase(),
         status: 'active'
       });
       alertBox('success', 'check_circle', 'Đăng ký thành công! Đang chuyển bạn đến trang đăng nhập...');

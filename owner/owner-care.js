@@ -217,10 +217,28 @@
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
-    const data = await Promise.all([O.list('pets'), O.list('care-plans')]);
-    pets = data[0];
-    plans = data[1];
-    aiPetId = pets.length ? pets[0].id : null;
+    const owner = O.currentOwner();
+    let loadError = null;
+    try {
+      const data = await Promise.all([
+        O.list('pets', null, { throwOnError: true }),
+        O.list('care-plans', null, { throwOnError: true })
+      ]);
+      pets = (Array.isArray(data[0]) ? data[0] : []).filter(function (pet) {
+        return O.belongsToOwner(pet, owner);
+      });
+      const petIds = pets.map(function (pet) { return String(pet.id); });
+      plans = (Array.isArray(data[1]) ? data[1] : []).filter(function (plan) {
+        return petIds.indexOf(String(plan.petId)) !== -1;
+      });
+      aiPetId = pets.length ? pets[0].id : null;
+    } catch (error) {
+      console.error('[Owner] care', error);
+      loadError = error;
+      pets = [];
+      plans = [];
+      aiPetId = null;
+    }
 
     const upcoming = plans.slice()
       .filter(function (plan) { return plan.date >= O.todayISO() && plan.status !== 'cancelled'; })
@@ -230,6 +248,14 @@
     renderAiPets();
     renderAi();
     renderAll();
+
+    if (loadError) {
+      careCount.textContent = 'Không tải được lịch chăm sóc';
+      planList.innerHTML = '<div class="empty"><span class="material-symbols-outlined">cloud_off</span>' +
+        O.esc(loadError.message || 'Không tải được lịch chăm sóc.') +
+        '<button class="btn btn-outline" type="button" data-retry-care style="margin-top:12px">Thử lại</button></div>';
+      window.UI.toast(loadError.message || 'Không tải được lịch chăm sóc từ mock API.', 'err', 'cloud_off');
+    }
 
     aiPets.addEventListener('click', function (event) {
       const button = event.target.closest('[data-pet]');
@@ -330,6 +356,7 @@
     });
 
     planList.addEventListener('click', async function (event) {
+      if (event.target.closest('[data-retry-care]')) { window.location.reload(); return; }
       const button = event.target.closest('[data-action]');
       if (!button) return;
       const plan = plans.find(function (row) { return String(row.id) === String(button.dataset.id); });

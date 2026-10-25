@@ -3,8 +3,8 @@
  * ---------------------------------------------------------------------
  * - Dữ liệu nằm trong mock-api/seed.json và được phục vụ qua REST /api/v1
  *   (cần nạp core/api.js trước file này để có window.MockAPI).
- * - users → accounts, pets → training-pets: hai bảng này tách khỏi danh bạ
- *   quản trị để giữ đúng schema đăng nhập và giáo án.
+ * - Mọi vai trò đọc cùng một bộ bảng: accounts, pets, appointments...
+ *   Nhờ vậy thay đổi ở trang admin/provider/owner/trainer đều nhìn thấy nhau.
  * - Demo trạng thái:  ?fail=1 (API lỗi)  |  ?empty=1 (danh sách rỗng)
  * - Khôi phục dữ liệu gốc: await PC.api.reset()  rồi tải lại trang.
  * ===================================================================== */
@@ -12,9 +12,7 @@
   const NS = 'pc_mock_v1:';
   const FAIL = /[?&]fail=1/.test(location.search);
   const EMPTY = /[?&]empty=1/.test(location.search);
-  const ALIAS = { users: 'accounts', pets: 'training-pets' };
   const clone = (v) => (v == null ? v : JSON.parse(JSON.stringify(v)));
-  const res = (c) => ALIAS[c] || c;
 
   function client() {
     if (!window.MockAPI) throw new Error('Thiếu core/api.js – chưa nạp được client MockAPI.');
@@ -34,19 +32,19 @@
     /** Lấy danh sách. filter: hàm (item) => boolean (tuỳ chọn) */
     async list(c, filter) {
       if (FAIL) throw new Error('Máy chủ giả lập đang lỗi (đang bật ?fail=1)');
-      let d = await call(() => client().list(res(c)));
+      let d = await call(() => client().list(c));
       if (EMPTY) d = [];
       if (filter) d = d.filter(filter);
       return clone(d);
     },
     async get(c, id) {
-      try { return clone(await call(() => client().get(res(c), id))); }
+      try { return clone(await call(() => client().get(c, id))); }
       catch (e) { if (/HTTP 404/.test(e.message)) return null; throw e; }
     },
-    create: (c, item) => call(() => client().create(res(c), item)).then(clone),
+    create: (c, item) => call(() => client().create(c, item)).then(clone),
     /** PATCH để giữ nguyên các trường không gửi lên, đúng như API cũ */
-    update: (c, id, patch) => call(() => client().patch(res(c), id, patch)).then(clone),
-    async remove(c, id) { await call(() => client().remove(res(c), id)); return { ok: true }; },
+    update: (c, id, patch) => call(() => client().patch(c, id, patch)).then(clone),
+    async remove(c, id) { await call(() => client().remove(c, id)); return { ok: true }; },
     async reset() {
       const root = client().base.replace(/\/api\/v1\/?$/, '');
       const r = await fetch(root + '/api/reset', { method: 'POST' });

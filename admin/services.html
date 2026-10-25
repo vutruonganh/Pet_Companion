@@ -35,9 +35,9 @@
   </div>
 
   <section class="stats">
-    <div class="scard hstat"><span class="sq sq-mint"><span class="material-symbols-outlined">medical_services</span></span><div><div class="hstat-label">Tổng dịch vụ hoạt động</div><div class="hstat-value">24 <small>dịch vụ</small></div><div class="hstat-sub">3 nhóm ngành cốt lõi</div></div></div>
+    <div class="scard hstat"><span class="sq sq-mint"><span class="material-symbols-outlined">medical_services</span></span><div><div class="hstat-label">Tổng dịch vụ hoạt động</div><div class="hstat-value" id="statActive">— <small>dịch vụ</small></div><div class="hstat-sub">3 nhóm ngành cốt lõi</div></div></div>
     <div class="scard hstat"><span class="sq sq-blue"><span class="material-symbols-outlined">domain</span></span><div><div class="hstat-label">Cơ sở đối tác cung cấp</div><div class="hstat-value">48 <small>chi nhánh</small></div><div class="hstat-sub">Phòng khám &amp; Spa đối tác</div></div></div>
-    <div class="scard hstat"><span class="sq sq-amber"><span class="material-symbols-outlined">payments</span></span><div><div class="hstat-label">Giá trung bình phiên</div><div class="hstat-value">380.000 <small>đ</small></div><div class="hstat-sub ok">+4.2% so với quý trước</div></div></div>
+    <div class="scard hstat"><span class="sq sq-amber"><span class="material-symbols-outlined">payments</span></span><div><div class="hstat-label">Giá trung bình phiên</div><div class="hstat-value" id="statAvg">— <small>đ</small></div><div class="hstat-sub ok">+4.2% so với quý trước</div></div></div>
     <div class="scard hstat"><span class="sq sq-rose"><span class="material-symbols-outlined">reviews</span></span><div><div class="hstat-label">Đánh giá hài lòng dịch vụ</div><div class="hstat-value">4.88 <small>/ 5.0</small></div><div class="hstat-sub">Từ 12.450 lượt đánh giá</div></div></div>
   </section>
 
@@ -54,10 +54,10 @@
   <!-- Tabs + search -->
   <div class="filter-row">
     <div class="tabs" id="tabs">
-      <button class="tab on" data-cat="all">Tất cả <span class="tc">24</span></button>
-      <button class="tab" data-cat="y-te">Y tế &amp; Khám thú y <span class="tc">8</span></button>
-      <button class="tab" data-cat="spa">Spa &amp; Tắm cắt tỉa <span class="tc">10</span></button>
-      <button class="tab" data-cat="hl">Huấn luyện hành vi <span class="tc">6</span></button>
+      <button class="tab on" data-cat="all">Tất cả <span class="tc">—</span></button>
+      <button class="tab" data-cat="y-te">Y tế &amp; Khám thú y <span class="tc">—</span></button>
+      <button class="tab" data-cat="spa">Spa &amp; Tắm cắt tỉa <span class="tc">—</span></button>
+      <button class="tab" data-cat="hl">Huấn luyện hành vi <span class="tc">—</span></button>
     </div>
     <label class="s-search"><span class="material-symbols-outlined">search</span><input id="sSearch" placeholder="Tìm tên dịch vụ, mã SKU, phân loại..."></label>
   </div>
@@ -67,65 +67,10 @@
     <div class="tscroll">
     <table>
       <thead><tr><th>Tên dịch vụ &amp; Mã dịch vụ</th><th>Phân loại</th><th>Thời lượng</th><th>Giá niêm yết</th><th>Đối tác áp dụng</th><th>Trạng thái</th><th style="text-align:right">Thao tác</th></tr></thead>
-      <tbody id="sBody">
-        <tr data-cat="y-te" data-key="khám tổng quát xét nghiệm máu med-gen-01">
-          <td><div class="s-cell"><span class="sq sq-mint"><span class="material-symbols-outlined">clinical_notes</span></span><div><div class="cell-main">Khám tổng quát &amp; Xét nghiệm máu</div><div class="cell-sub">SKU: MED-GEN-01 • Checklist BTL-35 Tiêu chuẩn</div></div></div></td>
-          <td><span class="chip chip-mint">Y tế Thú y</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>45 phút</span></td>
-          <td class="price">450.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">local_hospital</span>18 đối tác</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="MED-GEN-01"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="MED-GEN-01" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="MED-GEN-01" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-        <tr data-cat="y-te" data-key="tiêm phòng vắc xin 7 bệnh dại med-vac-07">
-          <td><div class="s-cell"><span class="sq sq-mint"><span class="material-symbols-outlined">vaccines</span></span><div><div class="cell-main">Tiêm phòng vắc-xin 7 bệnh &amp; Dại</div><div class="cell-sub">SKU: MED-VAC-07 • Kèm sổ tiêm số hóa QR</div></div></div></td>
-          <td><span class="chip chip-mint">Y tế Thú y</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>30 phút</span></td>
-          <td class="price">250.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">local_hospital</span>24 đối tác</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="MED-VAC-07"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="MED-VAC-07" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="MED-VAC-07" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-        <tr data-cat="spa" data-key="combo spa tắm dưỡng cắt tỉa tạo hình spa-full-02">
-          <td><div class="s-cell"><span class="sq sq-pink"><span class="material-symbols-outlined">content_cut</span></span><div><div class="cell-main">Combo Spa Tắm dưỡng &amp; Cắt tỉa tạo hình</div><div class="cell-sub">SKU: SPA-FULL-02 • Liệu trình sấy bồng Nano</div></div></div></td>
-          <td><span class="chip chip-pink">Spa Grooming</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>90 phút</span></td>
-          <td class="price">320.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">storefront</span>15 đối tác</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="SPA-FULL-02"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="SPA-FULL-02" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="SPA-FULL-02" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-        <tr data-cat="spa" data-key="vệ sinh tai mài móng vắt tuyến hôi spa-basic-04">
-          <td><div class="s-cell"><span class="sq sq-pink"><span class="material-symbols-outlined">shower</span></span><div><div class="cell-main">Vệ sinh tai, mài móng &amp; Vắt tuyến hôi</div><div class="cell-sub">SKU: SPA-BASIC-04 • Khử khuẩn tia cực tím</div></div></div></td>
-          <td><span class="chip chip-pink">Spa Grooming</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">schedule</span>30 phút</span></td>
-          <td class="price">120.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">storefront</span>20 đối tác</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="SPA-BASIC-04"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="SPA-BASIC-04" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="SPA-BASIC-04" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-        <tr data-cat="hl" data-key="huấn luyện vâng lời thói quen vệ sinh trn-obed-01">
-          <td><div class="s-cell"><span class="sq sq-amber"><span class="material-symbols-outlined">sports_score</span></span><div><div class="cell-main">Huấn luyện vâng lời &amp; Thói quen vệ sinh</div><div class="cell-sub">SKU: TRN-OBED-01 • Chương trình phản xạ tích cực</div></div></div></td>
-          <td><span class="chip chip-amber">Huấn luyện</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">event_repeat</span>Khóa 8 buổi</span></td>
-          <td class="price">2.500.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">military_tech</span>8 HLV</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" checked data-sku="TRN-OBED-01"><i></i></label><b class="st-on">Đang cung ứng</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="TRN-OBED-01" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="TRN-OBED-01" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-        <tr data-cat="hl" data-key="sửa tật sủa đêm hung dữ quá mức trn-behav-03">
-          <td><div class="s-cell"><span class="sq sq-amber"><span class="material-symbols-outlined">psychology</span></span><div><div class="cell-main">Sửa tật sủa đêm &amp; Hung dữ quá mức</div><div class="cell-sub">SKU: TRN-BEHAV-03 • Đánh giá tâm lý thú cưng AI</div></div></div></td>
-          <td><span class="chip chip-amber">Huấn luyện</span></td>
-          <td><span class="dur"><span class="material-symbols-outlined">event_repeat</span>Khóa 10 buổi</span></td>
-          <td class="price">3.200.000 đ</td>
-          <td><span class="chip chip-gray"><span class="material-symbols-outlined">military_tech</span>5 HLV</span></td>
-          <td><span class="st-cell"><label class="switch"><input type="checkbox" data-sku="TRN-BEHAV-03"><i></i></label><b class="st-off">Tạm dừng nhận</b></span></td>
-          <td class="acts"><button class="icon-act" data-open="modalChecklist" title="AI Checklist"><span class="material-symbols-outlined">auto_awesome</span></button><button class="icon-act" data-edit="TRN-BEHAV-03" title="Sửa"><span class="material-symbols-outlined">edit</span></button><button class="icon-act" data-hide="TRN-BEHAV-03" title="Ẩn"><span class="material-symbols-outlined">visibility_off</span></button></td>
-        </tr>
-      </tbody>
+      <tbody id="sBody"></tbody>
     </table>
     </div>
-    <div class="table-foot"><span id="sCount">Hiển thị 6 / 24 dịch vụ khả dụng</span>
+    <div class="table-foot"><span id="sCount">Đang tải dịch vụ...</span>
       <div class="pager"><button class="pg" disabled><span class="material-symbols-outlined" style="font-size:18px">chevron_left</span></button><button class="pg on">1</button><button class="pg">2</button><button class="pg">3</button><button class="pg"><span class="material-symbols-outlined" style="font-size:18px">chevron_right</span></button></div>
     </div>
   </section>

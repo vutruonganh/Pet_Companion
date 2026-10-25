@@ -105,56 +105,15 @@
             <div class="card-title"><span class="material-symbols-outlined" style="color:var(--amber)">notification_important</span>Ca hẹn dịch vụ cần phê duyệt gấp</div>
             <div class="card-sub">Ưu tiên xử lý các yêu cầu khám chuyên khoa và can thiệp khẩn cấp trong vòng 15 phút.</div>
           </div>
-          <span class="chip chip-rose">3 ca chờ duyệt</span>
+          <span class="chip chip-rose" id="dashPendingCount">Đang tải...</span>
         </div>
         <div class="tscroll">
         <table>
           <thead><tr><th>Mã hẹn</th><th>Khách hàng</th><th>Thú cưng</th><th>Dịch vụ</th><th>Đối tác</th><th>Thời gian</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-          <tbody id="dashAptBody">
-            <tr>
-              <td class="code">#PET-1049</td>
-              <td><div class="cell-main">Trần Minh Anh</div><div class="cell-sub">0912.443.xxx</div></td>
-              <td><span class="pet"><span class="material-symbols-outlined">pets</span>Miu Miu (Mèo Anh)</span></td>
-              <td><span class="chip chip-rose">Cấp cứu hô hấp</span></td>
-              <td>Bệnh viện PetCare Q.7</td>
-              <td><div class="cell-main">10:30 Hôm nay</div><div class="cell-sub" style="color:var(--rose)">Ưu tiên số 1</div></td>
-              <td><span class="badge badge-amber"><i></i>Chờ duyệt</span></td>
-              <td class="acts"><button class="icon-act ok" data-approve="1049" title="Duyệt"><span class="material-symbols-outlined">check_circle</span></button><button class="icon-act no" data-cancel="1049" title="Hủy"><span class="material-symbols-outlined">cancel</span></button><button class="icon-act" data-apt="1049" title="Chi tiết"><span class="material-symbols-outlined">visibility</span></button></td>
-            </tr>
-            <tr>
-              <td class="code">#PET-1048</td>
-              <td><div class="cell-main">Lê Hoàng Yến</div><div class="cell-sub">0988.129.xxx</div></td>
-              <td><span class="pet"><span class="material-symbols-outlined">pets</span>Rocky (Corgi)</span></td>
-              <td><span class="chip chip-lav">Spa &amp; Grooming</span></td>
-              <td>PawPaws Boutique Spa</td>
-              <td><div class="cell-main">11:15 Hôm nay</div><div class="cell-sub">Đã check-in</div></td>
-              <td><span class="badge badge-mint"><i></i>Đang xử lý</span></td>
-              <td class="acts"><button class="icon-act ok" data-approve="1048" title="Xác nhận"><span class="material-symbols-outlined">check</span></button><button class="icon-act" data-apt="1048" title="Chi tiết"><span class="material-symbols-outlined">visibility</span></button></td>
-            </tr>
-            <tr>
-              <td class="code">#PET-1047</td>
-              <td><div class="cell-main">Nguyễn Quốc Thái</div><div class="cell-sub">0903.882.xx x</div></td>
-              <td><span class="pet"><span class="material-symbols-outlined">pets</span>Simba (Golden)</span></td>
-              <td><span class="chip chip-lav">Huấn luyện cơ bản</span></td>
-              <td>HLV Trọng Nghĩa</td>
-              <td><div class="cell-main">14:00 Chiều nay</div><div class="cell-sub">Gói 12 buổi</div></td>
-              <td><span class="badge badge-amber"><i></i>Chờ duyệt</span></td>
-              <td class="acts"><button class="icon-act ok" data-approve="1047" title="Duyệt"><span class="material-symbols-outlined">check_circle</span></button><button class="icon-act no" data-cancel="1047" title="Hủy"><span class="material-symbols-outlined">cancel</span></button><button class="icon-act" data-apt="1047" title="Chi tiết"><span class="material-symbols-outlined">visibility</span></button></td>
-            </tr>
-            <tr>
-              <td class="code">#PET-1046</td>
-              <td><div class="cell-main">Đỗ Thùy Trang</div><div class="cell-sub">0934.771.xxx</div></td>
-              <td><span class="pet"><span class="material-symbols-outlined">pets</span>Bông (Poodle)</span></td>
-              <td><span class="chip chip-lav">Tiêm ngừa dại</span></td>
-              <td>Phòng khám Vets&amp;Friends</td>
-              <td><div class="cell-main">15:30 Chiều nay</div><div class="cell-sub" style="color:var(--teal-dark)">Bác sĩ xác nhận</div></td>
-              <td><span class="badge badge-mint"><i></i>Đã duyệt</span></td>
-              <td class="acts"><button class="icon-act" data-apt="1046" title="Chi tiết"><span class="material-symbols-outlined">visibility</span></button></td>
-            </tr>
-          </tbody>
+          <tbody id="dashAptBody"></tbody>
         </table>
         </div>
-        <div class="table-foot"><span>Hiển thị 4 trên 48 ca hẹn gần nhất</span><a class="link-more" href="#">Xem toàn bộ ca hẹn <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></a></div>
+        <div class="table-foot"><span id="dashFoot">Đang tải ca hẹn...</span><a class="link-more" href="#">Xem toàn bộ ca hẹn <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></a></div>
       </section>
     </div>
 

@@ -121,7 +121,11 @@
   }
 
   async function reloadPets() {
-    pets = await O.list('pets');
+    const owner = O.currentOwner();
+    const rows = await O.list('pets');
+    pets = (Array.isArray(rows) ? rows : []).filter(function (pet) {
+      return O.belongsToOwner(pet, owner);
+    });
     render();
     updateStats();
   }
@@ -134,13 +138,37 @@
     const initialQuery = O.queryParam('q');
     if (initialQuery) search.value = initialQuery;
 
-    const data = await Promise.all([O.list('pets'), O.list('care-plans')]);
-    pets = data[0];
-    plans = data[1];
-    render();
-    updateStats();
+    const owner = O.currentOwner();
+    try {
+      const data = await Promise.all([
+        O.list('pets', null, { throwOnError: true }),
+        O.list('care-plans', null, { throwOnError: true })
+      ]);
+      pets = (Array.isArray(data[0]) ? data[0] : []).filter(function (pet) {
+        return O.belongsToOwner(pet, owner);
+      });
+      const petIds = pets.map(function (pet) { return String(pet.id); });
+      plans = (Array.isArray(data[1]) ? data[1] : []).filter(function (plan) {
+        return petIds.indexOf(String(plan.petId)) !== -1;
+      });
+      render();
+      updateStats();
+    } catch (error) {
+      console.error('[Owner] pets', error);
+      pets = [];
+      plans = [];
+      updateStats();
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="material-symbols-outlined">cloud_off</span>' +
+        O.esc(error.message || 'Không tải được hồ sơ thú cưng.') +
+        '<button class="btn btn-outline" type="button" data-retry-pets style="margin-top:12px">Thử lại</button></div>';
+      window.UI.toast(error.message || 'Không tải được hồ sơ thú cưng từ mock API.', 'err', 'cloud_off');
+    }
 
     search.addEventListener('input', render);
+
+    grid.addEventListener('click', function (event) {
+      if (event.target.closest('[data-retry-pets]')) window.location.reload();
+    });
 
     filters.addEventListener('click', function (event) {
       const button = event.target.closest('.pill-tab');
@@ -171,8 +199,10 @@
       const chip = String(data.get('chip') || '').trim();
       const status = String(data.get('status') || 'healthy');
 
+      const owner = O.currentOwner();
       const payload = {
-        owner: 'Nguyễn Văn An',
+        owner: owner.name,
+        ownerEmail: owner.email,
         name: name,
         species: species,
         speciesLabel: SPECIES_LABEL[species] || 'Khác',

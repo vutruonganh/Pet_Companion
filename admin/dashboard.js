@@ -3,12 +3,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const BADGES = {
     pending: ['badge-amber', 'Chờ duyệt'],
+    urgent: ['badge-amber', 'Chờ duyệt'],
     processing: ['badge-mint', 'Đang xử lý'],
+    'in-progress': ['badge-mint', 'Đang xử lý'],
     approved: ['badge-mint', 'Đã duyệt'],
+    completed: ['badge-mint', 'Hoàn thành'],
     cancelled: ['badge-rose', 'Đã hủy']
   };
+  const PENDING = ['pending', 'urgent', 'processing', 'in-progress'];
 
   let appointments = [];
+
+  function stateRow(kind, msg) {
+    const isError = kind === 'error';
+    return `<tr><td colspan="8"><div style="padding:28px;text-align:center;color:${isError ? 'var(--rose)' : 'var(--text-gray)'}">
+      <span class="material-symbols-outlined" style="font-size:30px">${isError ? 'error' : 'progress_activity'}</span>
+      <div style="margin:6px 0 10px">${esc(msg)}</div>
+      ${isError ? '<button class="btn btn-outline" data-retry>Thử lại</button>' : ''}
+    </div></td></tr>`;
+  }
+
+  function fromAppointment(apt) {
+    return {
+      id: apt.id,
+      code: apt.code,
+      customer: apt.owner || apt.customer || '',
+      phone: apt.phone || '',
+      pet: apt.pet || '',
+      service: apt.service || '',
+      serviceChip: apt.serviceChip || 'chip-lav',
+      partner: apt.partner || apt.room || 'PetCompanion',
+      time: apt.time || '',
+      timeSub: apt.timeSub || '',
+      timeSubColor: apt.timeSubColor || '',
+      status: apt.status || 'pending',
+      actions: PENDING.includes(apt.status) ? ['approve', 'cancel', 'apt'] : ['apt']
+    };
+  }
 
   function actionButtons(apt) {
     return (apt.actions || []).map(action => {
@@ -41,10 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function render() {
     tbody.innerHTML = appointments.map(renderRow).join('');
+    updateCounts();
   }
 
-  /* Chi tiết ca hẹn */
+  function updateCounts() {
+    const pending = appointments.filter(a => PENDING.includes(a.status)).length;
+    const chip = document.getElementById('dashPendingCount');
+    if (chip) chip.textContent = `${pending} ca chờ duyệt`;
+    const foot = document.getElementById('dashFoot');
+    if (foot) foot.textContent = `Hiển thị ${appointments.length} ca hẹn gần nhất`;
+  }
+
   tbody.addEventListener('click', e => {
+    if (e.target.closest('[data-retry]')) { load(); return; }
     const viewBtn = e.target.closest('[data-apt]');
     if (viewBtn) {
       const apt = appointments.find(a => String(a.id) === viewBtn.dataset.apt);
@@ -70,10 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const apt = appointments.find(a => String(a.id) === approveBtn.dataset.approve);
       if (!apt) return;
       apt.status = 'approved';
+      apt.timeSub = 'Quản trị viên đã duyệt';
+      apt.timeSubColor = 'var(--teal-dark)';
       render();
       UI.toast(`Đã duyệt ca hẹn ${apt.code}.`, 'ok', 'check_circle');
       if (window.MockAPI) {
-        MockAPI.patch('dashboard-appointments', apt.id, { status: 'approved' })
+        MockAPI.patch('appointments', apt.id, {
+          status: 'approved',
+          statusText: 'Đã duyệt – chờ tiếp nhận',
+          action: 'receive',
+          timeSub: 'Quản trị viên đã duyệt',
+          timeSubColor: 'var(--teal-dark)'
+        })
           .catch(err => {
             console.warn('[MockAPI]', err.message);
             UI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'err', 'error');
@@ -89,10 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!apt) return;
       if (!confirm(`Hủy ca hẹn ${apt.code}?`)) return;
       apt.status = 'cancelled';
+      apt.timeSub = 'Đã hủy';
+      apt.timeSubColor = 'var(--rose)';
       render();
       UI.toast(`Đã hủy ca hẹn ${apt.code}.`, 'err', 'cancel');
       if (window.MockAPI) {
-        MockAPI.patch('dashboard-appointments', apt.id, { status: 'cancelled' })
+        MockAPI.patch('appointments', apt.id, {
+          status: 'cancelled',
+          statusText: 'Đã hủy bởi quản trị viên',
+          action: '',
+          timeSub: 'Đã hủy',
+          timeSubColor: 'var(--rose)'
+        })
           .catch(err => {
             console.warn('[MockAPI]', err.message);
             UI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'err', 'error');
@@ -106,57 +162,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnPdf').addEventListener('click', () => UI.toast('Đang tạo báo cáo PDF / Excel...', 'info', 'picture_as_pdf'));
   document.getElementById('btnBroadcast').addEventListener('click', () => { UI.close('modalBroadcast'); UI.toast('Đã phát thông báo tới toàn hệ thống.', 'ok', 'campaign'); });
 
-  /* INIT - tải ca hẹn từ mock API */
+  /* INIT - tải ca hẹn dùng chung với cổng provider */
   async function load() {
-    if (window.MockAPI) {
-      try {
-        const data = await MockAPI.list('dashboard-appointments');
-        if (Array.isArray(data) && data.length) {
-          appointments = data;
-          render();
-          return;
-        }
-      } catch (err) {
-        console.warn('[MockAPI] dashboard-appointments:', err.message);
-      }
+    if (!window.MockAPI) {
+      tbody.innerHTML = stateRow('error', 'Thiếu core/api.js nên chưa kết nối được mock API.');
+      return;
     }
-    /* Fallback: đọc dữ liệu tĩnh đang có trên trang */
-    appointments = [...tbody.querySelectorAll('tr')].map(row => {
-      const code = row.querySelector('.code').textContent.trim();
-      const id = code.replace('#PET-', '');
-      const cells = row.cells;
-      const chip = row.querySelector('.chip');
-      return {
-        id,
-        code,
-        customer: cells[1].querySelector('.cell-main').textContent.trim(),
-        phone: cells[1].querySelector('.cell-sub').textContent.trim(),
-        pet: row.querySelector('.pet').textContent.trim(),
-        service: chip.textContent.trim(),
-        serviceChip: [...chip.classList].find(c => c.startsWith('chip-')),
-        partner: cells[4].textContent.trim(),
-        time: cells[5].querySelector('.cell-main').textContent.trim(),
-        timeSub: cells[5].querySelector('.cell-sub').textContent.trim(),
-        timeSubColor: '',
-        status: row.querySelector('.badge').textContent.includes('Đã duyệt') ? 'approved' : 'pending',
-        actions: [...row.querySelectorAll('[data-approve],[data-cancel],[data-apt]')].map(b =>
-          b.dataset.approve ? 'approve' : b.dataset.cancel ? 'cancel' : 'apt')
-      };
-    });
-    /* Modal fallback dùng dữ liệu từ các nút đang có */
-    const APTS = {
-      1049: { kh: 'Trần Minh Anh', pet: 'Miu Miu (Mèo Anh)', dv: 'Cấp cứu hô hấp', dt: 'Bệnh viện PetCare Q.7', tg: '10:30 Hôm nay', tt: 'Chờ duyệt' },
-      1048: { kh: 'Lê Hoàng Yến', pet: 'Rocky (Corgi)', dv: 'Spa & Grooming', dt: 'PawPaws Boutique Spa', tg: '11:15 Hôm nay', tt: 'Đang xử lý' },
-      1047: { kh: 'Nguyễn Quốc Thái', pet: 'Simba (Golden)', dv: 'Huấn luyện cơ bản', dt: 'HLV Trọng Nghĩa', tg: '14:00 Chiều nay', tt: 'Chờ duyệt' },
-      1046: { kh: 'Đỗ Thùy Trang', pet: 'Bông (Poodle)', dv: 'Tiêm ngừa dại', dt: 'Phòng khám Vets&Friends', tg: '15:30 Chiều nay', tt: 'Đã duyệt' }
-    };
-    appointments = appointments.map(apt => {
-      const legacy = APTS[apt.id];
-      return legacy ? {
-        ...apt,
-        customer: legacy.kh, pet: legacy.pet, service: legacy.dv, partner: legacy.dt, time: legacy.tg
-      } : apt;
-    });
+    tbody.innerHTML = stateRow('loading', 'Đang tải danh sách ca hẹn...');
+    try {
+      const data = await MockAPI.list('appointments');
+      appointments = (Array.isArray(data) ? data : []).map(fromAppointment);
+      render();
+    } catch (err) {
+      appointments = [];
+      tbody.innerHTML = stateRow('error', err.message || 'Không tải được danh sách ca hẹn.');
+      UI.toast('Không tải được ca hẹn từ mock API.', 'err', 'cloud_off');
+    }
   }
 
   load();

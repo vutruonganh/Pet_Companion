@@ -23,6 +23,14 @@
       if (!res.ok) throw new Error(`${opts.method || 'GET'} ${path} → HTTP ${res.status}`);
       if (res.status === 204) return null;
       return await res.json();
+    } catch (err) {
+      if (err && err.name === 'AbortError') {
+        throw new Error('Máy chủ mock API không phản hồi kịp (quá 6 giây). Hãy kiểm tra server rồi thử lại.');
+      }
+      if (err instanceof TypeError) {
+        throw new Error('Không kết nối được mock API. Hãy chạy start.bat (cổng 4000) rồi thử lại.');
+      }
+      throw err;
     } finally {
       clearTimeout(timer);
     }

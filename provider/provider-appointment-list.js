@@ -6,100 +6,73 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // ==========================================
-  // 1. DATA - Dữ liệu ca hẹn (fallback khi không có API)
+  // 1. DATA - Ca hẹn dùng chung bảng appointments
   // ==========================================
-  const FALLBACK_APPOINTMENTS = [
-    {
-      id: '1',
-      code: '#APT-1049',
-      pet: 'Miu Miu (Mèo Anh)',
-      owner: 'Trần Minh Anh',
-      phone: '0912.443.xxx',
-      service: 'Cấp cứu hô hấp khẩn',
-      time: '10:30 Hôm nay',
-      room: 'Phòng Khám 01 (BS. Mai)',
-      status: 'urgent',
-      statusText: '⚠️ CẤP CỨU',
-      action: 'receive',
-      img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
-    },
-    {
-      id: '2',
-      code: '#APT-1048',
-      pet: 'Milo (Golden Retriever)',
-      owner: 'Nguyễn Văn An',
-      phone: '0912.345.xxx',
-      service: 'Khám tổng quát & Tẩy giun',
-      time: '08:30 (Đã check-in)',
-      room: 'Phòng Khám 01 (BS. Mai)',
-      status: 'in-progress',
-      statusText: 'Đang khám lâm sàng',
-      action: 'note',
-      img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
-    },
-    {
-      id: '3',
-      code: '#APT-1047',
-      pet: 'Luna (Mèo Anh lông ngắn)',
-      owner: 'Trần Bảo Minh',
-      phone: '0988.223.xxx',
-      service: 'Spa tắm dưỡng thảo mộc',
-      time: '09:30',
-      room: 'Khu Spa (KTV. Linh Đan)',
-      status: 'in-progress',
-      statusText: 'Đang sấy & chải lông',
-      action: 'photo',
-      img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
-    },
-    {
-      id: '4',
-      code: '#APT-1046',
-      pet: 'Bông (Poodle trắng)',
-      owner: 'Đỗ Thùy Trang',
-      phone: '0934.771.xxx',
-      service: 'Tiêm phòng dại & 7 bệnh',
-      time: '14:00 Chiều nay',
-      room: 'Phòng Tiêm chủng (BS. Minh)',
-      status: 'pending',
-      statusText: 'Chờ khách tới',
-      action: 'sms',
-      img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
-    }
-  ];
-
-  let appointments = FALLBACK_APPOINTMENTS;
+  let appointments = [];
 
   const tbody = document.querySelector('.custom-table tbody');
   const searchInput = document.querySelector('.search-input');
   const statusFilter = document.querySelectorAll('.filter-select')[0];
   const serviceFilter = document.querySelectorAll('.filter-select')[1];
   const totalLabel = document.getElementById('totalCount');
+  const PLACEHOLDER = 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg';
+
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function stateRow(kind, msg) {
+    const isError = kind === 'error';
+    return `<tr><td colspan="7" style="padding:26px;text-align:center;color:${isError ? 'var(--rose)' : 'var(--muted)'}">
+      <span class="material-symbols-outlined" style="font-size:30px">${isError ? 'error' : kind === 'empty' ? 'inbox' : 'progress_activity'}</span>
+      <div style="margin:6px 0 10px">${esc(msg)}</div>
+      ${isError ? '<button class="btn btn-primary btn-sm" data-retry>Thử lại</button>' : ''}
+    </td></tr>`;
+  }
+
+  function showState(kind, msg) {
+    tbody.innerHTML = stateRow(kind, msg);
+    totalLabel.textContent = kind === 'error' ? 'Không tải được dữ liệu' : kind === 'empty' ? 'Tổng cộng: 0 ca' : 'Đang tải ca hẹn...';
+  }
+
+  /* Ánh xạ trạng thái chuẩn của bảng appointments sang góc nhìn provider */
+  function viewOf(apt) {
+    switch (apt.status) {
+      case 'urgent':
+        return { status: 'urgent', badge: 'badge-urgent', text: apt.statusText || 'CẤP CỨU', action: apt.action || 'receive' };
+      case 'pending':
+        return { status: 'pending', badge: 'badge-pending', text: apt.statusText || 'Chờ tiếp nhận', action: 'sms' };
+      case 'approved':
+        return { status: 'pending', badge: 'badge-pending', text: 'Đã duyệt – chờ tiếp nhận', action: 'receive' };
+      case 'processing':
+      case 'in-progress':
+        return { status: 'in-progress', badge: 'badge-in-progress', text: apt.statusText || 'Đang thực hiện', action: apt.action || 'note' };
+      case 'completed':
+        return { status: 'completed', badge: 'badge-completed', text: 'Đã hoàn thành', action: 'complete' };
+      case 'cancelled':
+        return { status: 'cancelled', badge: 'badge-urgent', text: 'Đã hủy', action: '' };
+      default:
+        return { status: 'pending', badge: 'badge-pending', text: apt.statusText || 'Chờ tiếp nhận', action: 'sms' };
+    }
+  }
 
   // ==========================================
   // 2. RENDER TABLE - Vẽ lại bảng
   // ==========================================
-  function getStatusBadge(status, statusText) {
-    const map = {
-      'urgent': 'badge-urgent',
-      'in-progress': 'badge-in-progress',
-      'pending': 'badge-pending',
-      'completed': 'badge-completed'
-    };
-    return `<span class="badge ${map[status] || 'badge-pending'}">${statusText}</span>`;
+  function getStatusBadge(view) {
+    return `<span class="badge ${view.badge}">${esc(view.text)}</span>`;
   }
 
-  function getActionButton(apt) {
-    switch (apt.action) {
+  function getActionButton(apt, view) {
+    switch (view.action) {
       case 'receive':
-        return `<button class="btn btn-primary btn-sm btn-receive" data-id="${apt.code}">Tiếp nhận ngay</button>`;
+        return `<button class="btn btn-primary btn-sm btn-receive" data-id="${esc(apt.code)}">Tiếp nhận ngay</button>`;
       case 'note':
         return `<a class="btn btn-outline btn-sm" href="provider-service-note.html">Mở biên bản AI</a>`;
       case 'photo':
-        return `<button class="btn btn-outline btn-sm btn-photo" data-id="${apt.code}">Cập nhật ảnh</button>`;
+        return `<button class="btn btn-outline btn-sm btn-photo" data-id="${esc(apt.code)}">Cập nhật ảnh</button>`;
       case 'sms':
-        return `<button class="btn btn-outline btn-sm btn-sms" data-id="${apt.code}">Gửi SMS nhắc</button>`;
+        return `<button class="btn btn-outline btn-sm btn-sms" data-id="${esc(apt.code)}">Gửi SMS nhắc</button>`;
       case 'complete':
-        return `<button class="btn btn-outline btn-sm btn-complete" data-id="${apt.code}">Xem kết quả</button>`;
+        return `<button class="btn btn-outline btn-sm btn-complete" data-id="${esc(apt.code)}">Xem kết quả</button>`;
       default:
         return '';
     }
@@ -109,39 +82,37 @@ document.addEventListener('DOMContentLoaded', function () {
     tbody.innerHTML = '';
 
     if (data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="empty-row">Không tìm thấy ca hẹn nào phù hợp.</td></tr>`;
-      totalLabel.textContent = `Tổng cộng: 0 ca`;
+      tbody.innerHTML = stateRow('empty', 'Không tìm thấy ca hẹn nào phù hợp.');
+      totalLabel.textContent = 'Tổng cộng: 0 ca';
       return;
     }
 
     data.forEach(apt => {
+      const view = viewOf(apt);
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td class="apt-code">${apt.code}</td>
+        <td class="apt-code">${esc(apt.code)}</td>
         <td>
           <div class="pet-cell">
-            <img alt="${apt.pet}" class="pet-thumb" src="${apt.img}">
+            <img alt="${esc(apt.pet)}" class="pet-thumb" src="${esc(apt.img || PLACEHOLDER)}">
             <div>
-              <div class="cell-strong">${apt.pet}</div>
-              <div class="cell-meta">${apt.owner} • ${apt.phone}</div>
+              <div class="cell-strong">${esc(apt.pet)}</div>
+              <div class="cell-meta">${esc(apt.owner)} • ${esc(apt.phone)}</div>
             </div>
           </div>
         </td>
-        <td>${apt.status === 'urgent' ? '<strong>' + apt.service + '</strong>' : apt.service}</td>
-        <td>${apt.status === 'urgent' ? '<strong class="time-urgent">' + apt.time + '</strong>' : apt.time}</td>
-        <td>${apt.room}</td>
-        <td>${getStatusBadge(apt.status, apt.statusText)}</td>
+        <td>${view.status === 'urgent' ? '<strong>' + esc(apt.service) + '</strong>' : esc(apt.service)}</td>
+        <td>${view.status === 'urgent' ? '<strong class="time-urgent">' + esc(apt.time) + '</strong>' : esc(apt.time)}</td>
+        <td>${esc(apt.room || 'Chưa phân phòng')}</td>
+        <td>${getStatusBadge(view)}</td>
         <td>
-          <div class="action-btns">${getActionButton(apt)}</div>
+          <div class="action-btns">${getActionButton(apt, view)}</div>
         </td>
       `;
       tbody.appendChild(tr);
     });
 
     totalLabel.textContent = `Tổng cộng: ${data.length} ca trong ngày`;
-
-    // Bind action buttons
-    bindActionButtons();
   }
 
   // ==========================================
@@ -154,11 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const query = searchInput.value.trim().toLowerCase();
     if (query) {
       data = data.filter(apt =>
-        apt.pet.toLowerCase().includes(query) ||
-        apt.owner.toLowerCase().includes(query) ||
-        apt.code.toLowerCase().includes(query) ||
-        apt.service.toLowerCase().includes(query) ||
-        apt.phone.toLowerCase().includes(query)
+        String(apt.pet || '').toLowerCase().includes(query) ||
+        String(apt.owner || '').toLowerCase().includes(query) ||
+        String(apt.code || '').toLowerCase().includes(query) ||
+        String(apt.service || '').toLowerCase().includes(query) ||
+        String(apt.phone || '').toLowerCase().includes(query)
       );
     }
 
@@ -173,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
       };
       const filterStatus = statusMap[statusVal];
       if (filterStatus) {
-        data = data.filter(apt => apt.status === filterStatus);
+        data = data.filter(apt => viewOf(apt).status === filterStatus);
       }
     }
 
@@ -188,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const keywords = serviceMap[serviceVal] || [];
       if (keywords.length) {
         data = data.filter(apt =>
-          keywords.some(kw => apt.service.toLowerCase().includes(kw.toLowerCase()))
+          keywords.some(kw => String(apt.service || '').toLowerCase().includes(kw.toLowerCase()))
         );
       }
     }
@@ -210,74 +181,71 @@ document.addEventListener('DOMContentLoaded', function () {
   // ==========================================
   // 4. ACTION BUTTONS - Các nút thao tác
   // ==========================================
-  function bindActionButtons() {
-    // Tiếp nhận ngay
-    document.querySelectorAll('.btn-receive').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const id = this.dataset.id;
-        const apt = appointments.find(a => a.code === id);
-        if (!apt) return;
+  tbody.addEventListener('click', function (e) {
+    if (e.target.closest('[data-retry]')) { loadAppointments(); return; }
 
-        showConfirm(
-          'Tiếp nhận ca ' + id,
-          `Xác nhận tiếp nhận ca khẩn cấp cho <strong>${apt.pet}</strong>?<br>Chủ nuôi: ${apt.owner}`,
-          () => {
-            apt.status = 'in-progress';
-            apt.statusText = 'Đang xử lý cấp cứu';
-            apt.action = 'note';
-            renderTable(getFilteredData());
-            ProviderUI.toast(`Đã tiếp nhận ca ${id} thành công!`, 'success');
+    const receiveBtn = e.target.closest('.btn-receive');
+    if (receiveBtn) {
+      const id = receiveBtn.dataset.id;
+      const apt = appointments.find(a => a.code === id);
+      if (!apt) return;
 
-            if (window.MockAPI && apt.id) {
-              MockAPI.patch('appointments', apt.id, {
-                status: 'in-progress',
-                statusText: 'Đang xử lý cấp cứu',
-                action: 'note'
-              }).catch(err => {
-                console.warn('[MockAPI]', err.message);
-                ProviderUI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'warning');
-              });
-            }
+      showConfirm(
+        'Tiếp nhận ca ' + id,
+        `Xác nhận tiếp nhận ca khẩn cấp cho <strong>${esc(apt.pet)}</strong>?<br>Chủ nuôi: ${esc(apt.owner)}`,
+        () => {
+          apt.status = 'processing';
+          apt.statusText = 'Đang xử lý cấp cứu';
+          apt.action = 'note';
+          renderTable(getFilteredData());
+          ProviderUI.toast(`Đã tiếp nhận ca ${id} thành công!`, 'success');
+
+          if (window.MockAPI && apt.id) {
+            MockAPI.patch('appointments', apt.id, {
+              status: 'processing',
+              statusText: 'Đang xử lý cấp cứu',
+              action: 'note',
+              timeSub: 'Đang xử lý tại phòng khám',
+              timeSubColor: 'var(--teal-dark)'
+            }).catch(err => {
+              console.warn('[MockAPI]', err.message);
+              ProviderUI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'warning');
+            });
           }
-        );
-      });
-    });
+        }
+      );
+      return;
+    }
 
-    // Gửi SMS nhắc
-    document.querySelectorAll('.btn-sms').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const id = this.dataset.id;
-        const apt = appointments.find(a => a.code === id);
-        if (!apt) return;
+    const smsBtn = e.target.closest('.btn-sms');
+    if (smsBtn) {
+      const id = smsBtn.dataset.id;
+      const apt = appointments.find(a => a.code === id);
+      if (!apt) return;
 
-        showConfirm(
-          'Gửi SMS nhắc hẹn',
-          `Gửi tin nhắn nhắc hẹn đến <strong>${apt.owner}</strong> (${apt.phone})?<br><br><em>"Xin chào ${apt.owner}, nhắc bạn lịch hẹn ${apt.service} cho bé ${apt.pet.split('(')[0].trim()} lúc ${apt.time} tại ${apt.room}. PetCompanion."</em>`,
-          () => {
-            ProviderUI.toast(`Đã gửi SMS nhắc hẹn đến ${apt.phone} thành công!`, 'success');
-          }
-        );
-      });
-    });
+      showConfirm(
+        'Gửi SMS nhắc hẹn',
+        `Gửi tin nhắn nhắc hẹn đến <strong>${esc(apt.owner)}</strong> (${esc(apt.phone)})?<br><br><em>"Xin chào ${esc(apt.owner)}, nhắc bạn lịch hẹn ${esc(apt.service)} cho bé ${esc(String(apt.pet).split('(')[0].trim())} lúc ${esc(apt.time)} tại ${esc(apt.room)}. PetCompanion."</em>`,
+        () => {
+          ProviderUI.toast(`Đã gửi SMS nhắc hẹn đến ${apt.phone} thành công!`, 'success');
+        }
+      );
+      return;
+    }
 
-    // Cập nhật ảnh
-    document.querySelectorAll('.btn-photo').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const id = this.dataset.id;
-        const apt = appointments.find(a => a.code === id);
-        if (!apt) return;
+    const photoBtn = e.target.closest('.btn-photo');
+    if (photoBtn) {
+      const id = photoBtn.dataset.id;
+      const apt = appointments.find(a => a.code === id);
+      if (!apt) return;
+      ProviderUI.toast(`Chức năng cập nhật ảnh cho ca ${id} (${apt.pet}) - Đang mở camera...`, 'info');
+      return;
+    }
 
-        ProviderUI.toast(`Chức năng cập nhật ảnh cho ca ${id} (${apt.pet}) - Đang mở camera...`, 'info');
-      });
-    });
-
-    // Xem kết quả (completed)
-    document.querySelectorAll('.btn-complete').forEach(btn => {
-      btn.addEventListener('click', function () {
-        window.location.href = 'provider-service-note.html';
-      });
-    });
-  }
+    if (e.target.closest('.btn-complete')) {
+      window.location.href = 'provider-service-note.html';
+    }
+  });
 
   // ==========================================
   // 5. HEADER BUTTONS
@@ -359,6 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} (Walk-in)`;
       const isUrgent = service.includes('Cấp cứu');
       const newId = `#APT-${Math.floor(1050 + Math.random() * 100)}`;
+      const serviceChip = isUrgent ? 'chip-rose' : service.includes('Spa') ? 'chip-pink' : 'chip-mint';
 
       const roomMap = {
         'Khám bệnh thú y': 'Phòng Khám 01 (BS. Mai)',
@@ -373,12 +342,16 @@ document.addEventListener('DOMContentLoaded', function () {
         owner: owner,
         phone: phone,
         service: service,
+        serviceChip: serviceChip,
         time: timeStr,
+        timeSub: isUrgent ? 'Walk-in ưu tiên' : 'Walk-in tiếp nhận',
+        timeSubColor: isUrgent ? 'var(--rose)' : '',
         room: roomMap[service] || 'Phòng Khám 01 (BS. Mai)',
+        partner: 'PetCompanion Provider',
         status: isUrgent ? 'urgent' : 'pending',
-        statusText: isUrgent ? '⚠️ CẤP CỨU' : 'Chờ tiếp nhận',
+        statusText: isUrgent ? 'Cấp cứu' : 'Chờ duyệt',
         action: isUrgent ? 'receive' : 'sms',
-        img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
+        img: PLACEHOLDER
       };
 
       this.disabled = true;
@@ -388,6 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
           saved = await MockAPI.create('appointments', newApt);
         } catch (err) {
           console.warn('[MockAPI]', err.message);
+          this.disabled = false;
           ProviderUI.toast('Không kết nối được mock API — ca hẹn chỉ lưu tạm trên giao diện.', 'warning');
         }
       }
@@ -422,18 +396,25 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // INIT - Tải dữ liệu từ mock API (fallback dữ liệu tĩnh)
+  // INIT - Tải dữ liệu dùng chung từ mock API
   // ==========================================
   async function loadAppointments() {
-    if (window.MockAPI) {
-      try {
-        const data = await MockAPI.list('appointments');
-        if (Array.isArray(data)) appointments = data;
-      } catch (err) {
-        console.warn('[MockAPI] appointments:', err.message);
-      }
+    showState('loading', 'Đang tải danh sách ca hẹn...');
+    if (!window.MockAPI) {
+      showState('error', 'Thiếu core/api.js nên chưa kết nối được mock API.');
+      return;
     }
-    renderTable(getFilteredData());
+    try {
+      const data = await MockAPI.list('appointments');
+      if (!Array.isArray(data)) throw new Error('Dữ liệu ca hẹn không hợp lệ.');
+      appointments = data;
+      renderTable(getFilteredData());
+    } catch (err) {
+      console.warn('[MockAPI] appointments:', err.message);
+      appointments = [];
+      showState('error', err.message || 'Không tải được danh sách ca hẹn.');
+      ProviderUI.toast('Không tải được ca hẹn từ mock API.', 'warning');
+    }
   }
 
   loadAppointments();

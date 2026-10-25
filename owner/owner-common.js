@@ -95,14 +95,42 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
-  async function list(resource, params) {
+  async function list(resource, params, options) {
+    const opts = options || {};
+    if (!window.MockAPI) {
+      const error = new Error('Không tìm thấy mock API client.');
+      if (opts.throwOnError) throw error;
+      window.UI.toast('Không tìm thấy mock API. Hãy chạy start.bat rồi mở lại trang.', 'err', 'cloud_off');
+      return [];
+    }
     try {
       return await window.MockAPI.list(resource, params);
     } catch (error) {
       console.error('[Owner]', error);
-      window.UI.toast('Không tải được dữ liệu. Hãy chạy start.bat rồi mở lại trang.', 'err', 'cloud_off');
+      if (opts.throwOnError) throw error;
+      window.UI.toast(error.message || 'Không tải được dữ liệu. Hãy chạy start.bat rồi mở lại trang.', 'err', 'cloud_off');
       return [];
     }
+  }
+
+  const SESSION_KEY = 'pc_mock_v1:session';
+
+  function currentOwner() {
+    let session = null;
+    try {
+      session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY) || 'null');
+    } catch (error) {
+      session = null;
+    }
+    if (session && session.role === 'owner' && session.email) {
+      return { id: session.id, name: session.name || 'Nguyễn Văn An', email: session.email };
+    }
+    return { name: 'Nguyễn Văn An', email: 'owner@demo.com' };
+  }
+
+  function belongsToOwner(row, owner) {
+    const email = (owner || currentOwner()).email;
+    return String(row && row.ownerEmail || '').toLowerCase() === String(email).toLowerCase();
   }
 
   window.Owner = {
@@ -119,10 +147,13 @@
     planStatusClass: planStatusClass,
     queryParam: queryParam,
     downloadJSON: downloadJSON,
-    list: list
+    list: list,
+    currentOwner: currentOwner,
+    belongsToOwner: belongsToOwner
   };
 
   function headerHTML() {
+    const owner = currentOwner();
     const links = NAV.map(function (item) {
       const active = item.key === PAGE ? ' active' : '';
       const badgeHtml = item.badge ? '<span class="ai-badge">' + item.badge + '</span>' : '';
@@ -136,7 +167,7 @@
       '<nav class="nav-links">' + links + '</nav>' +
       '<label class="nav-search"><span class="material-symbols-outlined">search</span><input id="gSearch" placeholder="Tìm kiếm nhanh..." aria-label="Tìm kiếm"></label>' +
       '<button class="nav-bell" id="gBell" type="button" aria-label="Thông báo"><span class="material-symbols-outlined">notifications</span><span class="dot"></span></button>' +
-      '<div class="nav-user"><b>Nguyễn Văn An</b><span>Chủ nuôi đã xác minh</span></div>' +
+      '<div class="nav-user"><b>' + esc(owner.name) + '</b><span>Chủ nuôi đã xác minh</span></div>' +
       '</header>';
   }
 
