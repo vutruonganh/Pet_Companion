@@ -25,8 +25,11 @@ Mở trực tiếp một trang bằng `file://` cũng được: `core/api.js` t�
 | Đối tác dịch vụ | `/provider/provider-appointment-list.html` |
 | Huấn luyện viên | `/Trainer/training-plans.html` |
 | Đăng nhập / Đăng ký | `/login%20register/login.html` |
+| Quên / đặt lại mật khẩu | `/login%20register/forgot-password.html` |
 
 Tài khoản demo (mật khẩu `demo123`): `owner@demo.com`, `provider@demo.com`, `trainer@demo.com`, `admin@demo.com`, `locked@demo.com`.
+
+Logo ở mọi trang dùng chung `assets/logoPet-trim.png` và liên kết về `/index.html`. Luồng quên mật khẩu: `login.html` → `forgot-password.html` (gửi OTP mô phỏng) → `reset-password.html` (kiểm tra độ mạnh, xác nhận mật khẩu) → quay lại đăng nhập.
 
 ## Một nguồn dữ liệu
 
@@ -81,7 +84,7 @@ owner/                      # cổng chủ nuôi
 admin/                      # cổng quản trị viên
 provider/                   # cổng đối tác dịch vụ
 Trainer/                    # cổng huấn luyện viên (HLV)
-login register/             # đăng nhập / đăng ký
+login register/             # đăng nhập / đăng ký / quên mật khẩu / đặt lại mật khẩu
 mock-api/seed.json          # dữ liệu gốc
 mock-api/db.json            # dữ liệu đang chạy
 mock-api/api.js             # adapter PC.api → REST + tiện ích UI/session cho cổng HLV
