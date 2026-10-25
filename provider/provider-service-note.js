@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   const STORAGE_KEY = 'petcompanion_service_note_draft_milo';
+  const NOTE_ID = '1';
 
   // ==========================================
   // 1. SELECTORS & STATE
@@ -184,11 +185,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Nút "Lưu bản nháp" chủ động
   if (saveDraftBtn) {
-    saveDraftBtn.addEventListener('click', function () {
+    saveDraftBtn.addEventListener('click', async function () {
       autoSaveDraft();
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      ProviderUI.toast(`Đã lưu bản nháp thành công lúc ${timeStr}!`, 'success');
+      const synced = await syncNote();
+      if (synced) {
+        ProviderUI.toast(`Đã lưu bản nháp thành công lúc ${timeStr}!`, 'success');
+      } else {
+        ProviderUI.toast('Đã lưu nháp trên trình duyệt — không kết nối được mock API.', 'warning');
+      }
     });
   }
 
@@ -217,7 +223,119 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  restoreDraft();
+  // ==========================================
+  // 4B. MOCK API - Đồng bộ biên bản (fetch CRUD)
+  // ==========================================
+  function getChecklistData() {
+    return [...document.querySelectorAll('.checklist-item')].map(item => {
+      const chk = item.querySelector('input[type="checkbox"]');
+      return {
+        id: chk?.id || '',
+        text: item.querySelector('label')?.textContent || '',
+        checked: !!chk?.checked
+      };
+    });
+  }
+
+  function getCostData() {
+    if (!costCard) return [];
+    return [...costCard.querySelectorAll('.summary-item:not(.summary-total)')].map(item => ({
+      name: item.querySelector('.summary-label')?.textContent || '',
+      amount: parseInt((item.querySelector('.summary-val')?.textContent || '').replace(/[^\d]/g, ''), 10) || 0
+    }));
+  }
+
+  function buildNotePayload() {
+    return {
+      clinicalExam: clinicalExamInput?.value || '',
+      prescription: prescriptionInput?.value || '',
+      ownerNote: ownerNoteInput?.value || '',
+      checklist: getChecklistData(),
+      costs: getCostData()
+    };
+  }
+
+  async function syncNote(extra) {
+    if (!window.MockAPI) return false;
+    try {
+      await MockAPI.update('service-notes', NOTE_ID, { ...buildNotePayload(), ...(extra || {}) });
+      return true;
+    } catch (err) {
+      console.warn('[MockAPI] service-notes:', err.message);
+      return false;
+    }
+  }
+
+  function appendChecklistItem(id, text, checked) {
+    if (!id || document.getElementById(id)) return;
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = id;
+    input.checked = !!checked;
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    label.textContent = text;
+    div.append(input, label);
+    addChecklistBtn.parentNode.insertBefore(div, addChecklistBtn);
+  }
+
+  function applyCosts(costs) {
+    if (!costCard) return;
+    const items = [...costCard.querySelectorAll('.summary-item:not(.summary-total)')];
+    costs.forEach((cost, index) => {
+      let item = items[index];
+      if (!item) {
+        item = document.createElement('div');
+        item.className = 'summary-item';
+        item.innerHTML = '<span class="summary-label"></span><span class="summary-val"></span>';
+        const addBtn = costCard.querySelector('.btn-add-cost');
+        costCard.querySelector('.card-body').insertBefore(item, addBtn);
+      }
+      item.querySelector('.summary-label').textContent = cost.name || '';
+      item.querySelector('.summary-val').textContent = (Number(cost.amount) || 0).toLocaleString('vi-VN') + ' đ';
+    });
+    recalculateTotal();
+  }
+
+  function applyNote(note) {
+    if (typeof note.clinicalExam === 'string' && clinicalExamInput) clinicalExamInput.value = note.clinicalExam;
+    if (typeof note.prescription === 'string' && prescriptionInput) prescriptionInput.value = note.prescription;
+    if (typeof note.ownerNote === 'string' && ownerNoteInput) ownerNoteInput.value = note.ownerNote;
+
+    if (Array.isArray(note.checklist)) {
+      note.checklist.forEach(item => {
+        const chk = document.getElementById(item.id);
+        if (chk) {
+          chk.checked = !!item.checked;
+        } else if (item.id && item.id.startsWith('chk_')) {
+          appendChecklistItem(item.id, item.text || '', item.checked);
+        }
+      });
+      bindChecklistEvents();
+      updateChecklistProgress();
+    }
+
+    if (Array.isArray(note.costs)) applyCosts(note.costs);
+    if (note.status === 'signed') applySignedState(note.signedAt);
+  }
+
+  async function loadNote() {
+    let note = null;
+    if (window.MockAPI) {
+      try {
+        note = await MockAPI.get('service-notes', NOTE_ID);
+      } catch (err) {
+        console.warn('[MockAPI] service-notes:', err.message);
+      }
+    }
+    if (note) applyNote(note);
+    restoreDraft();
+    updateChecklistProgress();
+  }
+
+  loadNote();
 
   // ==========================================
   // 5. HOÀN TẤT & KÝ SỐ ĐIỆN TỬ
@@ -282,15 +400,21 @@ document.addEventListener('DOMContentLoaded', function () {
       this.disabled = true;
       this.textContent = 'Đang tạo chữ ký số & băm SHA-256...';
 
-      setTimeout(() => {
+      setTimeout(async () => {
+        const signedAt = new Date().toISOString();
+        const synced = await syncNote({ status: 'signed', signedAt });
         overlay.remove();
-        applySignedState();
-        ProviderUI.toast('Đã ký số điện tử thành công! Hồ sơ y bạ đã phát hành đến App Chủ nuôi.', 'success');
+        applySignedState(signedAt);
+        if (synced) {
+          ProviderUI.toast('Đã ký số điện tử thành công! Hồ sơ y bạ đã phát hành đến App Chủ nuôi.', 'success');
+        } else {
+          ProviderUI.toast('Đã ký số trên giao diện — không kết nối được mock API.', 'warning');
+        }
       }, 1000);
     });
   }
 
-  function applySignedState() {
+  function applySignedState(signedAt) {
     isSigned = true;
 
     // Đổi nút ký số thành badge đã ký
@@ -316,8 +440,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (clinicalCard && !document.querySelector('.stamp-signed')) {
       const stamp = document.createElement('div');
       stamp.className = 'stamp-signed';
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} - ${now.toLocaleDateString('vi-VN')}`;
+      const signedDate = signedAt ? new Date(signedAt) : new Date();
+      const when = isNaN(signedDate.getTime()) ? new Date() : signedDate;
+      const timeStr = `${String(when.getHours()).padStart(2, '0')}:${String(when.getMinutes()).padStart(2, '0')} - ${when.toLocaleDateString('vi-VN')}`;
       stamp.innerHTML = `
         <div class="stamp-title">✓ ĐÃ KÝ SỐ ĐIỆN TỬ</div>
         <div class="stamp-name">BS. HOÀNG MAI</div>

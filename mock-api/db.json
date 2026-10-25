@@ -1,0 +1,487 @@
+{
+  "appointments": [
+    {
+      "id": "1",
+      "code": "#APT-1049",
+      "pet": "Miu Miu (Mèo Anh)",
+      "owner": "Trần Minh Anh",
+      "phone": "0912.443.xxx",
+      "service": "Cấp cứu hô hấp khẩn",
+      "time": "10:30 Hôm nay",
+      "room": "Phòng Khám 01 (BS. Mai)",
+      "status": "urgent",
+      "statusText": "⚠️ CẤP CỨU",
+      "action": "receive",
+      "img": "https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"
+    },
+    {
+      "id": "2",
+      "code": "#APT-1048",
+      "pet": "Milo (Golden Retriever)",
+      "owner": "Nguyễn Văn An",
+      "phone": "0912.345.xxx",
+      "service": "Khám tổng quát & Tẩy giun",
+      "time": "08:30 (Đã check-in)",
+      "room": "Phòng Khám 01 (BS. Mai)",
+      "status": "in-progress",
+      "statusText": "Đang khám lâm sàng",
+      "action": "note",
+      "img": "https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"
+    },
+    {
+      "id": "3",
+      "code": "#APT-1047",
+      "pet": "Luna (Mèo Anh lông ngắn)",
+      "owner": "Trần Bảo Minh",
+      "phone": "0988.223.xxx",
+      "service": "Spa tắm dưỡng thảo mộc",
+      "time": "09:30",
+      "room": "Khu Spa (KTV. Linh Đan)",
+      "status": "in-progress",
+      "statusText": "Đang sấy & chải lông",
+      "action": "photo",
+      "img": "https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"
+    },
+    {
+      "id": "4",
+      "code": "#APT-1046",
+      "pet": "Bông (Poodle trắng)",
+      "owner": "Đỗ Thùy Trang",
+      "phone": "0934.771.xxx",
+      "service": "Tiêm phòng dại & 7 bệnh",
+      "time": "14:00 Chiều nay",
+      "room": "Phòng Tiêm chủng (BS. Minh)",
+      "status": "pending",
+      "statusText": "Chờ khách tới",
+      "action": "sms",
+      "img": "https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"
+    }
+  ],
+  "calendar-events": [
+    {
+      "id": "1",
+      "date": "2025-11-15",
+      "time": "08:30 - 09:15",
+      "code": "#MED-101",
+      "pet": "🐶 Milo (Golden Retriever)",
+      "owner": "Nguyễn Văn An",
+      "service": "Khám tổng quát",
+      "room": 0,
+      "type": "medical"
+    },
+    {
+      "id": "2",
+      "date": "2025-11-15",
+      "time": "08:30 - 09:00",
+      "code": "#VAC-402",
+      "pet": "🐱 Bông (Mèo Ba Tư)",
+      "owner": "Đỗ Thùy Trang",
+      "service": "Tiêm vắc-xin 4 bệnh",
+      "room": 1,
+      "type": "vaccine"
+    },
+    {
+      "id": "3",
+      "date": "2025-11-15",
+      "time": "09:30 - 10:15",
+      "code": "#MED-105",
+      "pet": "🐶 Rocky (Corgi)",
+      "owner": "Lê Hoàng Yến",
+      "service": "Siêu âm ổ bụng",
+      "room": 1,
+      "type": "ultrasound"
+    },
+    {
+      "id": "4",
+      "date": "2025-11-15",
+      "time": "09:30 - 11:00",
+      "code": "#SPA-208",
+      "pet": "🐱 Luna (Mèo Anh lông ngắn)",
+      "owner": "Trần Bảo Minh",
+      "service": "Combo Spa dưỡng lông",
+      "room": 2,
+      "type": "spa"
+    },
+    {
+      "id": "5",
+      "date": "2025-11-15",
+      "time": "10:30 - 11:30",
+      "code": "CẤP CỨU",
+      "pet": "🐱 Miu Miu (Mèo Anh)",
+      "owner": "Trần Minh Anh",
+      "service": "Dị ứng hô hấp khẩn",
+      "room": 0,
+      "type": "emergency"
+    },
+    {
+      "id": "6",
+      "date": "2025-11-18",
+      "time": "09:00 - 10:00",
+      "code": "#MED-112",
+      "pet": "🐶 Max (Husky)",
+      "owner": "Phạm Thị Hoa",
+      "service": "Tái khám da liễu",
+      "room": 0,
+      "type": "medical"
+    },
+    {
+      "id": "7",
+      "date": "2025-11-18",
+      "time": "10:00 - 10:30",
+      "code": "#VAC-410",
+      "pet": "🐱 Kitty (Mèo Mướp)",
+      "owner": "Lê Văn Hùng",
+      "service": "Tiêm phòng dại",
+      "room": 1,
+      "type": "vaccine"
+    },
+    {
+      "id": "8",
+      "date": "2025-11-20",
+      "time": "08:00 - 09:00",
+      "code": "#SPA-215",
+      "pet": "🐶 Coco (Poodle)",
+      "owner": "Ngô Thanh Hà",
+      "service": "Spa tắm thảo mộc",
+      "room": 2,
+      "type": "spa"
+    }
+  ],
+  "service-notes": [
+    {
+      "id": "1",
+      "appointmentCode": "#APT-1048",
+      "patientName": "Milo",
+      "clinicalExam": "Thể trạng tốt, niêm mạc hồng hào, nhịp tim đều 88 bpm. Chỉ số bạch cầu bình thường. Phát hiện nhẹ dấu hiệu ngứa kẽ chân do dị ứng phấn hoa theo mùa, không có dấu hiệu nhiễm nấm kẽ sâu.",
+      "prescription": "1. NexGard Spectra 15-30kg: 1 viên duy nhất sau ăn sáng.\n2. Dung dịch xịt sát khuẩn kẽ ngón Dermavet Spray: Xịt 2 lần/ngày sau khi dạo bộ.\n3. Bổ sung viên nhai Omega-3 Derma Care: 2 viên/ngày trộn thức ăn hạt.",
+      "ownerNote": "Sau khi Milo đi dạo trong công viên về, lau khô kẽ chân, tránh ẩm ướt. Lịch tiêm nhắc lại vào 11/2025.",
+      "checklist": [
+        {
+          "id": "chk1",
+          "text": "Kiểm tra vùng kẽ chân và niêm mạc tai (Bé có tiền sử ngứa mẩn đỏ đợt trước).",
+          "checked": true
+        },
+        {
+          "id": "chk2",
+          "text": "Đo thân nhiệt & Nghe nhịp tim trước khi chỉ định lấy mẫu máu sinh hóa.",
+          "checked": true
+        },
+        {
+          "id": "chk3",
+          "text": "Kiểm tra dị ứng thuốc kháng sinh dòng Penicillin/Amoxicillin trong hồ sơ cũ.",
+          "checked": false
+        },
+        {
+          "id": "chk4",
+          "text": "Cân trọng lượng chính xác để kê liều lượng thuốc tẩy giun NexGard Spectra.",
+          "checked": false
+        }
+      ],
+      "costs": [
+        {
+          "name": "Khám tổng quát",
+          "amount": 250000
+        },
+        {
+          "name": "Xét nghiệm máu sinh hóa",
+          "amount": 200000
+        },
+        {
+          "name": "NexGard Spectra (1 viên)",
+          "amount": 180000
+        }
+      ],
+      "status": "draft",
+      "signedAt": null
+    }
+  ],
+  "services": [
+    {
+      "id": "1",
+      "name": "Khám tổng quát & Xét nghiệm máu",
+      "sku": "MED-GEN-01",
+      "desc": "Checklist BTL-35 Tiêu chuẩn",
+      "cat": "y-te",
+      "categoryLabel": "Y tế Thú y",
+      "chip": "chip-mint",
+      "sq": "sq-mint",
+      "icon": "clinical_notes",
+      "duration": "45 phút",
+      "price": 450000,
+      "partners": 18,
+      "partnerIcon": "local_hospital",
+      "active": true,
+      "hidden": false
+    },
+    {
+      "id": "2",
+      "name": "Tiêm phòng vắc-xin 7 bệnh & Dại",
+      "sku": "MED-VAC-07",
+      "desc": "Kèm sổ tiêm số hóa QR",
+      "cat": "y-te",
+      "categoryLabel": "Y tế Thú y",
+      "chip": "chip-mint",
+      "sq": "sq-mint",
+      "icon": "vaccines",
+      "duration": "30 phút",
+      "price": 250000,
+      "partners": 24,
+      "partnerIcon": "local_hospital",
+      "active": true,
+      "hidden": false
+    },
+    {
+      "id": "3",
+      "name": "Combo Spa Tắm dưỡng & Cắt tỉa tạo hình",
+      "sku": "SPA-FULL-02",
+      "desc": "Liệu trình sấy bồng Nano",
+      "cat": "spa",
+      "categoryLabel": "Spa Grooming",
+      "chip": "chip-pink",
+      "sq": "sq-pink",
+      "icon": "content_cut",
+      "duration": "90 phút",
+      "price": 320000,
+      "partners": 15,
+      "partnerIcon": "storefront",
+      "active": true,
+      "hidden": false
+    },
+    {
+      "id": "4",
+      "name": "Vệ sinh tai, mài móng & Vắt tuyến hôi",
+      "sku": "SPA-BASIC-04",
+      "desc": "Khử khuẩn tia cực tím",
+      "cat": "spa",
+      "categoryLabel": "Spa Grooming",
+      "chip": "chip-pink",
+      "sq": "sq-pink",
+      "icon": "shower",
+      "duration": "30 phút",
+      "price": 120000,
+      "partners": 20,
+      "partnerIcon": "storefront",
+      "active": true,
+      "hidden": false
+    },
+    {
+      "id": "5",
+      "name": "Huấn luyện vâng lời & Thói quen vệ sinh",
+      "sku": "TRN-OBED-01",
+      "desc": "Chương trình phản xạ tích cực",
+      "cat": "hl",
+      "categoryLabel": "Huấn luyện",
+      "chip": "chip-amber",
+      "sq": "sq-amber",
+      "icon": "sports_score",
+      "duration": "Khóa 8 buổi",
+      "price": 2500000,
+      "partners": 8,
+      "partnerIcon": "military_tech",
+      "active": true,
+      "hidden": false
+    },
+    {
+      "id": "6",
+      "name": "Sửa tật sủa đêm & Hung dữ quá mức",
+      "sku": "TRN-BEHAV-03",
+      "desc": "Đánh giá tâm lý thú cưng AI",
+      "cat": "hl",
+      "categoryLabel": "Huấn luyện",
+      "chip": "chip-amber",
+      "sq": "sq-amber",
+      "icon": "psychology",
+      "duration": "Khóa 10 buổi",
+      "price": 3200000,
+      "partners": 5,
+      "partnerIcon": "military_tech",
+      "active": false,
+      "hidden": false
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn An",
+      "uid": "UID-VN9201",
+      "role": "chu-nuoi",
+      "roleLabel": "Chủ nuôi",
+      "chip": "chip-blue",
+      "roleIcon": "pets",
+      "email": "an.nguyen@petcompanion.vn",
+      "phone": "0912 345 678",
+      "petsLabel": "2 bé cưng",
+      "petsIcon": "cruelty_free",
+      "joined": "12/01/2024",
+      "lastActive": "10 phút trước",
+      "status": "active",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuCacxLMr5I8KT5j4fXpPfNYe33vtRljWvFxwXRrTaJiFwuDpyERcTPSrcDry_FYX3yKXRFKrrHTjOdjLX-5WaFV0Zp2TXjoB9p7Ctzh8WtTykmcIZLXMJ6ismo0qR6iMww_MPvAIT3qp6-ieSU5txzm6wuPi-gb16gF6_YNCj7ISviTNPyvfXVdrFYWF2KgpM0JYZrurC_quppGrJCxa0whVqqWElfFOOqR4SqcQpqfKw8X42tRn_qM",
+      "avatarFallback": "NA"
+    },
+    {
+      "id": "2",
+      "name": "BS. Hoàng Mai",
+      "uid": "VET-CLINIC-04",
+      "role": "bac-si",
+      "roleLabel": "Bác sĩ thú y / Đối tác",
+      "chip": "chip-mint",
+      "roleIcon": "medical_services",
+      "email": "mai.hoang@petcareclinic.vn",
+      "phone": "0903 112 233",
+      "petsLabel": "Chi nhánh Q1",
+      "petsIcon": "storefront",
+      "joined": "05/11/2023",
+      "lastActive": "Hôm nay 08:45",
+      "status": "active",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuDWAogSlotT6-r4VjCZ6N9B6EpyctV--NqnwaMV7sF62er_X6VPLhta3OsCTY0KST5xrXnsCb7Hk5mOjIwwioEYMIhyKmLlRx7XRC2BRc0UsmAFucwzUM7VUKHVcBrMm4E8ydlo5spN7JO1mz_zbsoNICIj_jar_ZbufY5Kpe7LOPUl3LkkBa6LVssdRfh6qGJW6odtObiw15SIWLTR4EHBb9QzlnxFgjlGCh-UhdnsxnHH8kynjnbG",
+      "avatarFallback": "HM"
+    },
+    {
+      "id": "3",
+      "name": "HLV Quốc Huy",
+      "uid": "TRN-K9-881",
+      "role": "hlv",
+      "roleLabel": "Huấn luyện viên",
+      "chip": "chip-amber",
+      "roleIcon": "sports_score",
+      "email": "huy.hlv@k9companion.vn",
+      "phone": "0938 445 566",
+      "petsLabel": "K9 Academy",
+      "petsIcon": "school",
+      "joined": "18/02/2024",
+      "lastActive": "Hôm qua 16:20",
+      "status": "active",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuA0Ov-7EbG4TzaUrAgIKG4U_tkLa3FuQ1pOLLwSa4OtjB6t3KmR3m4ArGhLBVpKvpxGc1h-wHuJBWR36q6vTIug23cQI57rx_XbjLs3BCxQofGbUyI5JT4xGIHhp1ICAP1G_KWzvFzUXrfeXC-VeO08PcIoAhkbhKhrNrI-KH1jrX-UIF-NJXHgOBkfzYojOyrQnnJ2JDq1oJ41FSvn3TPkwJBGEW14u1VI1I_xAhTg6PA7uRPYnDEG",
+      "avatarFallback": "QH"
+    },
+    {
+      "id": "4",
+      "name": "Groomer Linh Đan",
+      "uid": "SPA-BOU-190",
+      "role": "spa",
+      "roleLabel": "Đối tác Spa",
+      "chip": "chip-pink",
+      "roleIcon": "content_cut",
+      "email": "linhdan@petspaboutique.vn",
+      "phone": "0977 889 900",
+      "petsLabel": "PetSpa Q3",
+      "petsIcon": "spa",
+      "joined": "30/03/2024",
+      "lastActive": "3 giờ trước",
+      "status": "active",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuBOHtDym5BKxWM003aDZJkAi6xhTwIGcUvqeJkbZlvHrBPtuMa-CZqyfTqW-45cGYKaRrg-2nRM8XCvoV0Gjs-uK7VujVVX6lAhItl1dN52iWkk_J6ra7tkJySqnbHLCmcyPzHS2sevOdkXTSMyfk58mW0QRnTYH9zcZFXyXkt9fj2Sh20cz2HkEwCoQjHKDcaPyugvSddrR_Zi6LaT5xMEp2XwEp0ar5zo0cvTEl_5eVeuaF_62kiX",
+      "avatarFallback": "LĐ"
+    },
+    {
+      "id": "5",
+      "name": "Trần Bảo Minh",
+      "uid": "UID-VN9841",
+      "role": "chu-nuoi",
+      "roleLabel": "Chủ nuôi mới",
+      "chip": "chip-blue",
+      "roleIcon": "pets",
+      "email": "minh.tran@gmail.com",
+      "phone": "0988 223 344",
+      "petsLabel": "1 bé cưng",
+      "petsIcon": "cruelty_free",
+      "joined": "Hôm nay 10:15",
+      "lastActive": "Chưa kích hoạt",
+      "status": "pending",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuCqec_A0v6yEwINUWZN9YuZBCAyvcg7isiKV0JFc16R4LOmfwnn9Sowxb7a6-x6I36OCODWfd9GNz8ZtZ4InhsPQtnAJvmMreOZ17ePoDYDb8L3TCI0M9CwJ-8SLCjAmyfK1qR1yUhRO0ubZiTIOeTCjyhxxGgUFDRTBpAEPyYvszn2TFDxqGVSUSEvQhkeDF3afHKjbxirWFVgpjuDByV0MaD-KtfuiEpXd2eGA9XxBTRDIXm2TWfi",
+      "avatarFallback": "TM"
+    },
+    {
+      "id": "6",
+      "name": "Lê Thị Hạnh",
+      "uid": "UID-VN4412",
+      "role": "chu-nuoi",
+      "roleLabel": "Chủ nuôi",
+      "chip": "chip-gray",
+      "roleIcon": "pets",
+      "email": "hanh.le@outlook.com",
+      "phone": "0945 667 788",
+      "petsLabel": "3 bé cưng",
+      "petsIcon": "cruelty_free",
+      "joined": "14/08/2023",
+      "lastActive": "Khóa lúc 02/05/2024",
+      "status": "locked",
+      "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuDIacU8RBOMHQ0iIP91bq_GVp9luRbZUGQcaqzf9Vd6-ecF8Z65Sw5ks1FcZbt4YfCBnTIiCS0LnwabzK7hfWHesHK5YwUhjxj6X-ltzcdhvmrCCRpqXCAbQXlV2Cf0DLsjEl6jZrawM6JZPt1fiJdS8FEixJw4pzS00GkdoJ1O0TP3INAUDBPQM0LvgaSIRq4jc1zhdafDlrSu24Bo9Yra9RIpnVZ__P9eyr6B_arJqw6S3aMeczQE",
+      "avatarFallback": "LH"
+    }
+  ],
+  "dashboard-appointments": [
+    {
+      "id": "1",
+      "code": "#PET-1049",
+      "customer": "Trần Minh Anh",
+      "phone": "0912.443.xxx",
+      "pet": "Miu Miu (Mèo Anh)",
+      "service": "Cấp cứu hô hấp",
+      "serviceChip": "chip-rose",
+      "partner": "Bệnh viện PetCare Q.7",
+      "time": "10:30 Hôm nay",
+      "timeSub": "Ưu tiên số 1",
+      "timeSubColor": "var(--rose)",
+      "status": "pending",
+      "actions": [
+        "approve",
+        "cancel",
+        "apt"
+      ]
+    },
+    {
+      "id": "2",
+      "code": "#PET-1048",
+      "customer": "Lê Hoàng Yến",
+      "phone": "0988.129.xxx",
+      "pet": "Rocky (Corgi)",
+      "service": "Spa & Grooming",
+      "serviceChip": "chip-lav",
+      "partner": "PawPaws Boutique Spa",
+      "time": "11:15 Hôm nay",
+      "timeSub": "Đã check-in",
+      "timeSubColor": "",
+      "status": "processing",
+      "actions": [
+        "approve",
+        "apt"
+      ]
+    },
+    {
+      "id": "3",
+      "code": "#PET-1047",
+      "customer": "Nguyễn Quốc Thái",
+      "phone": "0903.882.xxx",
+      "pet": "Simba (Golden)",
+      "service": "Huấn luyện cơ bản",
+      "serviceChip": "chip-lav",
+      "partner": "HLV Trọng Nghĩa",
+      "time": "14:00 Chiều nay",
+      "timeSub": "Gói 12 buổi",
+      "timeSubColor": "",
+      "status": "pending",
+      "actions": [
+        "approve",
+        "cancel",
+        "apt"
+      ]
+    },
+    {
+      "id": "4",
+      "code": "#PET-1046",
+      "customer": "Đỗ Thùy Trang",
+      "phone": "0934.771.xxx",
+      "pet": "Bông (Poodle)",
+      "service": "Tiêm ngừa dại",
+      "serviceChip": "chip-lav",
+      "partner": "Phòng khám Vets&Friends",
+      "time": "15:30 Chiều nay",
+      "timeSub": "Bác sĩ xác nhận",
+      "timeSubColor": "var(--teal-dark)",
+      "status": "approved",
+      "actions": [
+        "apt"
+      ]
+    }
+  ]
+}

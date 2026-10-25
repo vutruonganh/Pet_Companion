@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
   const DAY_NAMES = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
-  // Dữ liệu ca hẹn mẫu theo ngày (key = 'YYYY-MM-DD')
-  const eventsData = {
+  // Dữ liệu ca hẹn mẫu theo ngày (key = 'YYYY-MM-DD') - fallback khi không có API
+  const FALLBACK_EVENTS = {
     '2025-11-15': [
       { time: '08:30 - 09:15', code: '#MED-101', pet: '🐶 Milo (Golden Retriever)', owner: 'Nguyễn Văn An', service: 'Khám tổng quát', room: 0, type: 'medical' },
       { time: '08:30 - 09:00', code: '#VAC-402', pet: '🐱 Bông (Mèo Ba Tư)', owner: 'Đỗ Thùy Trang', service: 'Tiêm vắc-xin 4 bệnh', room: 1, type: 'vaccine' },
@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', function () {
       { time: '08:00 - 09:00', code: '#SPA-215', pet: '🐶 Coco (Poodle)', owner: 'Ngô Thanh Hà', service: 'Spa tắm thảo mộc', room: 2, type: 'spa' }
     ]
   };
+
+  let eventsData = FALLBACK_EVENTS;
+
+  function groupEventsByDate(list) {
+    const grouped = {};
+    list.forEach(event => {
+      if (!event.date) return;
+      if (!grouped[event.date]) grouped[event.date] = [];
+      grouped[event.date].push(event);
+    });
+    return grouped;
+  }
 
   const TYPE_CHIPS = {
     emergency: { cls: 'chip-rose', text: '⚠️ Cấp cứu' },
@@ -402,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
       `
     });
 
-    overlay.querySelector('#saveNewApt').addEventListener('click', function () {
+    overlay.querySelector('#saveNewApt').addEventListener('click', async function () {
       const petName = document.getElementById('newPetName').value.trim();
       const petBreed = document.getElementById('newPetBreed').value.trim();
       const owner = document.getElementById('newOwner').value.trim();
@@ -421,6 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const newCode = `#APT-${Math.floor(1000 + Math.random() * 9000)}`;
 
       const newEvent = {
+        date: selectedDate,
         time: `${timeSlot} - ${endTime}`,
         code: newCode,
         pet: `🐾 ${petName}${petBreed ? ' (' + petBreed + ')' : ''}`,
@@ -430,8 +443,19 @@ document.addEventListener('DOMContentLoaded', function () {
         type: service.includes('Spa') ? 'spa' : service.includes('Tiêm') ? 'vaccine' : service.includes('Cấp cứu') ? 'emergency' : 'medical'
       };
 
+      let saved = null;
+      if (window.MockAPI) {
+        try {
+          saved = await MockAPI.create('calendar-events', newEvent);
+        } catch (err) {
+          console.warn('[MockAPI]', err.message);
+          ProviderUI.toast('Không kết nối được mock API — lịch hẹn chỉ lưu tạm trên giao diện.', 'warning');
+        }
+      }
+      const storedEvent = saved || newEvent;
+
       if (!eventsData[selectedDate]) eventsData[selectedDate] = [];
-      eventsData[selectedDate].push(newEvent);
+      eventsData[selectedDate].push(storedEvent);
 
       overlay.remove();
       renderMiniCalendar();
@@ -456,8 +480,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // INIT
+  // INIT - Tải ca hẹn từ mock API (fallback dữ liệu tĩnh)
   // ==========================================
-  renderMiniCalendar();
+  async function loadEvents() {
+    if (window.MockAPI) {
+      try {
+        const data = await MockAPI.list('calendar-events');
+        if (Array.isArray(data)) eventsData = groupEventsByDate(data);
+      } catch (err) {
+        console.warn('[MockAPI] calendar-events:', err.message);
+      }
+    }
+    renderMiniCalendar();
+    renderTimeline();
+    updateStats();
+  }
+
+  loadEvents();
 
 });

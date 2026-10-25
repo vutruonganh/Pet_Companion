@@ -6,11 +6,12 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // ==========================================
-  // 1. DATA - Dữ liệu ca hẹn
+  // 1. DATA - Dữ liệu ca hẹn (fallback khi không có API)
   // ==========================================
-  const appointments = [
+  const FALLBACK_APPOINTMENTS = [
     {
-      id: '#APT-1049',
+      id: '1',
+      code: '#APT-1049',
       pet: 'Miu Miu (Mèo Anh)',
       owner: 'Trần Minh Anh',
       phone: '0912.443.xxx',
@@ -23,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
       img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
     },
     {
-      id: '#APT-1048',
+      id: '2',
+      code: '#APT-1048',
       pet: 'Milo (Golden Retriever)',
       owner: 'Nguyễn Văn An',
       phone: '0912.345.xxx',
@@ -36,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
       img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
     },
     {
-      id: '#APT-1047',
+      id: '3',
+      code: '#APT-1047',
       pet: 'Luna (Mèo Anh lông ngắn)',
       owner: 'Trần Bảo Minh',
       phone: '0988.223.xxx',
@@ -49,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
       img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
     },
     {
-      id: '#APT-1046',
+      id: '4',
+      code: '#APT-1046',
       pet: 'Bông (Poodle trắng)',
       owner: 'Đỗ Thùy Trang',
       phone: '0934.771.xxx',
@@ -62,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
       img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
     }
   ];
+
+  let appointments = FALLBACK_APPOINTMENTS;
 
   const tbody = document.querySelector('.custom-table tbody');
   const searchInput = document.querySelector('.search-input');
@@ -85,15 +91,15 @@ document.addEventListener('DOMContentLoaded', function () {
   function getActionButton(apt) {
     switch (apt.action) {
       case 'receive':
-        return `<button class="btn btn-primary btn-sm btn-receive" data-id="${apt.id}">Tiếp nhận ngay</button>`;
+        return `<button class="btn btn-primary btn-sm btn-receive" data-id="${apt.code}">Tiếp nhận ngay</button>`;
       case 'note':
         return `<a class="btn btn-outline btn-sm" href="provider-service-note.html">Mở biên bản AI</a>`;
       case 'photo':
-        return `<button class="btn btn-outline btn-sm btn-photo" data-id="${apt.id}">Cập nhật ảnh</button>`;
+        return `<button class="btn btn-outline btn-sm btn-photo" data-id="${apt.code}">Cập nhật ảnh</button>`;
       case 'sms':
-        return `<button class="btn btn-outline btn-sm btn-sms" data-id="${apt.id}">Gửi SMS nhắc</button>`;
+        return `<button class="btn btn-outline btn-sm btn-sms" data-id="${apt.code}">Gửi SMS nhắc</button>`;
       case 'complete':
-        return `<button class="btn btn-outline btn-sm btn-complete" data-id="${apt.id}">Xem kết quả</button>`;
+        return `<button class="btn btn-outline btn-sm btn-complete" data-id="${apt.code}">Xem kết quả</button>`;
       default:
         return '';
     }
@@ -111,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     data.forEach(apt => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td class="apt-code">${apt.id}</td>
+        <td class="apt-code">${apt.code}</td>
         <td>
           <div class="pet-cell">
             <img alt="${apt.pet}" class="pet-thumb" src="${apt.img}">
@@ -150,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
       data = data.filter(apt =>
         apt.pet.toLowerCase().includes(query) ||
         apt.owner.toLowerCase().includes(query) ||
-        apt.id.toLowerCase().includes(query) ||
+        apt.code.toLowerCase().includes(query) ||
         apt.service.toLowerCase().includes(query) ||
         apt.phone.toLowerCase().includes(query)
       );
@@ -209,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-receive').forEach(btn => {
       btn.addEventListener('click', function () {
         const id = this.dataset.id;
-        const apt = appointments.find(a => a.id === id);
+        const apt = appointments.find(a => a.code === id);
         if (!apt) return;
 
         showConfirm(
@@ -221,6 +227,17 @@ document.addEventListener('DOMContentLoaded', function () {
             apt.action = 'note';
             renderTable(getFilteredData());
             ProviderUI.toast(`Đã tiếp nhận ca ${id} thành công!`, 'success');
+
+            if (window.MockAPI && apt.id) {
+              MockAPI.patch('appointments', apt.id, {
+                status: 'in-progress',
+                statusText: 'Đang xử lý cấp cứu',
+                action: 'note'
+              }).catch(err => {
+                console.warn('[MockAPI]', err.message);
+                ProviderUI.toast('Không đồng bộ được máy chủ — thay đổi chỉ lưu tạm.', 'warning');
+              });
+            }
           }
         );
       });
@@ -230,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-sms').forEach(btn => {
       btn.addEventListener('click', function () {
         const id = this.dataset.id;
-        const apt = appointments.find(a => a.id === id);
+        const apt = appointments.find(a => a.code === id);
         if (!apt) return;
 
         showConfirm(
@@ -247,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-photo').forEach(btn => {
       btn.addEventListener('click', function () {
         const id = this.dataset.id;
-        const apt = appointments.find(a => a.id === id);
+        const apt = appointments.find(a => a.code === id);
         if (!apt) return;
 
         ProviderUI.toast(`Chức năng cập nhật ảnh cho ca ${id} (${apt.pet}) - Đang mở camera...`, 'info');
@@ -326,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function () {
       `
     });
 
-    overlay.querySelector('#saveWalkIn').addEventListener('click', function () {
+    overlay.querySelector('#saveWalkIn').addEventListener('click', async function () {
       const pet = document.getElementById('wiPet').value.trim();
       const breed = document.getElementById('wiBreed').value.trim();
       const owner = document.getElementById('wiOwner').value.trim();
@@ -350,8 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'Cấp cứu': 'Phòng Khám 01 (BS. Mai)'
       };
 
-      appointments.unshift({
-        id: newId,
+      const newApt = {
+        code: newId,
         pet: `${pet}${breed ? ' (' + breed + ')' : ''}`,
         owner: owner,
         phone: phone,
@@ -362,8 +379,20 @@ document.addEventListener('DOMContentLoaded', function () {
         statusText: isUrgent ? '⚠️ CẤP CỨU' : 'Chờ tiếp nhận',
         action: isUrgent ? 'receive' : 'sms',
         img: 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg'
-      });
+      };
 
+      this.disabled = true;
+      let saved = null;
+      if (window.MockAPI) {
+        try {
+          saved = await MockAPI.create('appointments', newApt);
+        } catch (err) {
+          console.warn('[MockAPI]', err.message);
+          ProviderUI.toast('Không kết nối được mock API — ca hẹn chỉ lưu tạm trên giao diện.', 'warning');
+        }
+      }
+
+      appointments.unshift(saved || newApt);
       overlay.remove();
       renderTable(getFilteredData());
       ProviderUI.toast(`Đã tiếp nhận Walk-in: ${pet} (${owner}) - Mã: ${newId}`, 'success');
@@ -393,8 +422,20 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // INIT
+  // INIT - Tải dữ liệu từ mock API (fallback dữ liệu tĩnh)
   // ==========================================
-  renderTable(appointments);
+  async function loadAppointments() {
+    if (window.MockAPI) {
+      try {
+        const data = await MockAPI.list('appointments');
+        if (Array.isArray(data)) appointments = data;
+      } catch (err) {
+        console.warn('[MockAPI] appointments:', err.message);
+      }
+    }
+    renderTable(getFilteredData());
+  }
+
+  loadAppointments();
 
 });
