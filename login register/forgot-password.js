@@ -1,5 +1,11 @@
 let timerInterval = null;
 
+(function () {
+  const contact = new URLSearchParams(location.search).get('contact');
+  const input = document.getElementById('recovery-contact');
+  if (contact && input) input.value = contact;
+})();
+
 function handlePasswordReset() {
   const input = document.getElementById('recovery-contact');
   const submitBtn = document.getElementById('submitBtn');
@@ -44,7 +50,7 @@ function handlePasswordReset() {
     alertBox.classList.add('visible');
 
     const continueLink = document.getElementById('continueLink');
-    if (continueLink) continueLink.href = 'reset-password.html?contact=' + encodeURIComponent(val);
+    if (continueLink) continueLink.href = 'otp-verification.html?contact=' + encodeURIComponent(val);
 
     // Advance stepper to Step 2
     step2.classList.add('active');

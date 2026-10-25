@@ -24,6 +24,8 @@ function togglePasswordVisibility(inputId, btn) {
   const contact = new URLSearchParams(location.search).get('contact');
   const verifiedContact = document.getElementById('verifiedContact');
   if (contact && verifiedContact) verifiedContact.textContent = contact;
+  const otpLink = document.querySelector('.breadcrumb-nav a');
+  if (contact && otpLink) otpLink.href = 'otp-verification.html?contact=' + encodeURIComponent(contact);
 
   const tests = {
     length: (v) => v.length >= 8,

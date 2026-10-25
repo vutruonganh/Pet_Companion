@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Xác thực mã OTP - PetCompanion</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="otp-verification.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand-wrap">
+                <a class="brand-logo-link" href="../index.html" title="PetCompanion">
+                    <img alt="PetCompanion" src="../assets/logoPet-trim.png">
+                </a>
+                <div class="badge-pill">
+                    <span class="dot"></span>
+                    <span>PetCare Portal</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <nav class="nav-links">
+                    <a class="nav-item" href="../index.html">Về chúng tôi</a>
+                    <a class="nav-item" href="mailto:support@petcompanion.vn">Hỗ trợ</a>
+                </nav>
+                <div class="lang-switcher">
+                    <button class="lang-btn active" type="button">VI</button>
+                    <button class="lang-btn" type="button">EN</button>
+                </div>
+                <a class="user-avatar-btn" href="login.html" title="Đăng nhập" aria-label="Đăng nhập">
+                    <span class="material-symbols-outlined" style="font-size: 19px;">person</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN VIEW -->
+    <main class="main-wrapper">
+        <div class="content-area">
+            <!-- STEP INDICATOR -->
+            <div class="steps-card">
+                <div class="step-item completed">
+                    <div class="step-badge">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">check</span>
+                    </div>
+                    <div class="step-texts">
+                        <span class="step-label">Bước 1</span>
+                        <span class="step-title">Nhập Email</span>
+                    </div>
+                </div>
+                <div class="step-divider active"></div>
+                <div class="step-item active">
+                    <div class="step-badge">2</div>
+                    <div class="step-texts">
+                        <span class="step-label">Bước 2</span>
+                        <span class="step-title">Nhập mã OTP</span>
+                    </div>
+                </div>
+                <div class="step-divider"></div>
+                <div class="step-item pending">
+                    <div class="step-badge">3</div>
+                    <div class="step-texts">
+                        <span class="step-label">Bước 3</span>
+                        <span class="step-title">Mật khẩu mới</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTP FORM CONTAINER -->
+            <section class="otp-card">
+                <!-- ICON BADGE -->
+                <div class="icon-wrapper">
+                    <div class="icon-circle-main">
+                        <svg fill="none" height="44" viewBox="0 0 64 64" width="44" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#e0f2fe" height="34" rx="8" width="48" x="8" y="16"></rect>
+                            <path d="M8 24L30.2 38.8C31.3 39.5 32.7 39.5 33.8 38.8L56 24" stroke="#0d9488" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+                            <path d="M12 46L24 34" opacity="0.4" stroke="#0d9488" stroke-dasharray="2 3" stroke-linecap="round" stroke-width="2"></path>
+                            <path d="M52 46L40 34" opacity="0.4" stroke="#0d9488" stroke-dasharray="2 3" stroke-linecap="round" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-badge-top" title="Pet Protection">
+                        <svg fill="currentColor" height="18" viewBox="0 0 24 24" width="18">
+                            <path d="M12 11c-1.66 0-3 1.34-3 3 0 1.5 1.5 3.5 3 5.5 1.5-2 3-4 3-5.5 0-1.66-1.34-3-3-3zm-4-3c-.83 0-1.5.67-1.5 1.5S7.17 11 8 11s1.5-.67 1.5-1.5S8.83 8 8 8zm8 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5S16.83 8 16 8zm-6.5-2.5C9.5 4.67 8.83 4 8 4s-1.5.67-1.5 1.5S7.17 7 8 7s1.5-.67 1.5-1.5zm5 0c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-badge-bottom">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">verified</span>
+                    </div>
+                </div>
+
+                <!-- HEADINGS -->
+                <h1 class="card-title">
+                    <span>Xác thực Email & Mã OTP</span>
+                    <span style="color: var(--accent-coral);">✉️</span>
+                </h1>
+                <p class="card-desc">
+                    Chúng tôi đã gửi mã xác thực 6 chữ số đến địa chỉ email / số điện thoại:
+                </p>
+
+                <!-- EMAIL ADDRESS & EDIT LINK -->
+                <div class="email-chip">
+                    <span class="material-symbols-outlined" style="font-size: 18px; color: var(--primary-dark);">alternate_email</span>
+                    <span class="email-chip-address" id="otp-contact">tài khoản của bạn</span>
+                    <a class="change-email-btn" href="forgot-password.html">Đổi email</a>
+                </div>
+
+                <!-- SEND STATUS BANNER -->
+                <div class="info-banner">
+                    <span class="material-symbols-outlined">mark_email_read</span>
+                    <p>
+                        Mã xác thực vừa được gửi lúc <strong id="sentTime">--:--</strong>. Vui lòng kiểm tra hộp thư đến hoặc mục Thư rác.
+                    </p>
+                </div>
+
+                <!-- FORM WITH 6 SEPARATE OTP INPUTS -->
+                <form class="otp-form" id="otp-form" novalidate>
+                    <div style="width: 100%;">
+                        <div class="otp-label">Nhập mã gồm 6 số bảo mật</div>
+                        <div class="otp-inputs">
+                            <input aria-label="Chữ số 1" autofocus class="otp-box" autocomplete="one-time-code" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text">
+                            <input aria-label="Chữ số 2" class="otp-box" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text">
+                            <input aria-label="Chữ số 3" class="otp-box" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text">
+                            <input aria-label="Chữ số 4" class="otp-box" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text">
+                            <input aria-label="Chữ số 5" class="otp-box" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="text">
+                            <input aria-label="Chữ số 6" class="otp-box" inputmode="numeric" maxlength="1" pattern="[0-9]*" placeholder="•" type="text">
+                        </div>
+                        <p class="otp-error" id="otpError" role="alert"></p>
+                    </div>
+
+                    <!-- COUNTDOWN TIMER -->
+                    <div class="countdown-wrap">
+                        <span class="material-symbols-outlined countdown-icon">schedule</span>
+                        <span>Mã có hiệu lực trong</span>
+                        <span class="countdown-timer" id="countdown-text">02:42</span>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="actions-group">
+                        <button class="btn-submit" id="btn-submit" type="submit">
+                            <span>Xác nhận mã & Tiếp tục</span>
+                            <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+                        </button>
+                        <div class="resend-row">
+                            <span>Bạn không nhận được mã?</span>
+                            <button class="btn-resend" disabled="" id="resend-btn" type="button">
+                                Gửi lại mã (Resend OTP)
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- BACK TO LOGIN -->
+                <a class="back-login-link" href="login.html">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">keyboard_backspace</span>
+                    <span>Quay lại đăng nhập</span>
+                </a>
+            </section>
+
+            <!-- PETCOMPANION TRUST SHIELD -->
+            <aside class="trust-card">
+                <div class="trust-left">
+                    <div class="trust-icon-box">
+                        <span class="material-symbols-outlined">pets</span>
+                    </div>
+                    <div class="trust-details">
+                        <span class="trust-title">PetCompanion Trust Shield</span>
+                        <span class="trust-desc">Bảo mật mã OTP 2 lớp theo tiêu chuẩn phòng khám thú y.</span>
+                    </div>
+                </div>
+                <div class="trust-badge-crypto">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">lock</span>
+                    <span>256-bit Encrypted</span>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>© 2025 PetCompanion - BTL CSE122. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../index.html">Điều khoản</a>
+                <a href="../index.html">Chính sách bảo mật</a>
+                <a href="mailto:support@petcompanion.vn">Trợ giúp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="otp-verification.js"></script>
+</body>
+</html>
