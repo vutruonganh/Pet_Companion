@@ -1,0 +1,47 @@
+[
+  {
+    "id": "u1",
+    "name": "Nguyễn Văn An",
+    "email": "owner@demo.com",
+    "password": "demo123",
+    "phone": "0903112334",
+    "role": "owner",
+    "status": "active"
+  },
+  {
+    "id": "u2",
+    "name": "BS. CKI Hoàng Nam",
+    "email": "provider@demo.com",
+    "password": "demo123",
+    "phone": "0912345678",
+    "role": "provider",
+    "status": "active"
+  },
+  {
+    "id": "u3",
+    "name": "HLV Trần Quốc Huy",
+    "email": "trainer@demo.com",
+    "password": "demo123",
+    "phone": "0987654321",
+    "role": "trainer",
+    "status": "active"
+  },
+  {
+    "id": "u4",
+    "name": "Admin BTL35",
+    "email": "admin@demo.com",
+    "password": "demo123",
+    "phone": "0900000000",
+    "role": "admin",
+    "status": "active"
+  },
+  {
+    "id": "u5",
+    "name": "Tài khoản bị khóa",
+    "email": "locked@demo.com",
+    "password": "demo123",
+    "phone": "0911111111",
+    "role": "owner",
+    "status": "locked"
+  }
+]

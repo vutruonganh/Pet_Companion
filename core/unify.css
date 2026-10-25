@@ -1,0 +1,1192 @@
+/* ==========================================================================
+   unify.css — Đưa giao diện Trainer của PetCompa về chung hệ thống thiết kế
+   với PetCompanion (core/base.css). Nạp SAU CSS riêng của từng trang.
+   ========================================================================== */
+
+/* ---------- Token: map biến cũ của từng trang về token chung ---------- */
+:root {
+  --primary: var(--teal);
+  --primary-dark: var(--teal-dark);
+  --primary-hover: var(--teal-dark);
+  --primary-deep: var(--teal-deep);
+  --primary-light: var(--mint-soft);
+  --primary-subtle: var(--mint-soft);
+  --primary-dim: var(--mint-soft);
+  --primary-focus: rgba(20, 184, 166, .2);
+  --primary-glow: rgba(20, 184, 166, .2);
+
+  --bg-surface: var(--canvas);
+  --bg-canvas: var(--canvas);
+  --bg-card: var(--card);
+  --surface-canvas: var(--canvas);
+  --surface-card: var(--card);
+  --surface-container: var(--line-soft);
+  --surface-container-high: var(--line);
+  --surface-container-low: var(--line-soft);
+  --surface-hover: var(--line-soft);
+
+  --text-main: var(--ink);
+  --text-dark: var(--ink);
+  --text-muted: var(--muted);
+  --text-light: var(--soft);
+  --text-subtle: var(--soft);
+  --text-gray: var(--muted);
+
+  --border-color: var(--line);
+  --border-subtle: var(--line);
+
+  --accent-coral: var(--amber);
+  --accent-coral-soft: var(--amber-tint);
+  --status-success: var(--success);
+  --status-success-soft: var(--mint-soft);
+  --status-warning: var(--warning);
+  --status-amber: var(--amber);
+  --status-amber-soft: var(--amber-tint);
+  --status-error: var(--rose);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: var(--r);
+  --radius-xl: var(--rlg);
+  --radius: var(--r);
+  --radius-pill: var(--pill);
+
+  --shadow-sm: var(--sh);
+  --shadow-card: var(--sh);
+  --shadow-ambient: var(--sh);
+  --shadow-soft: var(--sh);
+  --shadow-elevated: var(--shm);
+  --shadow-hover: var(--shm);
+
+  --font-heading: var(--fh);
+  --font-body: var(--fb);
+  --font-display: var(--fh);
+  --font-family-base: var(--fb);
+  --font-family-display: var(--fh);
+}
+
+/* ---------- Khung trang: dùng .wrap của PetCompanion ---------- */
+.tp-container,
+.pure-library-wrapper,
+.tpp-container {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* ---------- Tiêu đề trang: đồng bộ .page-head ---------- */
+.tp-header,
+.lib-header,
+.tpp-page-header {
+  margin-bottom: 26px;
+  gap: 24px;
+}
+
+.tp-title,
+.lib-title-group h1,
+.tpp-title-row h1 {
+  font-family: var(--fh);
+  font-size: 32px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+.tp-subtitle,
+.lib-title-group p,
+.tpp-subtitle {
+  max-width: 780px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+}
+
+.tp-actions,
+.lib-header-actions,
+.tpp-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ---------- Nút: đồng bộ .btn ---------- */
+.tp-btn,
+.btn-pure,
+.tpp-btn,
+.btn-action-sm,
+.tp-btn-card-secondary,
+.tp-btn-card-primary,
+.tpp-btn-reanalyze,
+.video-preview-btn,
+.btn-fill-demo,
+.btn-action-primary-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--pill);
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 12px 22px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: .2s;
+  transform: none;
+  box-shadow: none;
+}
+
+.tp-btn-primary,
+.btn-pure.btn-primary,
+.tpp-btn-primary,
+.btn-action-primary-sm,
+.tp-btn-card-primary {
+  background: var(--teal);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 8px 18px -8px rgba(20, 184, 166, .6);
+}
+
+.tp-btn-primary:hover,
+.btn-pure.btn-primary:hover,
+.tpp-btn-primary:hover,
+.btn-action-primary-sm:hover,
+.tp-btn-card-primary:hover {
+  background: var(--teal-dark);
+  color: #fff;
+  transform: none;
+  box-shadow: 0 8px 18px -8px rgba(20, 184, 166, .6);
+}
+
+.tp-btn-secondary,
+.btn-pure.btn-secondary,
+.tpp-btn-secondary,
+.tp-btn-card-secondary,
+.btn-action-sm,
+.tpp-btn-reanalyze,
+.tpp-btn-ghost {
+  background: #fff;
+  color: #334155;
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.tp-btn-secondary:hover,
+.btn-pure.btn-secondary:hover,
+.tpp-btn-secondary:hover,
+.tp-btn-card-secondary:hover,
+.btn-action-sm:hover,
+.tpp-btn-reanalyze:hover,
+.tpp-btn-ghost:hover {
+  background: #fff;
+  border-color: var(--teal);
+  color: var(--teal-deep);
+  transform: none;
+}
+
+.tp-btn-card-cert {
+  background: var(--teal-deep);
+  color: #fff;
+}
+
+.tp-btn-card-cert:hover {
+  background: #00554c;
+  color: #fff;
+}
+
+.btn-action-sm {
+  padding: 8px 15px;
+  font-size: 12.5px;
+}
+
+.tp-btn-card-secondary,
+.tp-btn-card-primary {
+  padding: 9px 16px;
+  font-size: 12.5px;
+}
+
+.tpp-btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+/* ---------- Card chung ---------- */
+.tp-card,
+.tp-kpi-card,
+.tp-filter-bar,
+.tp-pagination,
+.stat-card,
+.lib-controls,
+.exercise-card,
+.detail-panel,
+.tpp-card,
+.tpp-ai-card,
+.tpp-timeline-card,
+.tpp-ai-selector-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+}
+
+.tp-card:hover,
+.tp-kpi-card:hover,
+.stat-card:hover,
+.exercise-card:hover,
+.detail-panel:hover {
+  transform: none;
+  box-shadow: var(--sh);
+}
+
+.tp-card {
+  border-radius: var(--r);
+}
+
+.tp-card-header,
+.tp-card-footer {
+  background: transparent;
+}
+
+.tp-card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.tp-card-body {
+  padding: 20px 24px;
+}
+
+.tp-card-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.tp-card-title {
+  font-family: var(--fh);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.tp-card-id,
+.ex-code-pill {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+  border-radius: var(--pill);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  padding: 5px 11px;
+}
+
+.tp-dog-dossier,
+.ex-meta-grid {
+  background: var(--line-soft);
+  border-radius: 12px;
+}
+
+.tp-dog-avatar {
+  border: 0;
+  box-shadow: none;
+}
+
+.tp-kpi-card,
+.stat-card {
+  padding: 22px;
+  gap: 14px;
+}
+
+.tp-kpi-icon,
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+}
+
+.tp-kpi-icon.teal,
+.stat-icon.teal {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+}
+
+.tp-kpi-icon.emerald {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+}
+
+.tp-kpi-icon.amber,
+.stat-icon.orange {
+  background: var(--amber-tint);
+  color: var(--amber-ink);
+}
+
+.tp-kpi-icon.coral {
+  background: var(--rose-tint);
+  color: var(--rose-ink);
+}
+
+.stat-icon.blue {
+  background: var(--blue-tint);
+  color: var(--blue-ink);
+}
+
+.tp-kpi-val,
+.stat-number {
+  font-family: var(--fh);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.tp-kpi-tag {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: var(--pill);
+}
+
+.tp-kpi-desc,
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Chip / trạng thái ---------- */
+.tp-status-pill,
+.tp-skill-tag,
+.category-chip,
+.banner-tag,
+.tpp-badge-pill,
+.tpp-skill-tag,
+.tpp-tl-score-badge,
+.ex-code-pill,
+.tpp-ai-sub-badge,
+.tab-badge,
+.tp-kpi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: var(--pill);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 0;
+}
+
+.tp-status-pill.good,
+.tp-status-pill.active,
+.tp-status-pill.success,
+.category-chip.obedience,
+.category-chip.social,
+.tpp-tag-master,
+.tpp-tag-good,
+.tpp-tl-score-badge,
+.tpp-badge-pill,
+.tpp-ai-sub-badge {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+}
+
+.tp-status-pill.warning,
+.category-chip.behavior,
+.tpp-tag-fair,
+.note-box {
+  background: var(--amber-tint);
+  color: var(--amber-ink);
+}
+
+.category-chip.agility,
+.tpp-tag-practice {
+  background: var(--pink-tint);
+  color: var(--pink-ink);
+}
+
+.tp-skill-tag {
+  background: var(--line-soft);
+  border: 0;
+  color: #334155;
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.tp-skill-tag.done {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+}
+
+.tp-skill-tag .material-symbols-outlined,
+.tp-status-pill .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.tp-skills-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ---------- Thanh tiến độ ---------- */
+.tp-progress-bar-bg,
+.tpp-bar-bg,
+.tpp-pkg-bar-bg {
+  height: 8px;
+  background: var(--line-soft);
+}
+
+.tp-progress-bar-fill,
+.tpp-bar-fill,
+.tpp-pkg-bar-fill {
+  background: var(--teal);
+}
+
+.tpp-fill-blue {
+  background: #0ea5e9;
+}
+
+.tpp-fill-amber {
+  background: var(--amber);
+}
+
+.tpp-fill-coral {
+  background: var(--rose);
+}
+
+.tpp-pkg-bar-fill {
+  background: var(--teal);
+}
+
+.tpp-package-status {
+  background: var(--mint-tint);
+  border-radius: 12px;
+}
+
+.tpp-pkg-note {
+  color: var(--teal-ink);
+}
+
+/* ---------- Bộ lọc / input ---------- */
+.tp-filter-bar,
+.lib-controls {
+  padding: 20px 24px;
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+}
+
+.tp-search-input,
+.pure-input,
+.filter-select,
+.tp-select,
+.pcx-in,
+.tpp-ai-selector-box select {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 14px;
+  padding: 11px 15px;
+  outline: none;
+  box-shadow: none;
+  transition: .2s;
+}
+
+.tp-search-input,
+.pure-input {
+  padding-left: 40px;
+}
+
+.tp-search-input:focus,
+.pure-input:focus,
+.filter-select:focus,
+.tp-select:focus,
+.pcx-in:focus {
+  border-color: var(--teal);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, .2);
+}
+
+.tp-search-icon,
+.search-input-box .material-symbols-outlined {
+  color: var(--soft);
+}
+
+.tab-item {
+  border-radius: var(--pill);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.tab-item:hover {
+  background: var(--mint-tint);
+  color: var(--teal-deep);
+}
+
+.tab-item.active {
+  background: var(--teal);
+  color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(20, 184, 166, .55);
+}
+
+.tab-item.active .tab-badge {
+  background: rgba(255, 255, 255, .22);
+  color: #fff;
+}
+
+.tab-item:not(.active) .tab-badge {
+  background: var(--line-soft);
+  color: var(--muted);
+}
+
+.lib-search-row {
+  border-top: 1px solid var(--line-soft);
+}
+
+.lib-tabs-row {
+  gap: 6px;
+}
+
+/* ---------- Thư viện bài tập ---------- */
+.exercise-card {
+  padding: 20px 24px;
+}
+
+.exercise-card:hover {
+  border-color: var(--line);
+}
+
+.exercise-card.active-selected {
+  border: 2px solid var(--teal);
+  background: #fff;
+}
+
+.ex-name {
+  font-family: var(--fh);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ex-meta-grid {
+  gap: 10px 16px;
+}
+
+.meta-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.meta-val {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ex-criteria-box {
+  background: var(--mint-tint);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+}
+
+.ex-actions-row {
+  border-top: 1px solid var(--line-soft);
+}
+
+.detail-panel {
+  top: 88px;
+}
+
+.detail-panel-banner {
+  height: 150px;
+}
+
+.banner-tag {
+  background: var(--teal);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  padding: 5px 11px;
+}
+
+.detail-section-title {
+  font-family: var(--fh);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.detail-section-title .material-symbols-outlined {
+  color: var(--teal);
+}
+
+.step-badge {
+  background: var(--mint-soft);
+  color: var(--teal-ink);
+  border: 0;
+  font-weight: 800;
+}
+
+.note-box {
+  border-radius: 12px;
+}
+
+.video-preview-btn {
+  background: var(--teal);
+  color: #fff;
+  border: 0;
+}
+
+.video-preview-btn:hover {
+  background: var(--teal-dark);
+  color: #fff;
+}
+
+/* ---------- Phân trang ---------- */
+.tp-pagination {
+  padding: 16px 24px;
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+}
+
+.tp-pagination-text {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tp-pages-list {
+  gap: 8px;
+}
+
+.tp-page-item {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tp-page-item:hover:not(.active) {
+  border-color: var(--teal);
+  color: var(--teal-deep);
+  background: #fff;
+}
+
+.tp-page-item.active {
+  background: var(--teal-ink);
+  border-color: var(--teal-ink);
+  color: #fff;
+}
+
+.tp-page-arrow {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: #475569;
+}
+
+/* ---------- Trang tiến độ ---------- */
+.tpp-card {
+  padding: 22px 24px;
+}
+
+.tpp-title-row {
+  gap: 10px;
+}
+
+.tpp-badge-pill {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+}
+
+.tpp-card-title {
+  font-family: var(--fh);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.tpp-avatar-img {
+  box-shadow: none;
+}
+
+.tpp-status-dot {
+  background: var(--success);
+}
+
+.tpp-specs-grid {
+  background: var(--line-soft);
+  border-radius: 12px;
+}
+
+.tpp-spec-item span:first-child {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+
+.tpp-spec-item span:last-child {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.tpp-skill-name {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.tpp-skill-tag {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.tpp-ai-card {
+  background: var(--card);
+  border-left: 3px solid var(--teal);
+  padding: 24px;
+  box-shadow: var(--sh);
+}
+
+.tpp-ai-card::before,
+.tpp-ai-glow-bg {
+  display: none;
+}
+
+.tpp-ai-icon-sparkle {
+  border-radius: 12px;
+  background: var(--teal);
+  box-shadow: none;
+}
+
+.tpp-ai-title-wrap h2 {
+  font-family: var(--fh);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.tpp-ai-sub-badge {
+  margin-top: 4px;
+}
+
+.tpp-ai-selector-box {
+  padding: 14px 18px;
+  box-shadow: none;
+}
+
+.tpp-checkbox-pill span {
+  background: var(--line-soft);
+  color: var(--muted);
+  padding: 6px 13px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tpp-checkbox-pill input:checked~span {
+  background: var(--teal);
+  color: #fff;
+  box-shadow: none;
+}
+
+.tpp-ai-status-pulse {
+  background: var(--mint-tint);
+  color: var(--teal-ink);
+  border-radius: 12px;
+}
+
+.tpp-pulse-dot {
+  background: var(--teal);
+}
+
+.tpp-ai-section {
+  box-shadow: none;
+  padding: 0;
+}
+
+.tpp-ai-sec-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+
+.tpp-ai-paragraph {
+  font-size: 14px;
+  color: #334155;
+}
+
+.tpp-plan-box {
+  background: var(--blue-tint);
+}
+
+.tpp-plan-box .tpp-ai-sec-title {
+  color: var(--blue-ink);
+}
+
+.tpp-plan-box p {
+  color: #075985;
+  font-size: 14px;
+}
+
+.tpp-reason-box {
+  background: var(--line-soft);
+  border-radius: 12px;
+}
+
+.tpp-reason-icon {
+  color: var(--amber);
+}
+
+.tpp-reason-content {
+  font-size: 13px;
+}
+
+.tpp-ai-actions {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 20px;
+  padding-top: 20px;
+  gap: 10px;
+}
+
+.tpp-timeline-card {
+  padding: 24px;
+}
+
+.tpp-timeline {
+  gap: 22px;
+}
+
+.tpp-timeline::before {
+  background: var(--line);
+}
+
+.tpp-tl-dot {
+  box-shadow: 0 0 0 3px var(--teal);
+}
+
+.tpp-tl-dot.today {
+  background: var(--teal);
+  box-shadow: 0 0 0 4px var(--mint-soft);
+}
+
+.tpp-tl-score-badge {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.tpp-tl-box {
+  background: var(--line-soft);
+  border-radius: 12px;
+  font-size: 13.5px;
+}
+
+.tpp-tl-trainer-note {
+  color: var(--muted);
+}
+
+.tpp-toast-notification {
+  background: #283044;
+  color: #eef0ff;
+  border-radius: 14px;
+  padding: 13px 18px;
+  font-size: 13.5px;
+  box-shadow: var(--shm);
+}
+
+/* ---------- Modal dùng chung ---------- */
+.pcx-overlay {
+  background: rgba(40, 48, 68, .45);
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+
+.pcx-modal {
+  border-radius: var(--rlg);
+  box-shadow: var(--shm);
+  max-width: 640px;
+}
+
+.pcx-modal.pcx-wide {
+  max-width: 780px;
+}
+
+.pcx-head {
+  padding: 20px 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pcx-head h3 {
+  font-family: var(--fh);
+  font-size: 19px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.pcx-body {
+  padding: 24px 26px;
+  gap: 16px;
+}
+
+.pcx-foot {
+  padding: 16px 26px;
+  border-top: 1px solid var(--line);
+  gap: 12px;
+}
+
+.pcx-x {
+  background: transparent;
+  color: var(--soft);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.pcx-x:hover {
+  background: var(--line-soft);
+  color: var(--ink);
+}
+
+.pcx-btn {
+  border-radius: var(--pill);
+  font: 700 14px var(--fb);
+  padding: 11px 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: #334155;
+}
+
+.pcx-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal-deep);
+  background: #fff;
+}
+
+.pcx-btn-primary {
+  background: var(--teal);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(20, 184, 166, .6);
+}
+
+.pcx-btn-primary:hover {
+  background: var(--teal-dark);
+  color: #fff;
+}
+
+.pcx-field>label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pcx-field small,
+.pcx-meta {
+  color: var(--muted);
+}
+
+.pcx-sub {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+
+.pcx-in {
+  background: #fff;
+}
+
+.pcx-goal {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+  padding: 10px 13px;
+}
+
+.pcx-goal:hover {
+  background: var(--mint-tint);
+  border-color: var(--mint);
+}
+
+.pcx-goal.done .material-symbols-outlined {
+  color: var(--teal-dark);
+}
+
+.pcx-goal.doing .material-symbols-outlined {
+  color: var(--amber-ink);
+}
+
+.pcx-goal.todo .material-symbols-outlined {
+  color: var(--soft);
+}
+
+.pcx-emoji-avatar {
+  background: var(--mint-soft);
+}
+
+/* ---------- Trạng thái tải / lỗi / rỗng ---------- */
+.pc-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 52px 24px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  grid-column: 1 / -1;
+}
+
+.pc-state-icon {
+  font-size: 40px;
+  color: var(--soft);
+}
+
+.pc-state.is-error .pc-state-icon {
+  color: var(--rose);
+}
+
+.pc-state.is-loading .pc-state-icon {
+  animation: spin 1s linear infinite;
+}
+
+.pc-state-msg {
+  max-width: 470px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pc-state-action {
+  margin-top: 2px;
+  border: 0;
+  cursor: pointer;
+  background: var(--teal);
+  color: #fff;
+  font: 700 13px var(--fb);
+  padding: 10px 20px;
+  border-radius: var(--pill);
+}
+
+.pc-state-action:hover {
+  background: var(--teal-dark);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Utility tối thiểu thay cho Tailwind ---------- */
+.text-\[18px\] {
+  font-size: 18px;
+}
+
+.text-\[16px\] {
+  font-size: 16px;
+}
+
+.text-\[15px\] {
+  font-size: 15px;
+}
+
+.text-\[28px\] {
+  font-size: 28px;
+}
+
+.text-\[40px\] {
+  font-size: 40px;
+}
+
+.text-primary {
+  color: var(--teal);
+}
+
+.text-status-error {
+  color: var(--rose);
+}
+
+.text-outline {
+  color: var(--soft);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .detail-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-pill {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .topnav {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+
+  .nav-links {
+    order: 3;
+    flex-basis: 100%;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .nav-user {
+    margin-left: auto;
+  }
+
+  .nav-user span {
+    display: none;
+  }
+
+  .tp-title,
+  .lib-title-group h1,
+  .tpp-title-row h1 {
+    font-size: 26px;
+  }
+
+  .tp-container,
+  .pure-library-wrapper,
+  .tpp-container {
+    padding: 0;
+  }
+}

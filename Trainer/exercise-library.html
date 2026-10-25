@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thư viện bài tập — PetCompanion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="exercise-library.css">
+<link rel="stylesheet" href="../core/unify.css">
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="training-plans.html" style="text-decoration:none;color:inherit;"><img class="brand-logo" src="../assets/logoPet-trim.png" alt="PetCompanion"></a>
+  <span class="admin-pill">Huấn luyện viên<br>(Trainer)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="training-plans.html">Kế hoạch huấn luyện</a>
+    <a class="nav-link active" href="exercise-library.html">Thư viện bài tập</a>
+    <a class="nav-link" href="progress.html">Tiến độ &amp; nhật ký AI</a>
+  </nav>
+  <button class="nav-bell" type="button" aria-label="Thông báo"><span class="material-symbols-outlined">notifications</span><span class="dot"></span></button>
+  <div class="nav-user"><b data-user-name>HLV Quốc Huy</b><span>K9 Master Trainer</span></div>
+</header>
+
+<main class="wrap">
+  <div class="pure-library-wrapper">
+    <header class="lib-header page-head">
+      <div class="lib-title-group">
+        <h1>Thư viện Bài tập Huấn luyện Thú cưng 📚</h1>
+        <p>Kho giáo trình và bài tập rèn luyện hành vi chuẩn hóa quốc tế với video minh họa và tiêu chí đánh giá thành thạo dành cho Huấn luyện viên SV3.</p>
+      </div>
+      <div class="lib-header-actions head-actions">
+        <button class="btn-pure btn-secondary" id="btnPackage" type="button"><span class="material-symbols-outlined" style="font-size:18px;">inventory_2</span>Đóng gói khóa học</button>
+        <button class="btn-pure btn-primary" id="btnAddExercise" type="button"><span class="material-symbols-outlined" style="font-size:18px;">add_circle</span>Thêm bài tập mới</button>
+      </div>
+    </header>
+
+    <section class="lib-stats-grid" id="statsGrid" aria-label="Thống kê thư viện"></section>
+
+    <section class="lib-controls" aria-label="Bộ lọc bài tập">
+      <div class="lib-tabs-row" id="tabsRow"></div>
+      <div class="lib-search-row">
+        <div class="search-input-box">
+          <span class="material-symbols-outlined">search</span>
+          <input class="pure-input" id="exerciseSearchInput" placeholder="Tìm theo tên bài tập, mã hoặc dụng cụ huấn luyện..." type="text">
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <select class="filter-select" id="difficultyFilter" aria-label="Lọc độ khó">
+            <option value="">Tất cả độ khó</option>
+            <option value="easy">Dễ</option>
+            <option value="medium">Trung bình</option>
+            <option value="hard">Nâng cao</option>
+          </select>
+          <select class="filter-select" id="durationFilter" aria-label="Lọc thời lượng">
+            <option value="">Thời lượng</option>
+            <option value="lt15">Dưới 15 phút</option>
+            <option value="mid">15 - 25 phút</option>
+            <option value="gt25">Trên 25 phút</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <div class="lib-content-layout">
+      <section class="exercise-list" id="exerciseContainer" aria-label="Danh sách bài tập"></section>
+      <aside class="detail-panel" id="detailPreviewBox" aria-label="Chi tiết bài tập"></aside>
+    </div>
+  </div>
+</main>
+
+<footer class="sys-footer">
+  <span class="live"><i></i>Portal huấn luyện vận hành bình thường</span>
+  <span>© 2025 PetCompanion Trainer Portal. Tất cả các quyền được bảo lưu.</span>
+</footer>
+
+<script src="../mock-api/seed.js"></script>
+<script src="../mock-api/api.js"></script>
+<script src="exercises.js"></script>
+</body>
+</html>

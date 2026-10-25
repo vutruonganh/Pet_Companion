@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Đăng ký tài khoản - PetCompanion</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="auth.css">
+<link rel="stylesheet" href="register.css">
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="login.html" style="text-decoration:none;color:inherit;">
+    <img class="brand-logo" src="../assets/logoPet-trim.png" alt="PetCompanion">
+  </a>
+  <span class="admin-pill">Cổng thành viên<br>(Account)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="login.html">Đăng nhập</a>
+    <a class="nav-link active" href="register.html">Đăng ký</a>
+  </nav>
+  <div class="nav-user">
+    <b>Khách</b>
+    <span>Chưa đăng nhập</span>
+  </div>
+</header>
+
+<main class="auth-main">
+  <div class="auth-container">
+    <section class="auth-card register-card">
+      <!-- Cột trái: giới thiệu -->
+      <div class="auth-hero-column">
+        <div class="hero-top-content">
+          <div class="feature-badge">
+            <span class="material-symbols-outlined" style="font-size: 16px;">verified</span>
+            <span>BTL-35 • Cổng đăng ký đa vai trò</span>
+          </div>
+          <div class="hero-title-box">
+            <h1 class="hero-title">Chăm sóc toàn diện, trọn vẹn yêu thương.</h1>
+            <p class="hero-desc">Gia nhập cộng đồng hơn 35.000 chủ nuôi và chuyên gia chăm sóc thú cưng uy tín hàng đầu tại Việt Nam.</p>
+          </div>
+        </div>
+
+        <div class="hero-bottom-content">
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-primary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">medical_information</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Hồ sơ sức khỏe điện tử</p>
+              <p class="feature-card-sub">Phác đồ tiêm ngừa, sổ giun và lịch sử điều trị đồng bộ</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-secondary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">event_available</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Đặt lịch spa &amp; khám bệnh</p>
+              <p class="feature-card-sub">Chọn bác sĩ, khung giờ khám và dịch vụ grooming trong 30 giây</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-tertiary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">smart_toy</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Nhắc nhở tự động bằng AI</p>
+              <p class="feature-card-sub">Phân tích hành vi dinh dưỡng &amp; thông báo đúng chu kỳ</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-primary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">school</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Kế hoạch huấn luyện chuyên sâu</p>
+              <p class="feature-card-sub">Giáo trình bài bản được kiểm duyệt từ huấn luyện viên quốc tế</p>
+            </div>
+          </div>
+          <div class="hero-footer-stats">
+            <div class="stat-pill">
+              <span class="stat-dot"></span>
+              <span>Hệ thống mở 24/7</span>
+            </div>
+            <span>Bảo mật SSL 256-bit</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải: form đăng ký -->
+      <div class="auth-form-column">
+        <div>
+          <div class="auth-header">
+            <div class="auth-heading-row">
+              <h2 class="auth-title">Tạo tài khoản mới</h2>
+              <span class="demo-pill-badge">BTL-35 Demo</span>
+            </div>
+            <p class="auth-subtitle">Bắt đầu hành trình chăm sóc thú cưng chu đáo hơn cùng PetCompanion.</p>
+          </div>
+
+          <form id="registerForm" novalidate="">
+            <!-- Vai trò -->
+            <div class="form-row">
+              <div class="field-label">
+                <span>Bạn tham gia với tư cách nào? <span class="field-required">*</span></span>
+                <span class="field-notice" id="roleNotice">Quyền chủ nuôi chuẩn</span>
+              </div>
+              <div class="role-selector" id="roleSelectorGroup">
+                <label class="role-card active" data-role="owner">
+                  <input checked="" name="accountRole" type="radio" value="owner">
+                  <div class="role-card-top">
+                    <div class="role-badge-icon">
+                      <span class="material-symbols-outlined" style="font-size: 18px;">favorite</span>
+                    </div>
+                    <div class="role-radio-dot"></div>
+                  </div>
+                  <div class="role-title">Chủ nuôi</div>
+                  <div class="role-subtext">Quản lý hồ sơ pet, theo dõi sức khỏe &amp; đặt lịch</div>
+                </label>
+                <label class="role-card" data-role="provider">
+                  <input name="accountRole" type="radio" value="provider">
+                  <div class="role-card-top">
+                    <div class="role-badge-icon">
+                      <span class="material-symbols-outlined" style="font-size: 18px;">storefront</span>
+                    </div>
+                    <div class="role-radio-dot"></div>
+                  </div>
+                  <div class="role-title">Đối tác dịch vụ</div>
+                  <div class="role-subtext">Cung ứng Spa, grooming, phòng khám đa khoa</div>
+                </label>
+                <label class="role-card" data-role="trainer">
+                  <input name="accountRole" type="radio" value="trainer">
+                  <div class="role-card-top">
+                    <div class="role-badge-icon">
+                      <span class="material-symbols-outlined" style="font-size: 18px;">sports_score</span>
+                    </div>
+                    <div class="role-radio-dot"></div>
+                  </div>
+                  <div class="role-title">Huấn luyện viên</div>
+                  <div class="role-subtext">Biên soạn giáo trình huấn luyện thói quen chuyên sâu</div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Họ tên -->
+            <div class="form-row">
+              <label class="field-label" for="fullName">
+                <span>Họ và tên <span class="field-required">*</span></span>
+              </label>
+              <div class="input-field-group">
+                <span class="material-symbols-outlined input-prefix-icon">badge</span>
+                <input class="input-field" id="fullName" name="fullName" placeholder="Ví dụ: Nguyễn Văn An" type="text">
+              </div>
+              <div class="field-error-msg" id="nameError">Họ và tên cần ít nhất 2 ký tự</div>
+            </div>
+
+            <!-- Email & điện thoại -->
+            <div class="form-row-grid">
+              <div class="form-row">
+                <label class="field-label" for="userEmail">
+                  <span>Email cá nhân <span class="field-required">*</span></span>
+                </label>
+                <div class="input-field-group">
+                  <span class="material-symbols-outlined input-prefix-icon">alternate_email</span>
+                  <input class="input-field" id="userEmail" name="userEmail" placeholder="tenban@email.com" type="email">
+                </div>
+                <div class="field-error-msg" id="emailError">Định dạng email chưa hợp lệ</div>
+              </div>
+              <div class="form-row">
+                <label class="field-label" for="userPhone">
+                  <span>Số điện thoại <span class="field-required">*</span></span>
+                </label>
+                <div class="input-field-group">
+                  <span class="material-symbols-outlined input-prefix-icon">call</span>
+                  <input class="input-field" id="userPhone" name="userPhone" placeholder="0912 345 678" type="tel">
+                </div>
+                <div class="field-error-msg" id="phoneError">Số điện thoại Việt Nam không hợp lệ</div>
+              </div>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="form-row">
+              <div class="field-label">
+                <label for="userPassword">Mật khẩu bảo mật <span class="field-required">*</span></label>
+                <span id="strengthLabel" class="strength-label">Chưa nhập</span>
+              </div>
+              <div class="input-field-group">
+                <span class="material-symbols-outlined input-prefix-icon">lock</span>
+                <input class="input-field has-action" id="userPassword" name="userPassword" placeholder="Tối thiểu 8 ký tự..." type="password">
+                <button aria-label="Toggle password" class="input-action-btn" id="togglePasswordBtn" type="button">
+                  <span class="material-symbols-outlined" id="pwdToggleIcon">visibility</span>
+                </button>
+              </div>
+              <div class="strength-bar-container">
+                <div class="strength-bar" id="bar1"></div>
+                <div class="strength-bar" id="bar2"></div>
+                <div class="strength-bar" id="bar3"></div>
+                <div class="strength-bar" id="bar4"></div>
+              </div>
+              <div class="password-rules">
+                <span class="rule-item" id="hintLength">
+                  <span class="material-symbols-outlined">radio_button_unchecked</span> Tối thiểu 8 ký tự
+                </span>
+                <span class="rule-item" id="hintCase">
+                  <span class="material-symbols-outlined">radio_button_unchecked</span> Chữ hoa &amp; chữ thường
+                </span>
+                <span class="rule-item" id="hintNumber">
+                  <span class="material-symbols-outlined">radio_button_unchecked</span> Chữ số (0-9)
+                </span>
+                <span class="rule-item" id="hintSpecial">
+                  <span class="material-symbols-outlined">radio_button_unchecked</span> Ký tự đặc biệt (!@#$...)
+                </span>
+              </div>
+            </div>
+
+            <!-- Xác nhận mật khẩu -->
+            <div class="form-row">
+              <label class="field-label" for="confirmPassword">
+                <span>Xác nhận lại mật khẩu <span class="field-required">*</span></span>
+              </label>
+              <div class="input-field-group">
+                <span class="material-symbols-outlined input-prefix-icon">lock_reset</span>
+                <input class="input-field has-action" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại chính xác mật khẩu" type="password">
+                <button aria-label="Toggle confirm password" class="input-action-btn" id="toggleConfirmBtn" type="button">
+                  <span class="material-symbols-outlined" id="confirmToggleIcon">visibility</span>
+                </button>
+              </div>
+              <div class="field-error-msg" id="confirmError">Mật khẩu không trùng khớp</div>
+              <div class="field-success-msg" id="confirmSuccess">
+                <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+                <span>Mật khẩu trùng khớp</span>
+              </div>
+            </div>
+
+            <!-- Điều khoản -->
+            <label class="checkbox-container">
+              <input id="agreeTerms" type="checkbox">
+              <span>
+                Tôi đồng ý với <a class="terms-link" href="#">Điều khoản dịch vụ CSE122</a> &amp; <a class="terms-link" href="#">Chính sách bảo mật</a> của PetCompanion.
+              </span>
+            </label>
+            <div class="field-error-msg" id="termsError">Vui lòng xác nhận đồng ý với điều khoản sử dụng</div>
+
+            <div class="alert-box" id="submitAlert"></div>
+
+            <button class="submit-btn" id="submitBtn" type="submit">
+              <span>Đăng ký tài khoản</span>
+              <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+            </button>
+
+            <div class="form-footer-login">
+              <span>Đã có tài khoản?</span>
+              <a class="login-link" href="login.html">
+                <span>Đăng nhập ngay</span>
+                <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
+              </a>
+            </div>
+          </form>
+        </div>
+
+        <div class="auth-trust-strip">
+          <span><span class="material-symbols-outlined">verified_user</span>SSL 256-bit</span>
+          <span><span class="material-symbols-outlined">gavel</span>Chuẩn BTL CSE122</span>
+          <span><span class="material-symbols-outlined">database</span>Dữ liệu an toàn</span>
+          <span><span class="material-symbols-outlined">support_agent</span>Hỗ trợ 24/7</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="sys-footer">
+  <span>© 2025 PetCompanion — BTL CSE122. All rights reserved.</span>
+  <span class="live"><i></i>Hệ thống hoạt động 24/7</span>
+</footer>
+
+<script src="../mock-api/seed.js"></script>
+<script src="../mock-api/api.js"></script>
+<script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+[
+  {
+    "id": "TP-001",
+    "petId": "p3",
+    "title": "Lộ trình Vỡ lòng & Nghe lời cơ bản (Puppy Foundation)",
+    "level": "foundation",
+    "status": "in_progress",
+    "weeks": 4,
+    "perWeek": 3,
+    "week": 3,
+    "goals": [
+      {
+        "text": "Ngồi - Nằm - Yên vị trí",
+        "state": "done"
+      },
+      {
+        "text": "Bắt tay tương tác",
+        "state": "done"
+      },
+      {
+        "text": "Không cắn phá đồ đạc & gặm giày",
+        "state": "todo"
+      }
+    ],
+    "tags": [
+      "Lệnh ngồi - chờ - đi cạnh"
+    ],
+    "note": "",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  },
+  {
+    "id": "TP-002",
+    "petId": "p4",
+    "title": "Kiểm soát tính hung hăng & Hòa nhập xã hội (Socialization & Anxiety)",
+    "level": "therapy",
+    "status": "attention",
+    "weeks": 8,
+    "perWeek": 4,
+    "week": 2,
+    "goals": [
+      {
+        "text": "Giảm căng thẳng khi gặp chó lạ",
+        "state": "doing"
+      },
+      {
+        "text": "Kiểm soát lực kéo dây dắt (Leash Pulling)",
+        "state": "todo"
+      },
+      {
+        "text": "Hạ tín hiệu phòng vệ thức ăn",
+        "state": "todo"
+      }
+    ],
+    "tags": [
+      "Sợ người lạ & xe cộ"
+    ],
+    "note": "Cần theo dõi sát phản ứng khi gặp chó lạ.",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  },
+  {
+    "id": "TP-003",
+    "petId": "p5",
+    "title": "Lộ trình Huấn luyện Thể lực & Vượt chướng ngại vật (Agility Master)",
+    "level": "advanced",
+    "status": "graduated",
+    "weeks": 6,
+    "perWeek": 3,
+    "week": 6,
+    "score": 9.8,
+    "goals": [
+      {
+        "text": "Vượt hầm chui & nhảy rào 80cm",
+        "state": "done"
+      },
+      {
+        "text": "Chạy zíc-zắc cọc tiêu phản xạ nhanh",
+        "state": "done"
+      },
+      {
+        "text": "Lệnh dừng khẩn cấp từ xa 30m",
+        "state": "done"
+      }
+    ],
+    "tags": [],
+    "note": "",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  },
+  {
+    "id": "TP-004",
+    "petId": "p1",
+    "title": "Trị liệu sợ sấm sét & Tiếng ồn lạ (Sound Desensitization)",
+    "level": "therapy",
+    "status": "new",
+    "weeks": 4,
+    "perWeek": 2,
+    "week": 1,
+    "goals": [
+      {
+        "text": "Giải tỏa phản xạ giật mình khi nghe tiếng sấm",
+        "state": "todo"
+      },
+      {
+        "text": "Tạo vùng an toàn (Safe Crate Training)",
+        "state": "todo"
+      },
+      {
+        "text": "Duy trì nhịp thở ổn định khi giông bão",
+        "state": "todo"
+      }
+    ],
+    "tags": [],
+    "note": "",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  },
+  {
+    "id": "TP-005",
+    "petId": "p2",
+    "title": "Làm quen lồng vận chuyển & Đi vệ sinh đúng chỗ",
+    "level": "foundation",
+    "status": "in_progress",
+    "weeks": 4,
+    "perWeek": 2,
+    "week": 2,
+    "goals": [
+      {
+        "text": "Chui vào lồng tự nguyện",
+        "state": "done"
+      },
+      {
+        "text": "Đi vệ sinh đúng khay",
+        "state": "doing"
+      },
+      {
+        "text": "Bình tĩnh khi di chuyển bằng ô tô",
+        "state": "todo"
+      }
+    ],
+    "tags": [
+      "Đi vệ sinh đúng chỗ"
+    ],
+    "note": "",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  },
+  {
+    "id": "TP-006",
+    "petId": "p1",
+    "title": "Xã hội hóa & Làm quen môi trường mới",
+    "level": "foundation",
+    "status": "paused",
+    "weeks": 8,
+    "perWeek": 2,
+    "week": 3,
+    "goals": [
+      {
+        "text": "Làm quen 3 bạn chó lạ",
+        "state": "done"
+      },
+      {
+        "text": "Đi qua khu đông người",
+        "state": "todo"
+      }
+    ],
+    "tags": [
+      "Xã hội hóa cún con"
+    ],
+    "note": "Tạm hoãn do chủ đi công tác 2 tuần.",
+    "homework": 0,
+    "exerciseIds": [],
+    "archived": false
+  }
+]

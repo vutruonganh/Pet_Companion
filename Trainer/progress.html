@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiến độ &amp; nhật ký AI — PetCompanion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="progress.css">
+<link rel="stylesheet" href="../core/unify.css">
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="training-plans.html" style="text-decoration:none;color:inherit;"><img class="brand-logo" src="../assets/logoPet-trim.png" alt="PetCompanion"></a>
+  <span class="admin-pill">Huấn luyện viên<br>(Trainer)</span>
+  <nav class="nav-links">
+    <a class="nav-link" href="training-plans.html">Kế hoạch huấn luyện</a>
+    <a class="nav-link" href="exercise-library.html">Thư viện bài tập</a>
+    <a class="nav-link active" href="progress.html">Tiến độ &amp; nhật ký AI</a>
+  </nav>
+  <button class="nav-bell" type="button" aria-label="Thông báo"><span class="material-symbols-outlined">notifications</span><span class="dot"></span></button>
+  <div class="nav-user"><b data-user-name>HLV Quốc Huy</b><span>K9 Master Trainer</span></div>
+</header>
+
+<main class="wrap">
+  <div class="tpp-container">
+    <header class="tpp-page-header">
+      <div class="tpp-title-row">
+        <h1>Tiến độ rèn luyện &amp; AI Tóm tắt hành vi</h1>
+        <span class="tpp-badge-pill"><span class="material-symbols-outlined" style="font-size:15px;">psychology</span>AI-3 Intelligence SV3</span>
+      </div>
+      <p class="tpp-subtitle">Theo dõi chỉ số tiến bộ, nhật ký từng buổi và phân tích thông minh từ AI giúp tối ưu hóa giáo án huấn luyện K9 PetCompanion.</p>
+      <div class="pcx-petbar"><label for="petSelect">Thú cưng:</label><select id="petSelect" class="pcx-in"></select></div>
+    </header>
+
+    <div class="tpp-grid-layout">
+      <aside class="tpp-sidebar" id="sidebar"></aside>
+      <main class="tpp-main-column" id="mainCol"></main>
+    </div>
+  </div>
+
+  <div class="tpp-toast-notification" id="tpp-toast">
+    <span class="material-symbols-outlined" style="color:var(--teal)">check_circle</span>
+    <span id="tpp-toast-text">Thông báo mặc định</span>
+  </div>
+</main>
+
+<footer class="sys-footer">
+  <span class="live"><i></i>Portal huấn luyện vận hành bình thường</span>
+  <span>© 2025 PetCompanion Trainer Portal. Tất cả các quyền được bảo lưu.</span>
+</footer>
+
+<script src="../mock-api/seed.js"></script>
+<script src="../mock-api/api.js"></script>
+<script src="progress.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Đăng nhập - PetCompanion</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../core/base.css">
+<link rel="stylesheet" href="auth.css">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="login.html" style="text-decoration:none;color:inherit;">
+    <img class="brand-logo" src="../assets/logoPet-trim.png" alt="PetCompanion">
+  </a>
+  <span class="admin-pill">Cổng thành viên<br>(Account)</span>
+  <nav class="nav-links">
+    <a class="nav-link active" href="login.html">Đăng nhập</a>
+    <a class="nav-link" href="register.html">Đăng ký</a>
+  </nav>
+  <div class="nav-user">
+    <b>Khách</b>
+    <span>Chưa đăng nhập</span>
+  </div>
+</header>
+
+<main class="auth-main">
+  <div class="auth-container">
+    <section class="auth-card">
+      <!-- Cột trái: thương hiệu -->
+      <div class="auth-hero-column">
+        <div class="hero-top-content">
+          <div class="feature-badge">
+            <span class="material-symbols-outlined" style="font-size: 16px;">verified</span>
+            <span>Hệ sinh thái BTL-35 PetCare</span>
+          </div>
+          <div class="hero-title-box">
+            <h1 class="hero-title">Nền tảng Quản lý &amp; Chăm sóc Thú cưng</h1>
+            <p class="hero-desc">Đồng hành trọn vẹn từng cột mốc phát triển, tiêm phòng và lịch trình sức khỏe cùng bé cưng của bạn.</p>
+          </div>
+        </div>
+
+        <div class="hero-bottom-content">
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-primary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">medical_services</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Theo dõi Hồ sơ Bệnh án &amp; Thể trạng</p>
+              <p class="feature-card-sub">Sổ khám điện tử, cân nặng và phác đồ điều trị</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-secondary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">event_repeat</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">Lịch Nhắc Tiêm chủng &amp; Tẩy ký sinh</p>
+              <p class="feature-card-sub">Tự động thông báo qua SMS &amp; Ứng dụng</p>
+            </div>
+          </div>
+          <div class="hero-feature-card">
+            <div class="feature-icon-box icon-bg-tertiary">
+              <span class="material-symbols-outlined" style="font-size: 20px;">psychology</span>
+            </div>
+            <div class="feature-card-texts">
+              <p class="feature-card-title">AI Triage &amp; Đề xuất Dịch vụ Thông minh</p>
+              <p class="feature-card-sub">Gợi ý phòng khám, grooming &amp; chế độ dinh dưỡng</p>
+            </div>
+          </div>
+          <div class="hero-footer-stats">
+            <div class="stat-pill">
+              <span class="stat-dot"></span>
+              <span>12.400+ Thú cưng được bảo trợ</span>
+            </div>
+            <span>Bảo mật chuẩn y khoa</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải: đăng nhập -->
+      <div class="auth-form-column">
+        <div>
+          <div class="auth-header">
+            <div class="auth-heading-row">
+              <h2 class="auth-title">Chào mừng trở lại!</h2>
+              <span class="demo-pill-badge">BTL-35 Live Demo</span>
+            </div>
+            <p class="auth-subtitle" id="auth-subtitle">Đăng nhập để điều phối lịch hẹn và quản lý thú cưng của bạn.</p>
+          </div>
+
+          <!-- Chọn vai trò -->
+          <div class="role-selection-box">
+            <div class="role-header-info">
+              <span class="role-label-title">Chọn vai trò đăng nhập</span>
+              <span class="role-current-name" id="role-indicator">Chủ nuôi (Pet Owner)</span>
+            </div>
+            <div class="role-button-grid" id="role-selector">
+              <button class="role-btn active" data-email="owner@demo.com" data-role="owner" type="button">
+                <span class="material-symbols-outlined">pets</span>
+                <span>Chủ nuôi</span>
+              </button>
+              <button class="role-btn" data-email="provider@demo.com" data-role="provider" type="button">
+                <span class="material-symbols-outlined">local_hospital</span>
+                <span>Dịch vụ</span>
+              </button>
+              <button class="role-btn" data-email="trainer@demo.com" data-role="trainer" type="button">
+                <span class="material-symbols-outlined">sports_score</span>
+                <span>HLV</span>
+              </button>
+              <button class="role-btn" data-email="admin@demo.com" data-role="admin" type="button">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+                <span>Quản trị</span>
+              </button>
+            </div>
+            <div class="demo-account-hint">
+              <div class="demo-info-left">
+                <span class="material-symbols-outlined">info</span>
+                <span>Tài khoản mẫu: <strong class="demo-target-email" id="quick-email-label">owner@demo.com</strong> (MK: <strong id="quick-pwd-label">demo123</strong>)</span>
+              </div>
+              <button class="btn-fill-demo" id="fill-demo-btn" type="button">Tự điền</button>
+            </div>
+          </div>
+
+          <form class="auth-form" id="login-form" onsubmit="return false;">
+            <div class="form-group">
+              <div class="form-label-row">
+                <label class="form-label" for="login-email">Email / Tên đăng nhập</label>
+                <span class="validity-status show" id="email-validity-badge">
+                  <span class="material-symbols-outlined" id="email-validity-icon" style="font-size: 14px;">check_circle</span>
+                  <span id="email-validity-text">Hợp lệ</span>
+                </span>
+              </div>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined input-icon-left">mail</span>
+                <input class="form-input" id="login-email" placeholder="name@example.com" required="" type="email" value="owner@demo.com">
+                <button aria-label="Xóa email" class="input-action-btn" id="clear-email" type="button">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">cancel</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label-row">
+                <label class="form-label" for="login-password">Mật khẩu</label>
+                <a class="forgot-link" href="#">Quên mật khẩu?</a>
+              </div>
+              <div class="input-wrapper">
+                <span class="material-symbols-outlined input-icon-left">lock</span>
+                <input class="form-input" id="login-password" placeholder="Nhập tối thiểu 6 ký tự" required="" type="password" value="demo123">
+                <button aria-label="Hiện mật khẩu" class="input-action-btn" id="toggle-password" type="button">
+                  <span class="material-symbols-outlined" id="eye-icon" style="font-size: 20px;">visibility</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-helpers-row">
+              <label class="checkbox-label">
+                <input checked="" class="custom-checkbox" id="remember-me" type="checkbox">
+                <span>Ghi nhớ đăng nhập trong 30 ngày</span>
+              </label>
+              <div class="security-badge">
+                <span class="material-symbols-outlined">shield</span>
+                <span>2FA Hỗ trợ</span>
+              </div>
+            </div>
+
+            <div class="status-alert-box" id="status-message">
+              <span class="material-symbols-outlined" id="status-icon" style="font-size: 18px;">check_circle</span>
+              <p id="status-text">Đăng nhập thành công! Đang chuyển hướng...</p>
+            </div>
+
+            <button class="btn btn-primary login-submit" id="submit-btn" type="submit">
+              <span class="material-symbols-outlined" id="btn-icon" style="font-size: 20px;">login</span>
+              <span id="btn-text">Đăng nhập ngay</span>
+            </button>
+          </form>
+
+          <div class="divider-row">
+            <div class="divider-line"></div>
+            <span class="divider-text">Hoặc tiếp tục với</span>
+          </div>
+
+          <div class="social-btn-grid">
+            <button class="social-btn" type="button">
+              <svg class="social-svg-icon" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+              </svg>
+              <span>Google</span>
+            </button>
+            <button class="social-btn" type="button">
+              <svg class="social-svg-icon" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.02.63-2.66 1.4-.56.65-.99 1.73-.86 2.78 1.03.08 2.02-.54 2.58-1.25z"></path>
+              </svg>
+              <span>Apple</span>
+            </button>
+            <button class="social-btn" type="button">
+              <svg class="social-svg-icon" fill="#1877F2" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+              </svg>
+              <span>Facebook</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-bottom-cta">
+          <span>Chưa có tài khoản PetCompanion?</span>
+          <a class="auth-signup-link" href="register.html">Đăng ký ngay</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="sys-footer">
+  <span>© 2025 PetCompanion — BTL CSE122. All rights reserved.</span>
+  <span class="live"><i></i>Hệ thống hoạt động 24/7</span>
+</footer>
+
+<div class="toast-container" id="toast-container"></div>
+<script src="../mock-api/seed.js"></script>
+<script src="../mock-api/api.js"></script>
+<script src="login.js"></script>
+</body>
+</html>
