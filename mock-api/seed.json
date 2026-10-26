@@ -3,11 +3,11 @@
     {
       "id": "1",
       "code": "#APT-1049",
-      "petId": "6",
+      "petId": "11",
       "pet": "Miu Miu (Mèo Anh lông ngắn)",
       "owner": "Trần Minh Anh",
       "ownerEmail": "minh.anh@pet.vn",
-      "phone": "0912000000",
+      "phone": "0912443111",
       "service": "Cấp cứu hô hấp khẩn",
       "serviceChip": "chip-rose",
       "time": "10:30 Hôm nay",
@@ -27,7 +27,7 @@
       "pet": "Milo (Golden Retriever)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912000137",
+      "phone": "0903112334",
       "service": "Khám tổng quát & Tẩy giun",
       "serviceChip": "chip-mint",
       "time": "08:30 (Đã check-in)",
@@ -47,7 +47,7 @@
       "pet": "Luna (Mèo Anh lông ngắn)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912000274",
+      "phone": "0903112334",
       "service": "Spa tắm dưỡng thảo mộc",
       "serviceChip": "chip-pink",
       "time": "09:30",
@@ -63,11 +63,11 @@
     {
       "id": "4",
       "code": "#APT-1052",
-      "petId": "10",
+      "petId": "15",
       "pet": "Bông (Poodle trắng)",
       "owner": "Đỗ Thùy Trang",
       "ownerEmail": "thuy.trang@pet.vn",
-      "phone": "0912000411",
+      "phone": "0934771888",
       "service": "Tiêm phòng dại & 7 bệnh",
       "serviceChip": "chip-lav",
       "time": "14:00 Chiều nay",
@@ -83,11 +83,11 @@
     {
       "id": "5",
       "code": "#APT-1053",
-      "petId": "p1",
+      "petId": "6",
       "pet": "Bơ (Golden Retriever)",
       "owner": "Hoàng Yến",
       "ownerEmail": "hoang.yen@pet.vn",
-      "phone": "0912000548",
+      "phone": "0936554433",
       "service": "Khám da liễu & soi nấm",
       "serviceChip": "chip-mint",
       "time": "09:00 Hôm nay",
@@ -103,11 +103,11 @@
     {
       "id": "6",
       "code": "#APT-1054",
-      "petId": "p2",
+      "petId": "7",
       "pet": "Miu Miu (British Shorthair)",
       "owner": "Vũ Minh",
       "ownerEmail": "vu.minh@pet.vn",
-      "phone": "0912000685",
+      "phone": "0944221100",
       "service": "Cấp cứu tiêu chảy cấp",
       "serviceChip": "chip-rose",
       "time": "11:00 Hôm nay",
@@ -127,7 +127,7 @@
       "pet": "Bông (Poodle trắng)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912000822",
+      "phone": "0903112334",
       "service": "Grooming cắt tỉa tạo hình",
       "serviceChip": "chip-pink",
       "time": "13:30 Hôm nay",
@@ -143,11 +143,11 @@
     {
       "id": "8",
       "code": "#APT-1056",
-      "petId": "p3",
+      "petId": "8",
       "pet": "LuLu (Poodle Toy)",
       "owner": "Trần Mai Hương",
       "ownerEmail": "mai.huong@pet.vn",
-      "phone": "0912000959",
+      "phone": "0905123456",
       "service": "Huấn luyện vâng lời cơ bản",
       "serviceChip": "chip-amber",
       "time": "15:00 Hôm nay",
@@ -163,11 +163,11 @@
     {
       "id": "9",
       "code": "#APT-1057",
-      "petId": "p4",
+      "petId": "9",
       "pet": "Rocky (Husky Bắc Cực)",
       "owner": "Phạm Thùy Linh",
       "ownerEmail": "thuy.linh@pet.vn",
-      "phone": "0912001096",
+      "phone": "0912765432",
       "service": "Khám hành vi & tư vấn trị liệu",
       "serviceChip": "chip-blue",
       "time": "16:00 Hôm nay",
@@ -183,11 +183,11 @@
     {
       "id": "10",
       "code": "#APT-1058",
-      "petId": "p5",
+      "petId": "10",
       "pet": "Max (Border Collie)",
       "owner": "Lê Minh",
       "ownerEmail": "le.minh@pet.vn",
-      "phone": "0912001233",
+      "phone": "0965332211",
       "service": "Tiêm phòng định kỳ",
       "serviceChip": "chip-lav",
       "time": "08:30 Hôm nay",
@@ -203,11 +203,11 @@
     {
       "id": "11",
       "code": "#APT-1059",
-      "petId": "7",
+      "petId": "12",
       "pet": "Coco (Poodle Toy)",
       "owner": "Ngô Thanh Hà",
       "ownerEmail": "thanh.ha@pet.vn",
-      "phone": "0912001370",
+      "phone": "0977112244",
       "service": "Siêu âm ổ bụng",
       "serviceChip": "chip-blue",
       "time": "10:00 Hôm nay",
@@ -223,11 +223,11 @@
     {
       "id": "12",
       "code": "#APT-1060",
-      "petId": "8",
+      "petId": "13",
       "pet": "Kitty (Mèo Mướp)",
       "owner": "Lê Văn Hùng",
       "ownerEmail": "van.hung@pet.vn",
-      "phone": "0912001507",
+      "phone": "0908776655",
       "service": "Tẩy giun định kỳ",
       "serviceChip": "chip-mint",
       "time": "11:30 Hôm nay",
@@ -243,11 +243,11 @@
     {
       "id": "13",
       "code": "#APT-1061",
-      "petId": "9",
+      "petId": "14",
       "pet": "Buddy (Corgi)",
       "owner": "Lê Hoàng Yến",
       "ownerEmail": "hoang.yen.le@pet.vn",
-      "phone": "0912001644",
+      "phone": "0988123987",
       "service": "Spa mèo & vệ sinh tai",
       "serviceChip": "chip-pink",
       "time": "14:30 Chiều nay",
@@ -267,7 +267,7 @@
       "pet": "Simba (Golden Retriever)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912001781",
+      "phone": "0903112334",
       "service": "Cấp cứu chấn thương chân",
       "serviceChip": "chip-rose",
       "time": "12:00 Trưa nay",
@@ -287,7 +287,7 @@
       "pet": "Mochi (Mèo Anh lông dài)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912001918",
+      "phone": "0903112334",
       "service": "Tư vấn dinh dưỡng & kiểm soát cân nặng",
       "serviceChip": "chip-blue",
       "time": "15:30 Chiều nay",
@@ -303,11 +303,11 @@
     {
       "id": "16",
       "code": "#APT-1064",
-      "petId": "7",
+      "petId": "12",
       "pet": "Coco (Poodle Toy)",
       "owner": "Ngô Thanh Hà",
       "ownerEmail": "thanh.ha@pet.vn",
-      "phone": "0912002055",
+      "phone": "0977112244",
       "service": "Nha khoa thú y & lấy cao răng",
       "serviceChip": "chip-mint",
       "time": "09:30 Hôm nay",
@@ -327,7 +327,7 @@
       "pet": "Milo (Golden Retriever)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912002192",
+      "phone": "0903112334",
       "service": "Xét nghiệm máu tổng quát",
       "serviceChip": "chip-mint",
       "time": "13:00 Chiều nay",
@@ -347,7 +347,7 @@
       "pet": "Luna (Mèo Anh lông ngắn)",
       "owner": "Nguyễn Văn An",
       "ownerEmail": "owner@demo.com",
-      "phone": "0912002329",
+      "phone": "0903112334",
       "service": "Spa dưỡng lông & mài móng",
       "serviceChip": "chip-pink",
       "time": "16:30 Chiều nay",
@@ -363,11 +363,11 @@
     {
       "id": "19",
       "code": "#APT-1067",
-      "petId": "9",
+      "petId": "14",
       "pet": "Buddy (Corgi)",
       "owner": "Lê Hoàng Yến",
       "ownerEmail": "hoang.yen.le@pet.vn",
-      "phone": "0912002466",
+      "phone": "0988123987",
       "service": "Khám tổng quát",
       "serviceChip": "chip-mint",
       "time": "17:00 Chiều nay",
@@ -383,11 +383,11 @@
     {
       "id": "20",
       "code": "#APT-1068",
-      "petId": "p1",
+      "petId": "6",
       "pet": "Bơ (Golden Retriever)",
       "owner": "Hoàng Yến",
       "ownerEmail": "hoang.yen@pet.vn",
-      "phone": "0912002603",
+      "phone": "0936554433",
       "service": "Vệ sinh tai & mài móng",
       "serviceChip": "chip-pink",
       "time": "08:30 Hôm nay",
@@ -1475,7 +1475,7 @@
       "cover": ""
     },
     {
-      "id": "p1",
+      "id": "6",
       "code": "#PET-7119",
       "owner": "Hoàng Yến",
       "ownerEmail": "hoang.yen@pet.vn",
@@ -1498,7 +1498,7 @@
       "cover": ""
     },
     {
-      "id": "p2",
+      "id": "7",
       "code": "#PET-5530",
       "owner": "Vũ Minh",
       "ownerEmail": "vu.minh@pet.vn",
@@ -1521,8 +1521,8 @@
       "cover": ""
     },
     {
-      "id": "p3",
-      "code": "#PET-8821",
+      "id": "8",
+      "code": "#PET-8822",
       "owner": "Trần Mai Hương",
       "ownerEmail": "mai.huong@pet.vn",
       "name": "LuLu",
@@ -1544,7 +1544,7 @@
       "cover": ""
     },
     {
-      "id": "p4",
+      "id": "9",
       "code": "#PET-9042",
       "owner": "Phạm Thùy Linh",
       "ownerEmail": "thuy.linh@pet.vn",
@@ -1567,7 +1567,7 @@
       "cover": ""
     },
     {
-      "id": "p5",
+      "id": "10",
       "code": "#PET-6610",
       "owner": "Lê Minh",
       "ownerEmail": "le.minh@pet.vn",
@@ -1590,7 +1590,7 @@
       "cover": ""
     },
     {
-      "id": "6",
+      "id": "11",
       "code": "#PET-7006",
       "owner": "Trần Minh Anh",
       "ownerEmail": "minh.anh@pet.vn",
@@ -1613,7 +1613,7 @@
       "cover": ""
     },
     {
-      "id": "7",
+      "id": "12",
       "code": "#PET-7007",
       "owner": "Ngô Thanh Hà",
       "ownerEmail": "thanh.ha@pet.vn",
@@ -1636,7 +1636,7 @@
       "cover": ""
     },
     {
-      "id": "8",
+      "id": "13",
       "code": "#PET-7008",
       "owner": "Lê Văn Hùng",
       "ownerEmail": "van.hung@pet.vn",
@@ -1659,7 +1659,7 @@
       "cover": ""
     },
     {
-      "id": "9",
+      "id": "14",
       "code": "#PET-7009",
       "owner": "Lê Hoàng Yến",
       "ownerEmail": "hoang.yen.le@pet.vn",
@@ -1682,7 +1682,7 @@
       "cover": ""
     },
     {
-      "id": "10",
+      "id": "15",
       "code": "#PET-7010",
       "owner": "Đỗ Thùy Trang",
       "ownerEmail": "thuy.trang@pet.vn",
@@ -1975,6 +1975,31 @@
       "status": "confirmed",
       "statusLabel": "Đã xác nhận",
       "note": ""
+    },
+    {
+      "id": "16",
+      "code": "#TRN-20261108-0900",
+      "petId": "1",
+      "petName": "Milo",
+      "service": "Huấn luyện vỡ lòng cho cún con",
+      "type": "training",
+      "typeLabel": "Huấn luyện & Hành vi",
+      "icon": "sports_score",
+      "date": "2026-11-08",
+      "time": "09:00",
+      "duration": "45 phút",
+      "location": "K9 Academy",
+      "provider": "HLV Trần Quốc Huy",
+      "status": "pending",
+      "statusLabel": "Chờ HLV xác nhận",
+      "note": "Buổi đánh giá phản xạ đầu tiên tại sân K9.",
+      "trainerId": "u3",
+      "trainerName": "HLV Trần Quốc Huy",
+      "trainerEmail": "trainer@demo.com",
+      "trainerPhone": "0987654321",
+      "serviceCode": "TRN-PUPPY-04",
+      "servicePrice": 350000,
+      "category": "hl"
     }
   ],
   "medical-records": [
@@ -3036,7 +3061,7 @@
   "trainingPlans": [
     {
       "id": "TP-001",
-      "petId": "p3",
+      "petId": "8",
       "title": "Lộ trình Vỡ lòng & Nghe lời cơ bản (Puppy Foundation)",
       "level": "foundation",
       "status": "in_progress",
@@ -3067,7 +3092,7 @@
     },
     {
       "id": "TP-002",
-      "petId": "p4",
+      "petId": "9",
       "title": "Kiểm soát tính hung hăng & Hòa nhập xã hội (Socialization & Anxiety)",
       "level": "therapy",
       "status": "attention",
@@ -3098,7 +3123,7 @@
     },
     {
       "id": "TP-003",
-      "petId": "p5",
+      "petId": "10",
       "title": "Lộ trình Huấn luyện Thể lực & Vượt chướng ngại vật (Agility Master)",
       "level": "advanced",
       "status": "graduated",
@@ -3128,7 +3153,7 @@
     },
     {
       "id": "TP-004",
-      "petId": "p1",
+      "petId": "6",
       "title": "Trị liệu sợ sấm sét & Tiếng ồn lạ (Sound Desensitization)",
       "level": "therapy",
       "status": "new",
@@ -3157,7 +3182,7 @@
     },
     {
       "id": "TP-005",
-      "petId": "p2",
+      "petId": "7",
       "title": "Làm quen lồng vận chuyển & Đi vệ sinh đúng chỗ",
       "level": "foundation",
       "status": "in_progress",
@@ -3188,7 +3213,7 @@
     },
     {
       "id": "TP-006",
-      "petId": "p1",
+      "petId": "6",
       "title": "Xã hội hóa & Làm quen môi trường mới",
       "level": "foundation",
       "status": "paused",
@@ -3215,7 +3240,7 @@
     },
     {
       "id": "TP-007",
-      "petId": "p1",
+      "petId": "6",
       "title": "Làm quen yếm ngực & Đi bộ bên cạnh",
       "level": "foundation",
       "status": "in_progress",
@@ -3246,7 +3271,7 @@
     },
     {
       "id": "TP-008",
-      "petId": "p2",
+      "petId": "7",
       "title": "Giảm lo âu khi chủ đi vắng (Separation Anxiety)",
       "level": "therapy",
       "status": "attention",
@@ -3277,7 +3302,7 @@
     },
     {
       "id": "TP-009",
-      "petId": "p3",
+      "petId": "8",
       "title": "Chuỗi hành vi Chờ - Đến - Ngồi",
       "level": "foundation",
       "status": "in_progress",
@@ -3308,7 +3333,7 @@
     },
     {
       "id": "TP-010",
-      "petId": "p4",
+      "petId": "9",
       "title": "Kiểm soát sủa khi có người lạ",
       "level": "therapy",
       "status": "new",
@@ -3339,7 +3364,7 @@
     },
     {
       "id": "TP-011",
-      "petId": "p5",
+      "petId": "10",
       "title": "Thể lực nâng cao & Vượt chướng ngại vật",
       "level": "advanced",
       "status": "in_progress",
@@ -3370,7 +3395,7 @@
     },
     {
       "id": "TP-012",
-      "petId": "p1",
+      "petId": "6",
       "title": "Trò chơi tương tác & Kích thích trí tuệ",
       "level": "foundation",
       "status": "in_progress",
@@ -3401,7 +3426,7 @@
     },
     {
       "id": "TP-013",
-      "petId": "p2",
+      "petId": "7",
       "title": "Đi vệ sinh đúng khay & Vệ sinh chuồng",
       "level": "foundation",
       "status": "graduated",
@@ -3432,7 +3457,7 @@
     },
     {
       "id": "TP-014",
-      "petId": "p3",
+      "petId": "8",
       "title": "Thu hồi khẩn cấp từ xa (Recall)",
       "level": "advanced",
       "status": "attention",
@@ -3463,7 +3488,7 @@
     },
     {
       "id": "TP-015",
-      "petId": "p5",
+      "petId": "10",
       "title": "Giữ vị trí trước đám đông",
       "level": "advanced",
       "status": "in_progress",
@@ -3496,7 +3521,7 @@
   "trainingLogs": [
     {
       "id": "L-001",
-      "petId": "p3",
+      "petId": "8",
       "session": 1,
       "date": "2025-05-10T16:00",
       "goal": "Giải mẫn cảm âm thanh & Đi dạo lỏng dây",
@@ -3508,7 +3533,7 @@
     },
     {
       "id": "L-002",
-      "petId": "p3",
+      "petId": "8",
       "session": 2,
       "date": "2025-05-11T16:00",
       "goal": "Giải mẫn cảm âm thanh & Đi dạo lỏng dây",
@@ -3520,7 +3545,7 @@
     },
     {
       "id": "L-003",
-      "petId": "p3",
+      "petId": "8",
       "session": 3,
       "date": "2025-05-12T16:00",
       "goal": "Thu hồi từ xa khi gọi tên (Recall)",
@@ -3532,7 +3557,7 @@
     },
     {
       "id": "L-004",
-      "petId": "p3",
+      "petId": "8",
       "session": 4,
       "date": "2025-05-13T16:00",
       "goal": "Thu hồi từ xa khi gọi tên (Recall)",
@@ -3544,7 +3569,7 @@
     },
     {
       "id": "L-005",
-      "petId": "p3",
+      "petId": "8",
       "session": 5,
       "date": "2025-05-13T17:30",
       "goal": "Lệnh Chờ 60 giây có distraction",
@@ -3556,7 +3581,7 @@
     },
     {
       "id": "L-006",
-      "petId": "p3",
+      "petId": "8",
       "session": 6,
       "date": "2025-05-14T09:00",
       "goal": "Lệnh Chờ 60 giây có distraction",
@@ -3568,7 +3593,7 @@
     },
     {
       "id": "L-007",
-      "petId": "p3",
+      "petId": "8",
       "session": 7,
       "date": "2025-05-14T16:00",
       "goal": "Giải mẫn cảm âm thanh & Đi dạo lỏng dây",
@@ -3580,7 +3605,7 @@
     },
     {
       "id": "L-008",
-      "petId": "p3",
+      "petId": "8",
       "session": 8,
       "date": "2025-05-16T16:00",
       "goal": "Lệnh Chờ 60 giây có distraction",
@@ -3592,7 +3617,7 @@
     },
     {
       "id": "L-009",
-      "petId": "p3",
+      "petId": "8",
       "session": 9,
       "date": "2025-05-18T10:00",
       "goal": "Giải mẫn cảm âm thanh & Đi dạo lỏng dây",
@@ -3604,7 +3629,7 @@
     },
     {
       "id": "L-010",
-      "petId": "p4",
+      "petId": "9",
       "session": 1,
       "date": "2025-05-12T09:00",
       "goal": "Giảm căng thẳng khi gặp chó lạ",
@@ -3616,7 +3641,7 @@
     },
     {
       "id": "L-011",
-      "petId": "p4",
+      "petId": "9",
       "session": 2,
       "date": "2025-05-15T09:00",
       "goal": "Kiểm soát lực kéo dây dắt",
@@ -3628,7 +3653,7 @@
     },
     {
       "id": "L-012",
-      "petId": "p1",
+      "petId": "6",
       "session": 1,
       "date": "2025-06-02T08:00",
       "goal": "Đi bộ lỏng dây",
@@ -3640,7 +3665,7 @@
     },
     {
       "id": "L-013",
-      "petId": "p1",
+      "petId": "6",
       "session": 2,
       "date": "2025-06-03T09:30",
       "goal": "Làm quen yếm ngực",
@@ -3652,7 +3677,7 @@
     },
     {
       "id": "L-014",
-      "petId": "p1",
+      "petId": "6",
       "session": 3,
       "date": "2025-06-04T15:00",
       "goal": "Lệnh Chờ 30 giây",
@@ -3664,7 +3689,7 @@
     },
     {
       "id": "L-015",
-      "petId": "p2",
+      "petId": "7",
       "session": 4,
       "date": "2025-06-05T16:30",
       "goal": "Tự chơi khi chủ đi vắng",
@@ -3676,7 +3701,7 @@
     },
     {
       "id": "L-016",
-      "petId": "p2",
+      "petId": "7",
       "session": 5,
       "date": "2025-06-06T08:00",
       "goal": "Làm quen lồng vận chuyển",
@@ -3688,7 +3713,7 @@
     },
     {
       "id": "L-017",
-      "petId": "p2",
+      "petId": "7",
       "session": 6,
       "date": "2025-06-07T09:30",
       "goal": "Giảm lo âu khi nghe tiếng ồn",
@@ -3700,7 +3725,7 @@
     },
     {
       "id": "L-018",
-      "petId": "p3",
+      "petId": "8",
       "session": 7,
       "date": "2025-06-08T15:00",
       "goal": "Lệnh Chờ trước cửa",
@@ -3712,7 +3737,7 @@
     },
     {
       "id": "L-019",
-      "petId": "p3",
+      "petId": "8",
       "session": 8,
       "date": "2025-06-09T16:30",
       "goal": "Đi cạnh người dẫn",
@@ -3724,7 +3749,7 @@
     },
     {
       "id": "L-020",
-      "petId": "p3",
+      "petId": "8",
       "session": 1,
       "date": "2025-06-10T08:00",
       "goal": "Thu hồi từ xa 5m",
@@ -3736,7 +3761,7 @@
     },
     {
       "id": "L-021",
-      "petId": "p4",
+      "petId": "9",
       "session": 2,
       "date": "2025-06-11T09:30",
       "goal": "Giảm sủa khi gặp người lạ",
@@ -3748,7 +3773,7 @@
     },
     {
       "id": "L-022",
-      "petId": "p4",
+      "petId": "9",
       "session": 3,
       "date": "2025-06-12T15:00",
       "goal": "Đi ngang qua chó lạ",
@@ -3760,7 +3785,7 @@
     },
     {
       "id": "L-023",
-      "petId": "p4",
+      "petId": "9",
       "session": 4,
       "date": "2025-06-13T16:30",
       "goal": "Lệnh Ngồi khi có xao nhãng",
@@ -3772,7 +3797,7 @@
     },
     {
       "id": "L-024",
-      "petId": "p5",
+      "petId": "10",
       "session": 5,
       "date": "2025-06-14T08:00",
       "goal": "Vượt cọc tiêu 6 thanh",
@@ -3784,7 +3809,7 @@
     },
     {
       "id": "L-025",
-      "petId": "p5",
+      "petId": "10",
       "session": 6,
       "date": "2025-06-15T09:30",
       "goal": "Giữ vị trí trước đám đông",

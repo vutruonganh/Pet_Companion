@@ -12,11 +12,16 @@
 
   let pets = [];
   let plans = [];
+  let trainers = [];
+  let trainingServices = [];
   let month = new Date();
   let selectedDay = null;
   let tab = 'all';
   let aiPetId = null;
   let aiService = 'deworm';
+
+  const DEFAULT_LOCATION = 'PetCare Clinic Quận 1';
+  const TRAINING_LOCATION = 'K9 Academy';
 
   const AI_RECS = {
     deworm: {
@@ -45,6 +50,80 @@
   function monthStart(date) { return new Date(date.getFullYear(), date.getMonth(), 1); }
 
   function currentRec() { return AI_RECS[aiService]; }
+
+  function trainerById(id) {
+    return trainers.find(function (trainer) { return String(trainer.id) === String(id); }) || { id: '' };
+  }
+
+  function trainingServiceById(id) {
+    return trainingServices.find(function (service) { return String(service.id) === String(id); }) || { id: '' };
+  }
+
+  function fillTrainerSelect() {
+    const select = document.getElementById('planTrainer');
+    select.innerHTML = trainers.length
+      ? '<option value="">— Chọn huấn luyện viên —</option>' + trainers.map(function (trainer) {
+          const meta = [trainer.uid || '', trainer.petsLabel || ''].filter(Boolean).join(' · ');
+          return '<option value="' + O.esc(trainer.id) + '">' + O.esc(trainer.name) +
+            (meta ? ' (' + O.esc(meta) + ')' : '') + '</option>';
+        }).join('')
+      : '<option value="">Chưa có huấn luyện viên đang hoạt động</option>';
+  }
+
+  function fillTrainingServiceSelect() {
+    const select = document.getElementById('planTrainingService');
+    select.innerHTML = trainingServices.length
+      ? '<option value="">— Chọn gói huấn luyện —</option>' + trainingServices.map(function (service) {
+          return '<option value="' + O.esc(service.id) + '" data-duration="' + O.esc(service.duration || '') +
+            '" data-price="' + O.esc(service.price || 0) + '">' + O.esc(service.name) +
+            (service.duration ? ' · ' + O.esc(service.duration) : '') + '</option>';
+        }).join('')
+      : '<option value="">Chưa có gói huấn luyện nào</option>';
+  }
+
+  function updateTrainerHint() {
+    const trainer = trainerById(document.getElementById('planTrainer').value);
+    const hint = document.getElementById('trainerHint');
+    hint.textContent = trainer.id
+      ? [trainer.uid, trainer.petsLabel, trainer.phone].filter(Boolean).join(' · ')
+      : 'Chọn HLV để xem nơi huấn luyện và số điện thoại.';
+  }
+
+  function updateTrainingServiceHint() {
+    const select = document.getElementById('planTrainingService');
+    const option = select.selectedOptions[0];
+    const hint = document.getElementById('trainingServiceHint');
+    if (option && option.value) {
+      const parts = [option.dataset.duration, option.dataset.price ? O.money(option.dataset.price) : ''].filter(Boolean);
+      hint.textContent = parts.join(' · ');
+    } else {
+      hint.textContent = 'Chọn gói để tự điền thời lượng buổi tập.';
+    }
+  }
+
+  function syncTypeFields() {
+    const type = document.getElementById('planType').value;
+    const training = type === 'training';
+    document.getElementById('trainerField').hidden = !training;
+    document.getElementById('trainingServiceField').hidden = !training;
+    document.getElementById('serviceTextField').hidden = training;
+    document.getElementById('providerField').hidden = training;
+    document.getElementById('planTrainer').required = training;
+    document.getElementById('planTrainingService').required = training;
+    document.getElementById('planService').required = !training;
+
+    const location = document.getElementById('planLocation');
+    const trainer = trainerById(document.getElementById('planTrainer').value);
+    if (training) {
+      if (!location.value.trim() || location.value === DEFAULT_LOCATION) {
+        location.value = trainer.petsLabel || TRAINING_LOCATION;
+      }
+    } else if (location.value === TRAINING_LOCATION) {
+      location.value = DEFAULT_LOCATION;
+    }
+    updateTrainerHint();
+    updateTrainingServiceHint();
+  }
 
   function renderAiPets() {
     aiPets.innerHTML = pets.map(function (pet) {
@@ -111,6 +190,7 @@
   function planCard(plan) {
     const pet = O.petById(pets, plan.petId);
     const statusClass = O.planStatusClass(plan.status);
+    const isTraining = plan.type === 'training';
     const cancelButton = plan.status === 'cancelled' ? '' :
       '<button class="btn btn-ghost" type="button" data-action="cancel" data-id="' + O.esc(plan.id) + '">Hủy / Dời hẹn</button>';
 
@@ -126,9 +206,10 @@
       '<div class="plan-facts">' +
         '<div class="plan-fact"><span class="material-symbols-outlined">schedule</span><div><small>Thời gian</small><b>' +
           O.esc(plan.time) + ' · ' + O.fmtDate(plan.date) + '</b></div></div>' +
-        '<div class="plan-fact"><span class="material-symbols-outlined">local_hospital</span><div><small>Địa điểm</small><b>' +
+        '<div class="plan-fact"><span class="material-symbols-outlined">' + (isTraining ? 'school' : 'local_hospital') + '</span><div><small>Địa điểm</small><b>' +
           O.esc(plan.location || '—') + '</b></div></div>' +
-        '<div class="plan-fact"><span class="material-symbols-outlined">badge</span><div><small>Phụ trách</small><b>' +
+        '<div class="plan-fact"><span class="material-symbols-outlined">' + (isTraining ? 'sports_score' : 'badge') + '</span><div><small>' +
+          (isTraining ? 'HLV phụ trách' : 'Phụ trách') + '</small><b>' +
           O.esc(plan.provider || '—') + '</b></div></div>' +
       '</div>' +
       '<div class="plan-actions">' + cancelButton +
@@ -144,10 +225,14 @@
     document.querySelector('#careTabs [data-tab="all"]').textContent = 'Tất cả lịch (' + monthPlans.length + ')';
     document.querySelector('#careTabs [data-tab="upcoming"]').textContent = 'Sắp tới (' +
       monthPlans.filter(function (plan) { return plan.date >= today && plan.status !== 'cancelled'; }).length + ')';
+    document.querySelector('#careTabs [data-tab="training"]').textContent = 'Huấn luyện (' +
+      monthPlans.filter(function (plan) { return plan.type === 'training' && plan.status !== 'cancelled'; }).length + ')';
 
     let rows = monthPlans.slice();
     if (tab === 'upcoming') {
       rows = rows.filter(function (plan) { return plan.date >= today && plan.status !== 'cancelled'; });
+    } else if (tab === 'training') {
+      rows = rows.filter(function (plan) { return plan.type === 'training'; });
     }
     if (selectedDay) {
       rows = rows.filter(function (plan) { return plan.date === selectedDay; });
@@ -181,6 +266,8 @@
     const opts = options || {};
     form.reset();
     fillPetSelect();
+    fillTrainerSelect();
+    fillTrainingServiceSelect();
     if (opts.petId) document.getElementById('planPet').value = String(opts.petId);
     if (opts.rec) {
       const rec = opts.rec;
@@ -195,6 +282,8 @@
       document.getElementById('planDate').value = addDays(14);
       document.getElementById('planTime').value = '09:00';
     }
+    if (opts.type) document.getElementById('planType').value = opts.type;
+    syncTypeFields();
     window.UI.open('modalNewPlan');
   }
 
@@ -213,7 +302,51 @@
       button.classList.toggle('active', button.dataset.tab === 'all');
     });
     renderAll();
+    if (row.type === 'training') {
+      try {
+        await syncTrainingPlan(row);
+      } catch (error) {
+        console.warn('[Owner] dong bo giao an sang HLV', error);
+        window.UI.toast('Lịch đã lưu nhưng chưa gửi được sang sân giáo án của HLV.', 'warn', 'cloud_off');
+      }
+    }
     return row;
+  }
+
+  function weeksFromDuration(duration) {
+    const match = String(duration || '').match(/(\d+)\s*bu/i);
+    const sessions = match ? Number(match[1]) : 0;
+    return sessions >= 2 ? Math.ceil(sessions / 2) : 4;
+  }
+
+  async function syncTrainingPlan(plan) {
+    return window.MockAPI.create('trainingPlans', {
+      petId: String(plan.petId),
+      title: plan.service,
+      level: 'foundation',
+      status: 'new',
+      weeks: weeksFromDuration(plan.duration),
+      perWeek: 2,
+      week: 1,
+      goals: [{ text: plan.service, state: 'todo' }],
+      tags: [],
+      note: 'Chủ nuôi đặt · mã ' + (plan.code || '-') + ' · ' + (plan.date || '') + ' ' + (plan.time || ''),
+      homework: 0,
+      exerciseIds: [],
+      archived: false,
+      carePlanCode: plan.code || '',
+      trainerId: plan.trainerId || '',
+      trainerName: plan.trainerName || plan.provider || ''
+    });
+  }
+
+  async function archiveTrainingPlan(plan) {
+    const rows = await window.MockAPI.list('trainingPlans', { carePlanCode: plan.code });
+    const targets = (Array.isArray(rows) ? rows : []).filter(function (row) { return !row.archived; });
+    for (let i = 0; i < targets.length; i++) {
+      await window.MockAPI.patch('trainingPlans', targets[i].id, { archived: true });
+    }
+    return targets.length;
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
@@ -222,7 +355,9 @@
     try {
       const data = await Promise.all([
         O.list('pets', null, { throwOnError: true }),
-        O.list('care-plans', null, { throwOnError: true })
+        O.list('care-plans', null, { throwOnError: true }),
+        O.list('accounts', null, { throwOnError: true }),
+        O.list('services', null, { throwOnError: true })
       ]);
       pets = (Array.isArray(data[0]) ? data[0] : []).filter(function (pet) {
         return O.belongsToOwner(pet, owner);
@@ -231,12 +366,20 @@
       plans = (Array.isArray(data[1]) ? data[1] : []).filter(function (plan) {
         return petIds.indexOf(String(plan.petId)) !== -1;
       });
+      trainers = (Array.isArray(data[2]) ? data[2] : []).filter(function (account) {
+        return account.role === 'trainer' && account.status === 'active';
+      });
+      trainingServices = (Array.isArray(data[3]) ? data[3] : []).filter(function (service) {
+        return service.cat === 'hl' && service.active !== false && !service.hidden;
+      });
       aiPetId = pets.length ? pets[0].id : null;
     } catch (error) {
       console.error('[Owner] care', error);
       loadError = error;
       pets = [];
       plans = [];
+      trainers = [];
+      trainingServices = [];
       aiPetId = null;
     }
 
@@ -314,11 +457,31 @@
       button.addEventListener('click', function () {
         if (!document.getElementById('planService').value) {
           fillPetSelect();
+          fillTrainerSelect();
+          fillTrainingServiceSelect();
           document.getElementById('planDate').value = addDays(14);
           document.getElementById('planTime').value = '09:00';
         }
+        syncTypeFields();
       });
     });
+
+    document.getElementById('btnBookTrainer').addEventListener('click', function () {
+      openNewPlan({ type: 'training' });
+    });
+
+    document.getElementById('planType').addEventListener('change', syncTypeFields);
+
+    document.getElementById('planTrainer').addEventListener('change', function () {
+      const trainer = trainerById(this.value);
+      const location = document.getElementById('planLocation');
+      if (trainer.id && (!location.value.trim() || location.value === TRAINING_LOCATION)) {
+        location.value = trainer.petsLabel || TRAINING_LOCATION;
+      }
+      updateTrainerHint();
+    });
+
+    document.getElementById('planTrainingService').addEventListener('change', updateTrainingServiceHint);
 
     document.getElementById('calPrev').addEventListener('click', function () {
       month = new Date(month.getFullYear(), month.getMonth() - 1, 1);
@@ -364,7 +527,10 @@
 
       if (button.dataset.action === 'detail') {
         const note = plan.note ? ' · ' + plan.note : '';
-        window.UI.toast('Mã QR tiếp nhận: ' + (plan.code || '—') + note, 'info', 'qr_code_2');
+        const trainerInfo = plan.type === 'training' && plan.trainerName
+          ? ' · HLV: ' + plan.trainerName + (plan.trainerPhone ? ' (' + plan.trainerPhone + ')' : '')
+          : '';
+        window.UI.toast('Mã QR tiếp nhận: ' + (plan.code || '—') + trainerInfo + note, 'info', 'qr_code_2');
         return;
       }
 
@@ -374,6 +540,13 @@
           const updated = await window.MockAPI.patch('care-plans', plan.id, { status: 'cancelled', statusLabel: 'Đã hủy' });
           Object.assign(plan, updated, { status: 'cancelled', statusLabel: 'Đã hủy' });
           renderAll();
+          if (plan.type === 'training') {
+            try {
+              await archiveTrainingPlan(plan);
+            } catch (error) {
+              console.warn('[Owner] luu giao an da huy', error);
+            }
+          }
           window.UI.toast('Đã hủy lịch. Gọi 1900 8899 nếu cần dời sang ngày khác.', 'warn', 'event_busy');
         } catch (error) {
           console.error('[Owner] cancel plan', error);
@@ -387,26 +560,62 @@
       const data = new FormData(form);
       const pet = O.petById(pets, data.get('petId'));
       const type = String(data.get('type') || 'medical');
-      const service = String(data.get('service') || '').trim();
+      const isTraining = type === 'training';
       const date = String(data.get('date') || '');
       const time = String(data.get('time') || '');
+      let service = '';
+      let provider = '';
+      let location = '';
+      let duration = type === 'medication' ? '5 phút' : '45 phút';
+      let extra = {};
+
+      if (isTraining) {
+        const trainer = trainerById(data.get('trainerId'));
+        const serviceRow = trainingServiceById(data.get('trainingService'));
+        if (!trainer.id || !serviceRow.id) {
+          window.UI.toast('Chọn huấn luyện viên và gói huấn luyện trước khi lưu.', 'info', 'sports_score');
+          return;
+        }
+        service = String(serviceRow.name || '').trim();
+        provider = trainer.name;
+        location = String(data.get('location') || '').trim() || trainer.petsLabel || TRAINING_LOCATION;
+        duration = serviceRow.duration || '45 phút';
+        extra = {
+          trainerId: String(trainer.id),
+          trainerName: trainer.name,
+          trainerEmail: trainer.email || '',
+          trainerPhone: trainer.phone || '',
+          serviceCode: serviceRow.sku || '',
+          servicePrice: serviceRow.price || 0,
+          category: 'hl'
+        };
+      } else {
+        service = String(data.get('service') || '').trim();
+        provider = String(data.get('provider') || '').trim() || 'BS. Trần Văn Minh';
+        location = String(data.get('location') || '').trim() || DEFAULT_LOCATION;
+      }
+
       if (!pet.id || !service || !date || !time) return;
 
       try {
-        const row = await createPlan({
-          code: '#PC-' + date.replace(/-/g, '') + '-' + time.replace(':', ''),
+        const row = await createPlan(Object.assign({
+          code: (isTraining ? '#TRN-' : '#PC-') + date.replace(/-/g, '') + '-' + time.replace(':', ''),
           petId: String(pet.id), petName: pet.name,
           service: service, type: type,
           typeLabel: O.TYPE_META[type].label, icon: O.TYPE_META[type].icon,
-          date: date, time: time, duration: type === 'medication' ? '5 phút' : '45 phút',
-          location: String(data.get('location') || '').trim() || 'PetCare Clinic Quận 1',
-          provider: String(data.get('provider') || '').trim() || 'BS. Trần Văn Minh',
-          status: 'confirmed', statusLabel: 'Đã xác nhận',
+          date: date, time: time, duration: duration,
+          location: location,
+          provider: provider,
+          status: isTraining ? 'pending' : 'confirmed',
+          statusLabel: isTraining ? 'Chờ HLV xác nhận' : 'Đã xác nhận',
           note: String(data.get('note') || '').trim()
-        });
+        }, extra));
         window.UI.close('modalNewPlan');
         form.reset();
-        window.UI.toast('Đã lưu lịch cho ' + row.petName + ' vào ' + O.fmtDate(row.date) + '.', 'ok', 'event_available');
+        syncTypeFields();
+        window.UI.toast(isTraining
+          ? 'Đã gửi yêu cầu đặt lịch với ' + row.provider + ' cho ' + row.petName + ' vào ' + O.fmtDate(row.date) + '.'
+          : 'Đã lưu lịch cho ' + row.petName + ' vào ' + O.fmtDate(row.date) + '.', 'ok', isTraining ? 'sports_score' : 'event_available');
       } catch (error) {
         console.error('[Owner] create plan', error);
         window.UI.toast('Không lưu được lịch. Kiểm tra mock API đang chạy.', 'err', 'error');

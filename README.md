@@ -98,4 +98,5 @@ Ba trang gốc (`hồ sơ thú cưng của tôi`, `lịch sử chăm sóc`, `l�
 
 - dùng chung `core/base.css` + `owner.css`, cùng topnav/footer/nav nên chuyển trang được;
 - dữ liệu đọc từ mock API thay vì HTML tĩnh;
-- thêm thú cưng, chấp nhận đề xuất AI, đặt/hủy lịch đều ghi vào `db.json`.
+- thêm thú cưng, chấp nhận đề xuất AI, đặt/hủy lịch đều ghi vào `db.json`;
+- đặt lịch với HLV: chọn huấn luyện viên đang hoạt động và gói trong `services`, lưu vào `care-plans` kèm `trainerId`/`trainerEmail`, trạng thái `pending` (chờ HLV xác nhận).
