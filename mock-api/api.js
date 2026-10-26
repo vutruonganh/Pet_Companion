@@ -124,13 +124,11 @@
 
   /* ---------------- Phiên đăng nhập + điều hướng (dùng chung) ---------------- */
   const SESSION_KEY = NS + 'session';
-  const GUARD = true;                       // đặt false nếu muốn mở trang HLV mà không cần đăng nhập
-  const TRAINER_ROLES = ['trainer'];          // chỉ huấn luyện viên được vào các trang HLV
   const PAGE = (location.pathname.split('/').pop() || '').toLowerCase();
   const LOGIN_PAGE = '../login%20register/login.html';
   const HOME = {
     owner: '../owner/owner-pets.html',
-    trainer: '../Trainer/training-plans.html',
+    trainer: '../trainer/training-plans.html',
     admin: '../admin/dashboard.html',
     provider: '../provider/provider-appointment-list.html'
   };
@@ -153,11 +151,6 @@
     const s = PC.session.get();
     const isTrainerPage = Object.values(NAV).indexOf(PAGE) !== -1;
     if (isTrainerPage) {
-      if (GUARD && (!s || TRAINER_ROLES.indexOf(s.role) === -1)) {
-        document.documentElement.style.display = 'none';      // không để lộ nội dung trang trong lúc chuyển hướng
-        location.replace(LOGIN_PAGE + '?' + (s ? 'denied=1&' : '') + 'next=' + encodeURIComponent(PAGE));
-        return;
-      }
       if (s) document.querySelectorAll('[data-user-name]').forEach((el) => { el.textContent = s.name; });
       document.querySelectorAll('header nav a').forEach((link) => {
         const key = link.textContent.trim().toLowerCase();

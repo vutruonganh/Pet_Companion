@@ -9,6 +9,28 @@
     ? 'http://localhost:4000/api/v1'
     : location.origin + '/api/v1')).replace(/\/+$/, '');
 
+  /* Portal guard: trang trong /owner|/provider|/trainer|/admin chỉ mở đúng vai trò.
+     Đặt GUARD_ROLES = false nếu muốn mở tự do khi quay demo. */
+  const GUARD_ROLES = true;
+  const SESSION_KEY = 'pc_mock_v1:session';
+  const PORTAL_LOGIN = '../login%20register/login.html';
+
+  (function guardPortal() {
+    if (!GUARD_ROLES) return;
+    const matched = location.pathname.match(/\/(owner|provider|trainer|admin)\/([^/?#]+\.html)/i);
+    if (!matched) return;
+    let session = null;
+    try {
+      session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY) || 'null');
+    } catch (err) {
+      session = null;
+    }
+    if (session && String(session.role).toLowerCase() === matched[1].toLowerCase()) return;
+    document.documentElement.style.display = 'none';   // không để lộ nội dung trang lúc chuyển hướng
+    location.replace(PORTAL_LOGIN + '?' + (session ? 'denied=1' : 'auth=1') +
+      '&next=' + encodeURIComponent(matched[1].toLowerCase() + '/' + matched[2]));
+  })();
+
   async function request(path, options) {
     const opts = options || {};
     const controller = new AbortController();
