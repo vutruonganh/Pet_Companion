@@ -266,6 +266,66 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  /* Biên bản đã ký phải trở thành hồ sơ dịch vụ trong app chủ nuôi (bảng medical-records) */
+  function prescriptionItems(text) {
+    return String(text || '').split('\n')
+      .map(line => line.replace(/^\s*\d+[.)]\s*/, '').trim())
+      .filter(Boolean)
+      .map(line => {
+        const sep = line.indexOf(':');
+        return sep === -1
+          ? { name: line, note: '', dosage: 'Theo chỉ định' }
+          : { name: line.slice(0, sep).trim(), note: '', dosage: line.slice(sep + 1).trim() };
+      });
+  }
+
+  async function publishMedicalRecord(signedAt) {
+    if (!window.MockAPI) return false;
+    const patientName = (document.querySelector('.patient-name')?.textContent || '').trim() || 'Milo';
+
+    let petId = null;
+    try {
+      const pets = await MockAPI.list('pets');
+      const pet = (pets || []).find(p => String(p.name).toLowerCase() === patientName.toLowerCase());
+      if (pet) petId = String(pet.id);
+    } catch (err) {
+      console.warn('[MockAPI] pets:', err.message);
+    }
+    if (!petId) {
+      console.warn('[ServiceNote] không tìm thấy thú cưng', patientName, 'trong bảng pets');
+      return false;
+    }
+
+    const when = new Date(signedAt);
+    const pad = n => String(n).padStart(2, '0');
+    const costs = getCostData();
+    const checklist = getChecklistData();
+
+    await MockAPI.create('medical-records', {
+      code: 'SR-' + when.getFullYear() + '-' + Math.floor(100 + Math.random() * 900),
+      petId: petId,
+      petName: patientName,
+      type: 'vet',
+      typeLabel: 'Thú y & Xét nghiệm',
+      service: costs[0]?.name || 'Khám tổng quát',
+      serviceSub: checklist.filter(item => item.checked).length + '/' + checklist.length + ' mục kiểm tra lâm sàng',
+      provider: 'PetCare Clinic Q.1',
+      doctor: 'BS. Hoàng Mai (Chuyên khoa Nội)',
+      date: `${when.getFullYear()}-${pad(when.getMonth() + 1)}-${pad(when.getDate())}`,
+      time: `${pad(when.getHours())}:${pad(when.getMinutes())}`,
+      cost: costs.reduce((sum, cost) => sum + (Number(cost.amount) || 0), 0),
+      status: 'completed',
+      statusLabel: 'Hoàn thành – đã ký số',
+      summary: 'Biên bản dịch vụ điện tử – Bé ' + patientName,
+      diagnosis: clinicalExamInput?.value || '',
+      prescriptions: prescriptionItems(prescriptionInput?.value),
+      advice: ownerNoteInput?.value || '',
+      files: [],
+      serviceNoteId: NOTE_ID
+    });
+    return true;
+  }
+
   function appendChecklistItem(id, text, checked) {
     if (!id || document.getElementById(id)) return;
     const div = document.createElement('div');
@@ -403,12 +463,21 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(async () => {
         const signedAt = new Date().toISOString();
         const synced = await syncNote({ status: 'signed', signedAt });
+        let published = false;
+        try {
+          published = await publishMedicalRecord(signedAt);
+        } catch (err) {
+          console.warn('[MockAPI] medical-records:', err.message);
+        }
         overlay.remove();
         applySignedState(signedAt);
         if (synced) {
           ProviderUI.toast('Đã ký số điện tử thành công! Hồ sơ y bạ đã phát hành đến App Chủ nuôi.', 'success');
         } else {
           ProviderUI.toast('Đã ký số trên giao diện — không kết nối được mock API.', 'warning');
+        }
+        if (synced && !published) {
+          ProviderUI.toast('Chưa đồng bộ được sang Lịch sử dịch vụ của chủ nuôi (không khớp hồ sơ thú cưng).', 'warning');
         }
       }, 1000);
     });
