@@ -137,6 +137,12 @@
       const u = list[0];
       if (!u || u.password !== pw) { passwordInput.classList.add('input-error'); return displayError('Email hoặc mật khẩu không đúng.'); }
       if (u.status === 'locked') return displayError('Tài khoản này đã bị khóa. Vui lòng liên hệ quản trị viên.');
+      if (u.role !== currentRole) {
+        const wanted = (roleData[currentRole] || {}).title || currentRole;
+        const real = (roleData[u.role] || {}).title || u.role;
+        emailInput.classList.add('input-error');
+        return displayError('Tài khoản này là ' + real + ', không vào được cổng ' + wanted + '. Hãy chọn lại vai trò hoặc dùng đúng email demo.');
+      }
 
       PC.session.set(u, !!(rememberCheckbox && rememberCheckbox.checked));
       const title = (roleData[u.role] || {}).title || u.role;
@@ -149,11 +155,10 @@
       showStatus('success', 'Đăng nhập thành công với vai trò ' + title + '! Đang chuyển hướng...');
       showToast('Chào mừng trở lại! Đăng nhập thành công (' + title + ')');
       const next = new URLSearchParams(location.search).get('next');
-      const target = next && u.role === 'trainer' && /^[a-z0-9-]+\.html$/i.test(next)
-        ? '../Trainer/' + next
-        : dest;
+      const wantedPage = next && new RegExp('^' + u.role + '/[a-z0-9-]+\\.html$', 'i').test(next)
+        ? '../' + next : dest;
       redirecting = true;
-      setTimeout(() => { location.href = target; }, 1200);
+      setTimeout(() => { location.href = wantedPage; }, 1200);
     } catch (err) {
       displayError(err.message || 'Không thể kết nối máy chủ.');
     } finally {
@@ -166,8 +171,12 @@
   /* Không tự chuyển trang khi mở lại trang đăng nhập: người dùng phải bấm "Đăng nhập" để vào. */
   const qs = new URLSearchParams(location.search);
   const cur = PC.session.get();
+  const portal = (qs.get('next') || '').split('/')[0].toLowerCase();
+  const portalTitle = (roleData[portal] || {}).title;
   if (qs.get('denied') === '1') {
-    displayError('Chỉ tài khoản Huấn luyện viên mới truy cập được trang này. Hãy đăng nhập bằng tài khoản HLV.');
+    displayError('Chỉ tài khoản ' + (portalTitle || 'đúng vai trò') + ' mới truy cập được trang này. Hãy đăng nhập bằng tài khoản phù hợp.');
+  } else if (qs.get('auth') === '1') {
+    displayError('Bạn cần đăng nhập để mở trang này.');
   } else if (cur) {
     showToast('Bạn đang đăng nhập bằng ' + cur.email + '. Đăng nhập lại để đổi tài khoản hoặc vào trang.');
   }
