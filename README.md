@@ -13,6 +13,10 @@ node mock-api/server.js      # nếu đã cài Node.js
 python mock-api/server.py    # nếu chỉ có Python 3
 ```
 
+## Chạy trên web
+
+link Url: https://pet-companion-1.onrender.com ( lưu ý : có thể phải đợi tầm 20-30s để server thoát khỏi trạng thái ngủ)
+
 Mở trực tiếp một trang bằng `file://` cũng được: `core/api.js` tự gọi `http://localhost:4000/api/v1`, nhưng server vẫn phải đang chạy.
 
 ## Các cổng
