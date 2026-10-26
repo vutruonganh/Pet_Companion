@@ -16,6 +16,9 @@
       <p class="page-sub">Theo dõi các đợt tiêm phòng, tẩy giun, spa tắm cắt tỉa và khám định kỳ. AI đề xuất lịch dựa trên tiền sử chăm sóc.</p>
     </div>
     <div class="head-actions">
+      <button class="btn btn-outline" type="button" id="btnBookTrainer">
+        <span class="material-symbols-outlined">sports_score</span>Đặt lịch với HLV
+      </button>
       <button class="btn btn-primary" type="button" data-open="modalNewPlan">
         <span class="material-symbols-outlined">add_circle</span>Tạo lịch nhắc / Đặt hẹn
       </button>
@@ -80,6 +83,7 @@
         <div class="pill-tabs" id="careTabs">
           <button class="pill-tab active" type="button" data-tab="all">Tất cả lịch</button>
           <button class="pill-tab" type="button" data-tab="upcoming">Sắp tới</button>
+          <button class="pill-tab" type="button" data-tab="training">Huấn luyện</button>
         </div>
       </div>
       <div class="plan-list" id="planList" aria-live="polite"></div>
@@ -99,6 +103,7 @@
           <div class="legend-item"><span class="legend-swatch" style="background:#0e7a68"></span>Khám &amp; Tiêm chủng</div>
           <div class="legend-item"><span class="legend-swatch" style="background:#a21caf"></span>Spa &amp; Cắt tỉa lông</div>
           <div class="legend-item"><span class="legend-swatch" style="background:#f59e0b"></span>Uống thuốc định kỳ</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#2563eb"></span>Huấn luyện &amp; Hành vi</div>
         </div>
       </section>
 
@@ -141,11 +146,22 @@
             <option value="medical">Khám &amp; Tiêm chủng</option>
             <option value="spa">Spa &amp; Cắt tỉa</option>
             <option value="medication">Uống thuốc định kỳ</option>
+            <option value="training">Huấn luyện &amp; Hành vi</option>
           </select>
         </div>
-        <div class="f-group" style="grid-column:1/-1">
+        <div class="f-group" id="trainerField" style="grid-column:1/-1" hidden>
+          <label class="f-label" for="planTrainer">Huấn luyện viên *</label>
+          <select class="f-input" id="planTrainer" name="trainerId"></select>
+          <div class="field-hint" id="trainerHint">Chọn HLV để xem nơi huấn luyện và số điện thoại.</div>
+        </div>
+        <div class="f-group" style="grid-column:1/-1" id="serviceTextField">
           <label class="f-label" for="planService">Nội dung dịch vụ *</label>
           <input class="f-input" id="planService" name="service" required placeholder="Ví dụ: Tiêm nhắc vắc-xin dại">
+        </div>
+        <div class="f-group" style="grid-column:1/-1" id="trainingServiceField" hidden>
+          <label class="f-label" for="planTrainingService">Gói huấn luyện *</label>
+          <select class="f-input" id="planTrainingService" name="trainingService"></select>
+          <div class="field-hint" id="trainingServiceHint">Chọn gói để tự điền thời lượng buổi tập.</div>
         </div>
         <div class="f-group">
           <label class="f-label" for="planDate">Ngày *</label>
@@ -159,7 +175,7 @@
           <label class="f-label" for="planLocation">Địa điểm</label>
           <input class="f-input" id="planLocation" name="location" placeholder="PetCare Clinic Quận 1">
         </div>
-        <div class="f-group">
+        <div class="f-group" id="providerField">
           <label class="f-label" for="planProvider">Người phụ trách</label>
           <input class="f-input" id="planProvider" name="provider" placeholder="BS. Trần Văn Minh">
         </div>

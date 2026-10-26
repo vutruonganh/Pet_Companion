@@ -194,3 +194,50 @@ Báo cáo đầy đủ theo mẫu Phụ lục F: [docs/ai-usage-report.md](docs/
 - Không có API key, token hay LLM chạy trong sản phẩm; cả ba tính năng AI là quy tắc/dữ liệu cấu hình tại trình duyệt.
 - Báo cáo ghi rõ prompt chính, phần AI sinh, phần sinh viên sửa, cách kiểm chứng và các lỗi AI đã phát hiện (resource `users`/`training-pets` không tồn tại, phạm vi `?fail=1` bị mô tả quá rộng, AI-2 từng bị mô tả là động).
 - Phân công và commit của từng thành viên: [docs/team-assignment.md](docs/team-assignment.md).
+
+`mock-api/api.js` giữ nguyên API quen thuộc của cổng HLV nhưng chuyển tiếp sang REST:
+
+```js
+PC.api.list('users')   // → GET /api/v1/accounts
+PC.api.list('pets')    // → GET /api/v1/training-pets
+PC.api.list('trainingPlans') // → GET /api/v1/trainingPlans
+```
+
+## API
+
+`/api/v1/<resource>[/<id>]` — GET, POST, PUT, PATCH, DELETE.
+
+- `GET /api/v1/<resource>?search=...` tìm trong toàn bộ JSON của bản ghi.
+- Lọc chính xác theo trường: `?status=active`, `?role=trainer`...
+- Sắp xếp / phân trang: `?sortBy=name&order=asc&page=1&limit=10`.
+- `POST /api/reset` khôi phục dữ liệu gốc; `GET /api/health` trả số bản ghi từng resource.
+- `?fail=1` và `?empty=1` trên URL để thử trạng thái lỗi / danh sách rỗng ở cổng HLV.
+
+## Cấu trúc
+
+```
+index.html                  # chọn vai trò
+core/base.css               # design system dùng chung: token, topnav, card, table, modal, toast
+core/base.js                # UI.toast, modal open/close, fallback ảnh đại diện
+core/api.js                 # client REST duy nhất (window.MockAPI)
+owner/                      # cổng chủ nuôi
+admin/                      # cổng quản trị viên
+provider/                   # cổng đối tác dịch vụ
+Trainer/                    # cổng huấn luyện viên (HLV)
+login register/             # đăng nhập / đăng ký / quên mật khẩu / OTP / đặt lại mật khẩu
+mock-api/seed.json          # dữ liệu gốc
+mock-api/db.json            # dữ liệu đang chạy
+mock-api/api.js             # adapter PC.api → REST + tiện ích UI/session cho cổng HLV
+mock-api/server.js          # mock REST API + static server (Node.js)
+mock-api/server.py          # bản tương đương cho máy chỉ có Python
+```
+
+## Ghi chú cổng chủ nuôi
+
+Ba trang gốc (`hồ sơ thú cưng của tôi`, `lịch sử chăm sóc`, `lịch sử dịch vụ và bệnh án`) mỗi trang tự viết CSS và trỏ tới `style.css` / `script.js` không tồn tại. Bản trong `owner/` thay thế chúng:
+
+- dùng chung `core/base.css` + `owner.css`, cùng topnav/footer/nav nên chuyển trang được;
+- dữ liệu đọc từ mock API thay vì HTML tĩnh;
+- thêm thú cưng, chấp nhận đề xuất AI, đặt/hủy lịch đều ghi vào `db.json`;
+- đặt lịch với HLV: chọn huấn luyện viên đang hoạt động và gói trong `services`, lưu vào `care-plans` kèm `trainerId`/`trainerEmail`, trạng thái `pending` (chờ HLV xác nhận).
+- đặt/hủy lịch huấn luyện còn đồng bộ sang `trainingPlans` (mã liên kết `carePlanCode`) nên HLV thấy ngay giáo án "Mới tạo", hủy thì chuyển sang lưu trữ.

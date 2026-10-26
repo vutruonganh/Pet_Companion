@@ -70,7 +70,8 @@
   const TYPE_META = {
     medical: { label: 'Khám & Tiêm chủng', icon: 'vaccines' },
     spa: { label: 'Spa & Cắt tỉa', icon: 'content_cut' },
-    medication: { label: 'Uống thuốc định kỳ', icon: 'medication' }
+    medication: { label: 'Uống thuốc định kỳ', icon: 'medication' },
+    training: { label: 'Huấn luyện & Hành vi', icon: 'sports_score' }
   };
 
   function planStatusClass(status) {

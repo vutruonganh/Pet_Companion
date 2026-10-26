@@ -25,6 +25,7 @@
 .empty{background:#fff;border:1px dashed var(--line);border-radius:var(--r);padding:40px 20px;text-align:center;color:var(--muted);font-size:14px}
 .empty .material-symbols-outlined{display:block;font-size:34px;color:var(--soft);margin-bottom:8px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.field-hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
 .btn-ghost{background:#fff;border:1px solid var(--line);color:#475569}
 .btn-ghost:hover{border-color:var(--teal);color:var(--teal-deep)}
 
@@ -138,6 +139,7 @@
 .cal-dot.medical{background:#0e7a68}
 .cal-dot.spa{background:#a21caf}
 .cal-dot.medication{background:#f59e0b}
+.cal-dot.training{background:#2563eb}
 .cal-day.selected .cal-dot{background:#fff}
 .cal-legend{margin-top:14px;border-top:1px solid var(--line-soft);padding-top:12px;display:grid;gap:7px}
 .legend-item{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted)}
@@ -149,6 +151,7 @@
 .plan-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:18px;box-shadow:var(--sh);padding:18px 20px;transition:.2s}
 .plan-card.spa{border-left-color:#c084fc}
 .plan-card.medication{border-left-color:var(--amber)}
+.plan-card.training{border-left-color:#2563eb}
 .plan-card.cancelled{opacity:.55}
 .plan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .plan-main{display:flex;gap:12px;align-items:flex-start;min-width:0}
