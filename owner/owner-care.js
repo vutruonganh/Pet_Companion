@@ -293,6 +293,63 @@
     selectedDay = null;
   }
 
+  /* Đồng bộ lịch chăm sóc sang bảng appointments để provider (danh sách ca hẹn)
+     và admin (dashboard duyệt ca) nhìn thấy cùng một bản ghi. */
+  async function syncAppointment(plan) {
+    if (!window.MockAPI) return;
+    if (/tại nhà/i.test(plan.location || '')) return;
+
+    const pet = O.petById(pets, plan.petId);
+    const owner = O.currentOwner();
+    let phone = '';
+    try {
+      const accounts = await window.MockAPI.list('accounts');
+      const account = (accounts || []).find(function (row) {
+        return String(row.email || '').toLowerCase() === String(owner.email || '').toLowerCase();
+      });
+      phone = (account && account.phone) || '';
+    } catch (error) {
+      console.warn('[Owner] tra cứu SĐT chủ nuôi', error);
+    }
+
+    await window.MockAPI.create('appointments', {
+      petId: String(plan.petId),
+      code: '#APT-' + Math.floor(1000 + Math.random() * 9000),
+      pet: pet.name + (pet.breed ? ' (' + pet.breed + ')' : ''),
+      owner: owner.name,
+      ownerEmail: owner.email,
+      phone: phone,
+      service: plan.service,
+      serviceChip: plan.type === 'spa' ? 'chip-pink' : 'chip-mint',
+      date: plan.date,
+      time: plan.time + ' ' + O.fmtDate(plan.date),
+      timeSub: 'Chủ nuôi đặt lịch',
+      timeSubColor: '',
+      room: plan.location || '',
+      partner: plan.provider || '',
+      status: 'pending',
+      statusText: 'Chờ tiếp nhận',
+      action: 'sms',
+      carePlanCode: plan.code
+    });
+  }
+
+  async function releaseAppointment(plan) {
+    if (!window.MockAPI || !plan.code) return;
+    try {
+      const rows = await window.MockAPI.list('appointments');
+      const apt = (rows || []).find(function (row) { return row.carePlanCode === plan.code; });
+      if (apt) {
+        await window.MockAPI.patch('appointments', apt.id, {
+          status: 'cancelled',
+          statusText: 'Chủ nuôi đã hủy lịch'
+        });
+      }
+    } catch (error) {
+      console.warn('[Owner] đồng bộ hủy lịch', error);
+    }
+  }
+
   async function createPlan(payload) {
     const row = await window.MockAPI.create('care-plans', payload);
     plans.push(row);
@@ -302,11 +359,16 @@
       button.classList.toggle('active', button.dataset.tab === 'all');
     });
     renderAll();
+    try {
+      await syncAppointment(row);
+    } catch (error) {
+      console.warn('[Owner] đồng bộ sang ca hẹn', error);
+    }
     if (row.type === 'training') {
       try {
         await syncTrainingPlan(row);
       } catch (error) {
-        console.warn('[Owner] dong bo giao an sang HLV', error);
+        console.warn('[Owner] đồng bộ giáo án sang HLV', error);
         window.UI.toast('Lịch đã lưu nhưng chưa gửi được sang sân giáo án của HLV.', 'warn', 'cloud_off');
       }
     }
@@ -539,6 +601,7 @@
         try {
           const updated = await window.MockAPI.patch('care-plans', plan.id, { status: 'cancelled', statusLabel: 'Đã hủy' });
           Object.assign(plan, updated, { status: 'cancelled', statusLabel: 'Đã hủy' });
+          await releaseAppointment(plan);
           renderAll();
           if (plan.type === 'training') {
             try {

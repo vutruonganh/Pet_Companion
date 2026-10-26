@@ -298,7 +298,7 @@ const server = http.createServer((req, res) => {
   serveStatic(req, res, url);
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   const data = readDb();
   console.log(`PetCompanion MockAPI + static server (Node.js): http://localhost:${PORT}`);
   console.log(`REST base : http://localhost:${PORT}/api/v1`);

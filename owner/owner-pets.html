@@ -78,6 +78,18 @@
         </div>
       </section>
 
+      <section class="side-card card" id="trainerReportCard">
+        <div class="side-head">
+          <span class="side-icon rep"><span class="material-symbols-outlined">assignment</span></span>
+          <div style="flex:1">
+            <div class="side-title">Báo cáo từ HLV</div>
+            <div class="side-sub">Tiến độ huấn luyện do HLV gửi</div>
+          </div>
+          <span class="report-count" id="reportCount" hidden>0</span>
+        </div>
+        <div class="report-list" id="trainerReportList" aria-live="polite"></div>
+      </section>
+
       <section class="side-card card">
         <div class="side-head">
           <span class="side-icon doc"><span class="material-symbols-outlined">local_hospital</span></span>
@@ -168,6 +180,22 @@
         <button class="btn btn-primary" type="submit"><span class="material-symbols-outlined">save</span>Lưu hồ sơ</button>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="modal-ov" id="modalTrainerReport">
+  <div class="modal report-modal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="reportModalTitle"><span class="material-symbols-outlined">assignment</span>Báo cáo huấn luyện</div>
+        <div class="card-sub" id="reportModalSub"></div>
+      </div>
+      <button class="modal-x" type="button" data-close="modalTrainerReport" aria-label="Đóng"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body" id="reportModalBody"></div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" type="button" data-close="modalTrainerReport">Đóng</button>
+    </div>
   </div>
 </div>
 
