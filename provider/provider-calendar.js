@@ -442,6 +442,35 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!eventsData[selectedDate]) eventsData[selectedDate] = [];
       eventsData[selectedDate].push(storedEvent);
 
+      /* Cùng mã #APT: lịch phòng khám cũng phát sinh ca hẹn để danh sách tiếp nhận
+         và dashboard admin thấy bản ghi này. */
+      if (window.MockAPI) {
+        const dp = selectedDate.split('-');
+        try {
+          await MockAPI.create('appointments', {
+            code: newCode,
+            pet: `${petName}${petBreed ? ' (' + petBreed + ')' : ''}`,
+            owner: owner,
+            phone: phone,
+            service: service,
+            serviceChip: newEvent.type === 'spa' ? 'chip-pink' : newEvent.type === 'emergency' ? 'chip-rose' : 'chip-mint',
+            date: selectedDate,
+            time: `${timeSlot} ${dp[2]}/${dp[1]}/${dp[0]}`,
+            timeSub: 'Đặt từ lịch phòng khám',
+            timeSubColor: '',
+            room: ROOMS[parseInt(room, 10)],
+            partner: 'PetCompanion Provider',
+            status: newEvent.type === 'emergency' ? 'urgent' : 'pending',
+            statusText: newEvent.type === 'emergency' ? '⚠️ CẤP CỨU' : 'Chờ tiếp nhận',
+            action: newEvent.type === 'emergency' ? 'receive' : 'sms',
+            calendarEventId: storedEvent.id || null
+          });
+        } catch (err) {
+          console.warn('[MockAPI] appointments:', err.message);
+          ProviderUI.toast('Đã vào lịch nhưng chưa tạo được ca hẹn — tải lại trang danh sách để kiểm tra.', 'warning');
+        }
+      }
+
       overlay.remove();
       renderMiniCalendar();
       renderTimeline();

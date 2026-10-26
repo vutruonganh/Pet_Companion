@@ -17,6 +17,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const totalLabel = document.getElementById('totalCount');
   const PLACEHOLDER = 'https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg';
 
+  /* Khung giờ & chỉ số phòng của bảng calendar-events — chỉ dùng khi đồng bộ ca Walk-in sang lịch */
+  const SLOT_TIMES = ['08:30', '09:30', '10:30', '11:30', '13:30', '14:30', '15:30'];
+  const ROOM_INDEX = {
+    'Khám bệnh thú y': 0,
+    'Tiêm phòng định kỳ': 1,
+    'Spa & Tắm cắt tỉa': 2,
+    'Cấp cứu': 0
+  };
+
+  function nearestSlot(now) {
+    const minutes = now.getHours() * 60 + now.getMinutes();
+    for (let i = 0; i < SLOT_TIMES.length; i += 1) {
+      const parts = SLOT_TIMES[i].split(':');
+      if (Number(parts[0]) * 60 + Number(parts[1]) >= minutes) return SLOT_TIMES[i];
+    }
+    return SLOT_TIMES[SLOT_TIMES.length - 1];
+  }
+
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   function stateRow(kind, msg) {
@@ -367,6 +385,29 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       appointments.unshift(saved || newApt);
+
+      /* Đồng bộ hai chiều: ca Walk-in cũng phải hiện trên lịch phòng khám của ngày hôm nay */
+      if (window.MockAPI) {
+        const slot = nearestSlot(now);
+        const endHour = String(Number(slot.split(':')[0]) + 1).padStart(2, '0');
+        const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        try {
+          await MockAPI.create('calendar-events', {
+            date: todayKey,
+            time: `${slot} - ${endHour}:${slot.split(':')[1]}`,
+            code: newId,
+            pet: newApt.pet,
+            owner: owner,
+            service: service,
+            room: ROOM_INDEX[service] ?? 0,
+            type: isUrgent ? 'emergency' : service.includes('Spa') ? 'spa' : service.includes('Tiêm') ? 'vaccine' : 'medical'
+          });
+        } catch (err) {
+          console.warn('[MockAPI] calendar-events:', err.message);
+          ProviderUI.toast('Đã tiếp nhận nhưng chưa ghi được vào lịch phòng khám.', 'warning');
+        }
+      }
+
       overlay.remove();
       renderTable(getFilteredData());
       ProviderUI.toast(`Đã tiếp nhận Walk-in: ${pet} (${owner}) - Mã: ${newId}`, 'success');
