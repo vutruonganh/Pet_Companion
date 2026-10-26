@@ -12,7 +12,7 @@ echo.
 set "URL=http://localhost:4000/login%%20register/login.html"
 
 rem --- 1) Server da chay san thi chi mo trang ---
-powershell -NoProfile -Command "try{ $r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 2 http://localhost:4000/api/health; if($r.StatusCode -eq 200){ exit 0 } }catch{}; exit 1" >nul 2>&1
+powershell -NoProfile -Command "try{ $r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 2 http://127.0.0.1:4000/api/health; if($r.StatusCode -eq 200){ exit 0 } }catch{}; exit 1" >nul 2>&1
 if not errorlevel 1 (
   echo Server dang chay san. Dang mo: %URL%
   start "" "%URL%"
@@ -53,9 +53,17 @@ echo Dang khoi dong server...
 start "PetCompanion Mock API" /min "%NODE_EXE%" "mock-api\server.js"
 
 echo Dang cho server san sang...
-powershell -NoProfile -Command "$ok=$false; for($i=0;$i -lt 30;$i++){ try{ $r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 1 http://localhost:4000/api/health; if($r.StatusCode -eq 200){ $ok=$true; break } }catch{}; Start-Sleep -Milliseconds 400 }; if($ok){exit 0}else{exit 1}"
+powershell -NoProfile -Command "$ok=$false; for($i=0;$i -lt 30;$i++){ try{ $r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 1 http://127.0.0.1:4000/api/health; if($r.StatusCode -eq 200){ $ok=$true; break } }catch{}; Start-Sleep -Milliseconds 400 }; if($ok){exit 0}else{exit 1}"
 
 if errorlevel 1 (
+  rem Co the mot ban server khac vua kip khoi dong: kiem tra lai truoc khi bao loi
+  powershell -NoProfile -Command "try{ $r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 2 http://127.0.0.1:4000/api/health; if($r.StatusCode -eq 200){ exit 0 } }catch{}; exit 1" >nul 2>&1
+  if not errorlevel 1 (
+    echo Server da san sang o cong 4000. Dang mo: %URL%
+    start "" "%URL%"
+    powershell -NoProfile -Command "Start-Sleep -Seconds 2"
+    exit /b 0
+  )
   echo.
   echo [LOI] Server khong khoi dong duoc tren cong 4000.
   echo - Co the dang co chuong trinh khac dung cong 4000.
