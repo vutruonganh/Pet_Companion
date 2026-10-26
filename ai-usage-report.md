@@ -1,18 +1,33 @@
-deepseek : code
+# Khai báo sử dụng AI – PetCompanion (BTL-35)
 
-gemini : code
+> **Báo cáo đầy đủ theo mẫu Phụ lục F nằm tại [docs/ai-usage-report.md](docs/ai-usage-report.md).**
+> Tệp này giữ bản tóm tắt công cụ và master prompt gốc để đối chiếu lịch sử.
 
-claude : code ghép a.i tạo json
+## 1. Công cụ đã dùng
 
-chatgpt:Code , đưa lời khuyên
+| Công cụ | Dùng cho |
+| --- | --- |
+| DeepSeek | Gợi ý code HTML/CSS/JS |
+| Gemini | Gợi ý code, rà lỗi |
+| Claude | Ghép/chuẩn hóa JSON, gợi ý cấu trúc |
+| ChatGPT | Code, lời khuyên thiết kế và kiểm thử |
+| Mimo | Gợi ý code |
+| Qwen | Gợi ý code |
+| Stitch AI | Ý tưởng UI/UX |
 
-mimo: code
+Không có API key, token hay lời gọi LLM nào trong sản phẩm chạy thực tế. Ba tính năng AI trong website là quy tắc/dữ liệu cấu hình tại trình duyệt.
 
-qwen4 : code
+## 2. Nội dung đã khai báo trong docs
 
-stitch ai : Thiết kế UI/UX
+[docs/ai-usage-report.md](docs/ai-usage-report.md) ghi:
 
-TẤT CẢ ĐỀU DÙNG CHUNG 1 MASTER PROMPT ĐỂ BÀI LÀM NHẤT QUÁN NHẤT
+- prompt chính và ảnh hưởng của nó đến 4 vai trò, màu sắc, typography, 16 màn hình;
+- sáu ví dụ AI sinh → sinh viên sửa → cách kiểm chứng;
+- các lỗi AI đã phát hiện: resource `users`/`training-pets` không tồn tại, phạm vi `?fail=1` bị mô tả quá rộng, AI-2 từng bị mô tả là động, dữ liệu Milo 24.3 kg khác seed 28 kg.
+
+## Phụ lục A — Master prompt gốc
+
+Tất cả công cụ đều dùng chung một master prompt để bài làm nhất quán. Nội dung gốc được giữ nguyên bên dưới.
 
 MASTER PROMPT — THIẾT KẾ UI/UX WEBSITE PETCOMPANION
 1. Vai trò

@@ -1,0 +1,10 @@
+FIGMA
+=====
+
+URL:
+https://www.figma.com/design/kDpGBVivQSuSpebbNhzGrr/bai-tap?t=h8VNXReX6DUHmzMW-0
+
+Tên file: bai-tap
+Sản phẩm: PetCompanion
+Nội dung: thiết kế UI/UX theo master prompt trong ai-usage-report.md
+Cập nhật lần cuối: 2026-10-26
