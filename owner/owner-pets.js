@@ -8,6 +8,8 @@
 
   let pets = [];
   let plans = [];
+  let summaries = [];
+  let logs = [];
   let activeFilter = 'all';
 
   const SPECIES_LABEL = { dog: 'Chó', cat: 'Mèo', other: 'Khác' };
@@ -128,10 +130,109 @@
     });
     render();
     updateStats();
+    loadReports(pets.map(function (pet) { return String(pet.id); }));
   }
 
   function resetForm() {
     form.reset();
+  }
+
+  /* ---------- Báo cáo tiến độ do HLV gửi (collection summaries) ---------- */
+  function fmtWhen(iso) {
+    const date = new Date(iso);
+    if (isNaN(date)) return '';
+    const pad = function (n) { return String(n).padStart(2, '0'); };
+    return pad(date.getHours()) + ':' + pad(date.getMinutes()) + ' ' + pad(date.getDate()) + '/' + pad(date.getMonth() + 1) + '/' + date.getFullYear();
+  }
+
+  function decodeEntities(text) {
+    return String(text)
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+  }
+
+  function plainText(html) {
+    return decodeEntities(String(html || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+  }
+
+  function excerpt(html) {
+    const text = plainText(html);
+    return text.length > 150 ? text.slice(0, 150) + '…' : text;
+  }
+
+  /* Chỉ giữ các thẻ định dạng HLV dùng khi soạn báo cáo, chặn mọi thẻ khác */
+  function rich(html) {
+    return O.esc(html || '').replace(/&lt;(\/?)(strong|em|br)\s*\/?&gt;/gi, '<$1$2>');
+  }
+
+  async function loadReports(petIds) {
+    try {
+      const rows = await Promise.all([O.list('summaries'), O.list('trainingLogs')]);
+      summaries = (Array.isArray(rows[0]) ? rows[0] : []).filter(function (row) {
+        return row.status === 'sent' && petIds.indexOf(String(row.petId)) !== -1;
+      });
+      logs = Array.isArray(rows[1]) ? rows[1] : [];
+    } catch (error) {
+      console.error('[Owner] reports', error);
+      summaries = [];
+      logs = [];
+    }
+    renderReports();
+  }
+
+  function renderReports() {
+    const list = document.getElementById('trainerReportList');
+    const badge = document.getElementById('reportCount');
+    if (!list) return;
+    const items = summaries.slice().sort(function (a, b) {
+      return new Date(b.sentAt || b.updatedAt || 0) - new Date(a.sentAt || a.updatedAt || 0);
+    });
+    if (badge) { badge.textContent = String(items.length); badge.hidden = !items.length; }
+    if (!items.length) {
+      list.innerHTML = '<div class="report-empty"><span class="material-symbols-outlined">inbox</span>Chưa có báo cáo nào từ HLV. Khi HLV gửi báo cáo tiến độ, nội dung sẽ hiển thị tại đây.</div>';
+      return;
+    }
+    list.innerHTML = items.map(function (row) {
+      const pet = O.petById(pets, row.petId);
+      return '<button class="report-item" type="button" data-report-id="' + O.esc(row.id) + '">' +
+        '<span class="report-top"><span class="report-pet">' + O.esc(pet.name) + '</span>' +
+        '<span class="report-time">' + O.esc(fmtWhen(row.sentAt || row.updatedAt)) + '</span></span>' +
+        '<span class="report-excerpt">' + O.esc(excerpt(row.html)) + '</span>' +
+        '<span class="report-more">Xem báo cáo<span class="material-symbols-outlined">chevron_right</span></span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function openReport(id) {
+    const row = summaries.find(function (item) { return String(item.id) === String(id); });
+    if (!row) return;
+    const pet = O.petById(pets, row.petId);
+    const sessionIds = (row.sessionIds || []).map(String);
+    const sessions = logs.filter(function (log) { return sessionIds.indexOf(String(log.id)) !== -1; });
+    const title = document.getElementById('reportModalTitle');
+    const sub = document.getElementById('reportModalSub');
+    const body = document.getElementById('reportModalBody');
+    if (title) title.innerHTML = '<span class="material-symbols-outlined">assignment</span>Báo cáo tiến độ – Bé ' + O.esc(pet.name);
+    if (sub) sub.textContent = 'HLV gửi lúc ' + fmtWhen(row.sentAt || row.updatedAt) + ' • ' + sessionIds.length + ' buổi được phân tích';
+    if (body) {
+      body.innerHTML = '<div class="report-meta-row">' +
+        '<span class="report-meta-chip"><span class="material-symbols-outlined">pets</span>' + O.esc(pet.name) + '</span>' +
+        '<span class="report-meta-chip"><span class="material-symbols-outlined">fact_check</span>' + sessionIds.length + ' buổi</span>' +
+        '<span class="report-meta-chip"><span class="material-symbols-outlined">send</span>' + O.esc(fmtWhen(row.sentAt || row.updatedAt)) + '</span>' +
+        '</div>' +
+        '<div class="report-block"><div class="report-block-title"><span class="material-symbols-outlined">insights</span>Tóm tắt tiến độ</div><p>' + rich(row.html) + '</p></div>' +
+        (row.planHtml ? '<div class="report-block plan"><div class="report-block-title"><span class="material-symbols-outlined">edit_calendar</span>Đề xuất điều chỉnh giáo án</div><p>' + rich(row.planHtml) + '</p></div>' : '') +
+        (row.reasonHtml ? '<div class="report-block reason"><div class="report-block-title"><span class="material-symbols-outlined">psychology</span>Căn cứ phân tích</div><p>' + rich(row.reasonHtml) + '</p></div>' : '') +
+        (sessions.length ? '<div class="report-block"><div class="report-block-title"><span class="material-symbols-outlined">event_available</span>Buổi tập được phân tích</div><div class="report-sessions">' +
+          sessions.map(function (log) {
+            return '<span class="report-meta-chip">Buổi ' + O.esc(log.session) + ' • ' + O.esc(fmtWhen(log.date)) + ' • ' + O.esc(log.score) + 'đ</span>';
+          }).join('') + '</div></div>' : '');
+    }
+    window.UI.open('modalTrainerReport');
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
@@ -153,11 +254,15 @@
       });
       render();
       updateStats();
+      loadReports(petIds);
     } catch (error) {
       console.error('[Owner] pets', error);
       pets = [];
       plans = [];
+      summaries = [];
+      logs = [];
       updateStats();
+      renderReports();
       grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><span class="material-symbols-outlined">cloud_off</span>' +
         O.esc(error.message || 'Không tải được hồ sơ thú cưng.') +
         '<button class="btn btn-outline" type="button" data-retry-pets style="margin-top:12px">Thử lại</button></div>';
@@ -165,6 +270,12 @@
     }
 
     search.addEventListener('input', render);
+
+    const reportList = document.getElementById('trainerReportList');
+    if (reportList) reportList.addEventListener('click', function (event) {
+      const button = event.target.closest('[data-report-id]');
+      if (button) openReport(button.dataset.reportId);
+    });
 
     grid.addEventListener('click', function (event) {
       if (event.target.closest('[data-retry-pets]')) window.location.reload();
